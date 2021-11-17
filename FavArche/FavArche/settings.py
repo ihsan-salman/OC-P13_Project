@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'FavArche.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '',
+        'NAME': 'favarche',
         'USER': 'postgres',
         'PASSWORD': 'far57450',
         'HOST': '127.0.0.1',
