@@ -1,0 +1,25 @@
+{% extends 'favarche/base.html' %}
+
+{% block content %}
+{% load static %}
+	
+	<div>
+        <div>
+            <form action="{% url 'create_account' %}" method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit" class="btn btn-success" id="">Entrer</button>
+            </form>
+              {% if errors %}
+            <div>
+              {% for key, error in errors %}
+              {% autoescape off %}
+                {{ error }}
+              {% endautoescape %}
+              {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

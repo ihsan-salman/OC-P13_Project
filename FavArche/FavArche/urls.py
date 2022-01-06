@@ -13,9 +13,29 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include, url
+from django.contrib.auth.views import LogoutView
+
+from Arche import views
+
+
+HANDLER404 = 'mes_aliments.views.page_not_found'
+HANDLER500 = 'mes_aliments.views.server_error'
 
 urlpatterns = [
+    url(r'^$', views.index, name = 'home'),
     path('admin/', admin.site.urls),
+    url(r'^create_account/', views.create_account, name='create_account'),
+    path('login/', views.CustomLoginView.as_view(), name='login'),
+    url(r'^logout/$', LogoutView.as_view(), {'next_page':
+        settings.LOGOUT_REDIRECT_URL}, name='logout'),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

@@ -6,7 +6,7 @@ from django.db import models
 
 # Create your models here.
 
-"""class Category(models.Model):
+class Category(models.Model):
     '''Category model init with fiels'''
     name = models.CharField(max_length=200, unique=True,
                             default='DEFAULT VALUE')
