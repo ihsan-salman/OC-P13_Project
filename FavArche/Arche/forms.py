@@ -24,3 +24,10 @@ class CustomAuthenticationForm(AuthenticationForm):
         label='Identfiant',
         widget=forms.TextInput(attrs={'autofocus': True})
     )
+
+class EditProfileForm(UserChangeForm):
+    password = None
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "first_name", "last_name"]

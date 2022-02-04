@@ -32,6 +32,9 @@ urlpatterns = [
     path('login/', views.CustomLoginView.as_view(), name='login'),
     url(r'^logout/$', LogoutView.as_view(), {'next_page':
         settings.LOGOUT_REDIRECT_URL}, name='logout'),
+    url(r'^my_account/', views.personal_account, name='my_account'),
+    url(r'^edit/', views.edit_account, name='edit_account'),
+    url(r'^my_works/', views.personal_works, name='personal_works'),
 ]
 
 if settings.DEBUG:

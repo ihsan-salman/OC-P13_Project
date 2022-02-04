@@ -6,16 +6,41 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Favarche</title>
 		<link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+		<link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
 		<div id="menu_bar">
-			<h3 id="menu_title">My website</h2>
-			<ul id="menu_redirection">
-				<li id="menu_redirection_page">
-					<a class="nav-link" href="{% url 'login' %}">login</a>
-				</li>
-				<li id="menu_redirection_page">
-					<a class="nav-link" href="{% url 'create_account' %}">create an account</a>
-				</li>
-			</ul>
+			<div id="menu_title">
+				<h3>My website</h3>
+			</div>
+			<div id="menu_redirection">
+				<ul id="menu_redirection_list">
+					{% if request.get_full_path != '/' %}
+						<li id="menu_redirection_page">
+							<a class="nav-link" href="{% url 'home' %}">accueil</a>
+						</li>
+					{% endif %}
+					{% if user.is_authenticated %}
+						<li id="menu_redirection_page">
+							<a class="nav-link" href="{% url 'logout' %}">logout</a>
+						</li>
+						<li id="menu_redirection_page">
+							<a class="nav-link" href="{% url 'my_account' %}">mon compte</a>
+						</li>
+						<li id="menu_redirection_page">
+							<a class="nav-link" href="{% url 'personal_works' %}">Mes Oeuvres</a>
+						</li>
+					{% else %}
+						<li id="menu_redirection_page">
+							<a class="nav-link" href="{% url 'login' %}">login</a>
+						</li>
+						<li id="menu_redirection_page">
+							<a class="nav-link" href="{% url 'create_account' %}">create an account</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
 		</div>
 	</head>
 	<body>

@@ -1,0 +1,28 @@
+{% extends 'favarche/base.html' %}
+
+{% block content %}
+{% load static %}
+	
+	<div id="page_main_div">
+		<div id="page_white_div">
+			<h3 id="h3_title">edit account</h3>
+			<form method="post">
+				{% csrf_token %}
+				{% for non_field_error in form.non_field_errors %}
+                    <p class="help is-danger">{{ non_field_error }}</p>
+                {% endfor %}
+				{% for field in form %}
+					<div id=field>
+						<label for="{{ field.id_for_label }}">{{ field.html_name }}:</label>
+						<p>{{ field }}</p>
+						 {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+					</div>
+				{% endfor %}
+				<button type="submit" id="green_btn">Enter</button>
+			</form>
+		</div>
+	</div>
+
+{% endblock %}
