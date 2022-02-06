@@ -55,8 +55,7 @@ def create_account(request):
 
 
 class CustomLoginView(LoginView):
-    '''Custimize the login view to change
-       the default username label to email'''
+    ''' Standart login form and class as view '''
     authentication_form = CustomAuthenticationForm
 
 

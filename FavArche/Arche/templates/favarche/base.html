@@ -31,7 +31,7 @@
 						<li id="menu_redirection_page">
 							<a class="nav-link" href="{% url 'personal_works' %}">Mes Oeuvres</a>
 						</li>
-					{% else %}
+					{% elif request.get_full_path != '/login/' %}
 						<li id="menu_redirection_page">
 							<a class="nav-link" href="{% url 'login' %}">login</a>
 						</li>
