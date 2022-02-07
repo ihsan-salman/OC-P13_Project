@@ -8,7 +8,16 @@
             <h3 id="h3_title">Créez votre compte</h3>
             <form action="{% url 'create_account' %}" method="post">
                 {% csrf_token %}
-                {{form.as_p}}
+                {% for field in form %}
+                <p>
+                    {{field.label_tag}}
+                    {{field}}
+
+                    {% if field.help_text %}
+                    <small>{{field.help_text}}</small>
+                    {% endif %}
+                </p>
+                {% endfor %}
                 <button type="submit" class="btn btn-success" id="">Entrer</button>
             </form>
                 {% if errors %}

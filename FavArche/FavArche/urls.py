@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls.static import  static
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include, url
@@ -34,6 +35,7 @@ urlpatterns = [
         settings.LOGOUT_REDIRECT_URL}, name='logout'),
     url(r'^my_account/', views.personal_account, name='my_account'),
     url(r'^edit/', views.edit_account, name='edit_account'),
+    url(r'^change_password/', views.change_password, name='change_password'),
     url(r'^my_works/', views.personal_works, name='personal_works'),
 ]
 
@@ -42,3 +44,5 @@ if settings.DEBUG:
     urlpatterns = [
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

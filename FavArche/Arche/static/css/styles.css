@@ -23,16 +23,17 @@
 		margin-left: 20px;
 	}
 	#menu_redirection{
-		margin-left: 50%;
+		margin-left: 65%;
 	}
 	#menu_redirection_list{
 		list-style: none;
-		margin-top: 1px;
+		margin-top: -5px;
 	}
 	#menu_redirection_page{
 		display: inline-block;
 		float: left;
 		margin-left: 20px;
+		color: black;
 	}
 	#main-div{
 		background-color: #e6e6e6;
@@ -161,8 +162,33 @@
 	.helptext{
 		font-size: xx-small;
 	}
-	li::marker{
-		color: red;
+	small{
+		font-size: 13px;
+		color: gray;
+	}
+	.tooltip {
+	  	position: relative;
+	  	display: inline-block;
+	}
+
+	.tooltip .tooltiptext {
+	  	visibility: hidden;
+	  	width: 120px;
+	  	background-color: #e6e6e6;
+	  	color: black;
+	  	text-align: center;
+	  	border-radius: 6px;
+	  	padding: 5px 0;
+	  	padding-top: 10px;
+	  	font-size: 15px;
+
+	  	/* Position the tooltip */
+	  	position: absolute;
+	  	z-index: 1;
+	}
+
+	.tooltip:hover .tooltiptext {
+	  	visibility: visible;
 	}
 }
 

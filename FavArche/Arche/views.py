@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 
 from .forms import RegisterForm, CustomAuthenticationForm, EditProfileForm
 
@@ -82,6 +82,24 @@ def edit_account(request):
     else:
         form = EditProfileForm(instance=request.user)
     return render(request, 'favarche/edit_account.html', {'form': form})
+
+
+@login_required(login_url='/login/')
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect(reverse('accounts:view_profile'))
+        else:
+            return redirect(reverse('accounts:change_password'))
+    else:
+        form = PasswordChangeForm(user=request.user)
+
+        context = {'form': form}
+    return render(request, 'registration/change_password.html', context)
 
 
 def page_not_found(request, exception):
