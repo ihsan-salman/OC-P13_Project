@@ -11,6 +11,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 
 from .forms import RegisterForm, CustomAuthenticationForm, EditProfileForm
+from .models import Profile
 
 
 def index(request):
@@ -41,6 +42,10 @@ def create_account(request):
                     password=password
                 )
                 user.save()
+                profile_user = Profile.objects.create(
+                    user=user)
+                profile_user.save()
+                print(profile_user)
             else:
                 user = user.first()
 

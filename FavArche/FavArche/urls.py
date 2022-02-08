@@ -37,12 +37,10 @@ urlpatterns = [
     url(r'^edit/', views.edit_account, name='edit_account'),
     url(r'^change_password/', views.change_password, name='change_password'),
     url(r'^my_works/', views.personal_works, name='personal_works'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
