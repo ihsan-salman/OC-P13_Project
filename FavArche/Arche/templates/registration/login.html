@@ -9,12 +9,15 @@
 			<form method="post">
 				{% csrf_token %}
 				{{ form.as_p }}
-				<button type="submit">Log In</button>
 				<p>
-					Vous n'avez pas de compte ?
-					<a href="{% url 'create_account' %}">Cliquez ici</a>
+					<a href="{% url 'reset_password' %}">Mot de passe oublié ?</a>
 				</p>
+				<button type="submit">Log In</button>
 			</form>
+			<p>
+				Vous n'avez pas de compte ?
+				<a href="{% url 'create_account' %}">Cliquez ici</a>
+			</p>
 		</div>
 	</div>
 

@@ -18,6 +18,7 @@ from django.conf.urls.static import  static
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include, url
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 
 from Arche import views
@@ -29,13 +30,21 @@ HANDLER500 = 'mes_aliments.views.server_error'
 urlpatterns = [
     url(r'^$', views.index, name = 'home'),
     path('admin/', admin.site.urls),
+
     url(r'^create_account/', views.create_account, name='create_account'),
     path('login/', views.CustomLoginView.as_view(), name='login'),
     url(r'^logout/$', LogoutView.as_view(), {'next_page':
         settings.LOGOUT_REDIRECT_URL}, name='logout'),
+
+    path('reset_password/', auth_views.PasswordResetView.as_view(), name="reset_password"),
+    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(), name="password_reset_done"),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
+    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
+
     url(r'^my_account/', views.personal_account, name='my_account'),
-    url(r'^edit/', views.edit_account, name='edit_account'),
+    url(r'^edit_account_information/', views.edit_account, name='edit_account'),
     url(r'^change_password/', views.change_password, name='change_password'),
+
     url(r'^my_works/', views.personal_works, name='personal_works'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
