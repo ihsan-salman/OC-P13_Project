@@ -9,14 +9,31 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.core.mail import send_mail, BadHeaderError
 
 from .forms import RegisterForm, CustomAuthenticationForm, EditProfileForm
+from .forms import ContactForm
 from .models import Profile
 
 
 def index(request):
     ''' Return index page result '''
     return render(request, 'favarche/index.html')
+
+
+def contact(request):
+    ''' Return contact page result '''
+    context = {}
+    if request.method == 'POST':
+        email = request.POST.get("email")
+        subject = request.POST.get("subject")
+        message = request.POST.get("message")
+        try:
+            send_mail(subject, message, email, ['ihsan.saitama@gmail.com'])
+        except BadHeaderError:
+            return HttpResponse('Invalid header found.')
+        return redirect('/contact/')
+    return render(request, 'favarche/contact.html')
 
 
 def create_account(request):
@@ -49,7 +66,7 @@ def create_account(request):
             else:
                 user = user.first()
 
-            return redirect('/login/')
+            return redirect('/')
         else:
             # Form data doesn't match the expected format.
             # Add errors to the template.

@@ -1,0 +1,30 @@
+{% extends 'favarche/base.html' %}
+
+{% block content %}
+{% load static %}
+	
+	<div class="container">
+		<div class="contact-box">
+			<div class="contact-box-left"></div>
+			<div class="contact-box-right">
+				<h3 class="contact_title">Contactez-nous</h3>
+				<form method="post">
+					{% csrf_token %}
+					<input type="email" name="email" class="contact_field" placeholder="Votre Email">
+					<input type="text" name="subject"class="contact_field" placeholder="Sujet">
+					<textarea class="contact_field area" name="message"placeholder="Message"></textarea> 
+					<button class="contact_btn" type="submit">Envoyer</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<style type="text/css">
+		.container:after{
+			background: url(" {% static 'img/contact_background.jpg' %}") no-repeat center;
+		}
+		.contact-box-left{
+			background: url(" {% static 'img/contact_background.jpg' %}") no-repeat center;
+		}
+	</style>
+
+{% endblock %}

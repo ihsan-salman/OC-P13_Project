@@ -3,32 +3,34 @@
 {% block content %}
 {% load static %}
 	
-    <div id="page_main_div">
-        <div id="creation_page_div">
-            <h3 id="h3_title">Créez votre compte</h3>
-            <form action="{% url 'create_account' %}" method="post">
-                {% csrf_token %}
-                {% for field in form %}
-                <p>
-                    {{field.label_tag}}
-                    {{field}}
+    <div id="main-div">
+        <div id="page_main_div">
+            <div id="creation_page_div">
+                <h3 id="h3_title">Créez votre compte</h3>
+                <form action="{% url 'create_account' %}" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <p>
+                        {{field.label_tag}}
+                        {{field}}
 
-                    {% if field.help_text %}
-                    <small>{{field.help_text}}</small>
-                    {% endif %}
-                </p>
-                {% endfor %}
-                <button type="submit" class="btn btn-success" id="">Entrer</button>
-            </form>
-                {% if errors %}
-            <div>
-                {% for key, error in errors %}
-                    {% autoescape off %}
-                        {{ error }}
-                    {% endautoescape %}
-                {% endfor %}
+                        {% if field.help_text %}
+                        <small>{{field.help_text}}</small>
+                        {% endif %}
+                    </p>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-success" id="">Entrer</button>
+                </form>
+                    {% if errors %}
+                <div>
+                    {% for key, error in errors %}
+                        {% autoescape off %}
+                            {{ error }}
+                        {% endautoescape %}
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
         </div>
     </div>
 

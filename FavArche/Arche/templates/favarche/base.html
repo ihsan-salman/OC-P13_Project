@@ -63,17 +63,19 @@
 							</a>
 						</li>
 					{% endif %}
+					{% if request.get_full_path != '/contact/' %}
+						<li id="menu_redirection_page" class="tooltip">
+							<a class="nav-link" id="link_color" href="{% url 'contact' %}">
+								Contact<span class="tooltiptext">Voir nos contacts</span>
+							</a>
+						</li>
+					{% endif %}
 				</ul>
-			</div>
-			<div>
-				<p>Bonjour, {{ user.username }}</p>
 			</div>
 		</div>
 	</head>
 	<body>
-		<div id="main-div">
-			{% block content %} {% endblock %}
-		</div>
+		{% block content %} {% endblock %}
 		<script src="{% static 'js/scripts.js' %}"></script>
 	</body>
 </html>

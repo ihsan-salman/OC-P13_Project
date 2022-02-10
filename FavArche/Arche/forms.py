@@ -18,6 +18,7 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ["username", "email", "first_name", "last_name","password1", "password2"]
 
+
 class CustomAuthenticationForm(AuthenticationForm):
     '''change username label in login form to email label'''
     username = UsernameField(
@@ -25,9 +26,16 @@ class CustomAuthenticationForm(AuthenticationForm):
         widget=forms.TextInput(attrs={'autofocus': True})
     )
 
+
 class EditProfileForm(UserChangeForm):
     password = None
 
     class Meta:
         model = User
         fields = ["username", "email", "first_name", "last_name"]
+
+
+class ContactForm(forms.Form):
+    email = forms.EmailField(required=True)
+    subject = forms.CharField(required=True)
+    message = forms.CharField(widget=forms.Textarea, required=True)

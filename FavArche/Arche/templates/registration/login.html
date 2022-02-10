@@ -2,22 +2,24 @@
 
 {% block content %}
 {% load static %}
-
-	<div id="page_main_div">
-		<div id="connection_page_main_div">
-			<h3 id="h3_title">Bienvenue</h3>
-			<form method="post">
-				{% csrf_token %}
-				{{ form.as_p }}
+	
+	<div id="main-div">
+		<div id="page_main_div">
+			<div id="connection_page_main_div">
+				<h3 id="h3_title">Bienvenue</h3>
+				<form method="post">
+					{% csrf_token %}
+					{{ form.as_p }}
+					<p>
+						<a href="{% url 'reset_password' %}">Mot de passe oublié ?</a>
+					</p>
+					<button type="submit">Log In</button>
+				</form>
 				<p>
-					<a href="{% url 'reset_password' %}">Mot de passe oublié ?</a>
+					Vous n'avez pas de compte ?
+					<a href="{% url 'create_account' %}">Cliquez ici</a>
 				</p>
-				<button type="submit">Log In</button>
-			</form>
-			<p>
-				Vous n'avez pas de compte ?
-				<a href="{% url 'create_account' %}">Cliquez ici</a>
-			</p>
+			</div>
 		</div>
 	</div>
 

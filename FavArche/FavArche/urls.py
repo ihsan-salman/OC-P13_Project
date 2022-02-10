@@ -30,6 +30,7 @@ HANDLER500 = 'mes_aliments.views.server_error'
 urlpatterns = [
     url(r'^$', views.index, name = 'home'),
     path('admin/', admin.site.urls),
+    url(r'^contact/', views.contact, name = 'contact'),
 
     url(r'^create_account/', views.create_account, name='create_account'),
     path('login/', views.CustomLoginView.as_view(), name='login'),
