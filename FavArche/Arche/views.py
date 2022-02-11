@@ -29,7 +29,11 @@ def contact(request):
         subject = request.POST.get("subject")
         message = request.POST.get("message")
         try:
-            send_mail(subject, message, email, ['ihsan.saitama@gmail.com'])
+            send_mail(subject, 
+                      message, 
+                      email, 
+                      ['ihsan.saitama@gmail.com'],
+                      fail_silently=False,)
         except BadHeaderError:
             return HttpResponse('Invalid header found.')
         return redirect('/contact/')
