@@ -1,0 +1,29 @@
+{% extends 'favarche/base.html' %}
+
+{% block content %}
+{% load static %}
+	
+	<div id="main-div">
+		<div id="page_main_div">
+			<div class="container_about">
+				<div class="content_section">
+					<div class="title">
+						<h1>A Propos</h1>
+					</div>
+					<div class="content">
+						<h4>Apprendre à se connaître est un premier pas vers le début d'une nouvelle histoire</h4>
+						<p>Peu d'expérience à décliner mais beaucoup de curiosité à déplorer. Je suis débutant dans un long apprentissage sur le domaine de l'informatique. Ce site est ma première expérience solitaire en programmation </p>
+						
+					</div>
+					<div class="social">
+						<a href="https://twitter.com/alp_sahih" target="_blank"><i class="fab fa-twitter"></i></a>
+					</div>
+				</div>
+				<div class="image_section">
+					<img src="{% static 'img/about_us.jpg' %}">
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

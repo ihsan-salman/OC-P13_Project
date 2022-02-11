@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^$', views.index, name = 'home'),
     path('admin/', admin.site.urls),
     url(r'^contact/', views.contact, name = 'contact'),
+    url(r'^a_propos/', views.about_us, name = 'about_us'),
 
     url(r'^create_account/', views.create_account, name='create_account'),
     path('login/', views.CustomLoginView.as_view(), name='login'),

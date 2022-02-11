@@ -35,6 +35,10 @@ def contact(request):
         return redirect('/contact/')
     return render(request, 'favarche/contact.html')
 
+def about_us(request):
+    ''' Return about page result '''
+    return render(request, 'favarche/about.html')
+
 
 def create_account(request):
     '''return the template to create an user account
