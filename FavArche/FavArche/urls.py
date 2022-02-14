@@ -62,6 +62,8 @@ urlpatterns = [
     url(r'^change_password/', views.change_password, name='change_password'),
 
     url(r'^my_works/', views.personal_works, name='personal_works'),
+    url(r'^add_works/', views.add_works, name='add_works'),
+    url(r'^favorite_works/', views.favorite_works, name='fav_works'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

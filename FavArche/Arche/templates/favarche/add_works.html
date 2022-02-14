@@ -1,0 +1,23 @@
+{% extends 'favarche/base.html' %}
+
+{% block content %}
+{% load static %}
+	
+	<div id="main-div">
+		<div id="page_main_div">
+			<div id="page_white_div">
+				<h3>Ajout d'oeuvres</h3>
+				<p>Ajoutez l'oeuvre que vous voulez en respectant les exigeances !</p>
+				<div>
+					<form method="post">
+						{% csrf_token %}
+						<input type="text" name="work_name" class="contact_field" placeholder="Nom de l'Oeuvre">
+						<input type="text" name="category"class="contact_field" placeholder="Categorie">
+						<button class="contact_btn" type="submit">Envoyer</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

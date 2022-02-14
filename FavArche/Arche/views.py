@@ -2,6 +2,7 @@
    -*- coding: Utf-8 -'''
 
 
+import os
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.contrib.auth.models import User
@@ -13,7 +14,7 @@ from django.core.mail import send_mail, BadHeaderError
 
 from .forms import RegisterForm, CustomAuthenticationForm, EditProfileForm
 from .forms import ContactForm
-from .models import Profile
+from .models import Profile, Works
 
 
 def index(request):
@@ -27,13 +28,13 @@ def contact(request):
     if request.method == 'POST':
         email = request.POST.get("email")
         subject = request.POST.get("subject")
-        message = request.POST.get("message")
+        email_message = request.POST.get("message")
+        print(email, subject, email_message)
         try:
             send_mail(subject, 
-                      message, 
+                      email_message, 
                       email, 
-                      ['ihsan.saitama@gmail.com'],
-                      fail_silently=False,)
+                      [os.environ['EMAIL_HOST_USER']])
         except BadHeaderError:
             return HttpResponse('Invalid header found.')
         return redirect('/contact/')
@@ -92,7 +93,29 @@ class CustomLoginView(LoginView):
 @login_required(login_url='/login/')
 def personal_works(request):
     ''' return personal works page '''
-    return render(request, 'favarche/personal_works.html')
+    try:
+        works = Works.objects.filter(username=request.user.username)
+        print(works)
+        context = {'works': works[0]}
+    except IndexError:
+        message = """
+        <p>Vous n'avez pas encore enregistré d'oeuvres !</p>
+        <p>il n'est jamais tard pour le faire</p>
+        """
+        context = {'message': message}
+    return render(request, 'favarche/personal_works.html', context)
+
+
+@login_required(login_url='/login/')
+def add_works(request):
+    ''' return personal works page '''
+    return render(request, 'favarche/add_works.html')
+
+
+@login_required(login_url='/login/')
+def favorite_works(request):
+    ''' return personal works page '''
+    return render(request, 'favarche/favorite_works.html')
 
 
 @login_required(login_url='/login/')

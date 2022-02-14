@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 class Category(models.Model):
     '''Category model init with fiels'''
     name = models.CharField(max_length=200, unique=True,
-                            default='DEFAULT VALUE')
+                            default='None')
 
     def __str__(self):
         return str(self.name)
@@ -22,11 +22,12 @@ class Works(models.Model):
                             unique=True,
                             default='DEFAULT VALUE')
     web_link = models.URLField()
-    image = models.URLField()
+    hotel_Main_Img = models.ImageField(upload_to='images/')
     category = models.ForeignKey(Category,
                                  on_delete=models.PROTECT,
                                  null=True,
                                  default=None)
+    username = models.CharField(max_length=100, default='None')
 
     def __str__(self):
         return str(self.name)
