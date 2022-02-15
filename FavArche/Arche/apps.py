@@ -7,4 +7,4 @@ from django.apps import AppConfig
 
 class ArcheConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Arche'
+    name = 'arche'

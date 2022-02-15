@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.backends import ModelBackend, UserModel
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
 
+from .models import Works, Category
+
 
 class RegisterForm(UserCreationForm):
     '''Register form class'''
@@ -39,3 +41,20 @@ class ContactForm(forms.Form):
     email = forms.EmailField(required=True)
     subject = forms.CharField(required=True)
     message = forms.CharField(widget=forms.Textarea, required=True)
+
+
+class ImageForm(forms.ModelForm):
+    """ Form for the image field in Works model """
+    class Meta:
+        model = Works
+        fields = ["image"]
+
+
+class CategoryForm(forms.ModelForm):
+    """ Form for the image field in Works model """
+    class Meta:
+        model = Category
+        fields = ["name", "description"]
+        widgets = {
+            'description': forms.Textarea(attrs={'cols': 80, 'rows': 20}),
+        }

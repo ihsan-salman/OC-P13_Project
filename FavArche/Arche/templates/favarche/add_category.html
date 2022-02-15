@@ -1,0 +1,20 @@
+{% extends 'favarche/base.html' %}
+
+{% block content %}
+{% load static %}
+	
+	<div id="main-div">
+		<div id="page_main_div">
+			<div id="page_white_div">
+				<h3>Ajout de Catégorie</h3>
+				<form method="post">
+					{% csrf_token %}
+					<input type="text" name="name" class="contact_field" placeholder="Nom">
+					<textarea class="textarea" name="description"placeholder="Description"></textarea> 
+					<button class="contact_btn" type="submit">Validez</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

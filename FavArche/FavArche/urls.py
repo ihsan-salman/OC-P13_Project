@@ -21,7 +21,7 @@ from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 
-from Arche import views
+from arche import views
 
 
 HANDLER404 = 'mes_aliments.views.page_not_found'
@@ -32,10 +32,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^contact/', views.contact, name = 'contact'),
     url(r'^a_propos/', views.about_us, name = 'about_us'),
+    url(r'^fonctionnalité/', views.functionality, name = 'functionality'),
 
-    url(r'^create_account/', views.create_account, name='create_account'),
-    path('login/', views.CustomLoginView.as_view(), name='login'),
-    url(r'^logout/$', LogoutView.as_view(), {'next_page':
+    url(r'^créer_compte/', views.create_account, name='create_account'),
+    path('connexion/', views.CustomLoginView.as_view(), name='login'),
+    url(r'^deconneion/$', LogoutView.as_view(), {'next_page':
         settings.LOGOUT_REDIRECT_URL}, name='logout'),
 
     path('reset_password/',
@@ -55,15 +56,16 @@ urlpatterns = [
             template_name='registration/password-reset/password_reset_done.html'),
          name="password_reset_complete"),
 
-    url(r'^my_account/', views.personal_account, name='my_account'),
+    url(r'^mon_compte/', views.personal_account, name='my_account'),
     url(r'^edit_account_information/',
         views.edit_account,
         name='edit_account'),
     url(r'^change_password/', views.change_password, name='change_password'),
 
-    url(r'^my_works/', views.personal_works, name='personal_works'),
-    url(r'^add_works/', views.add_works, name='add_works'),
-    url(r'^favorite_works/', views.favorite_works, name='fav_works'),
+    url(r'^mes_oeuvres/', views.personal_works, name='personal_works'),
+    url(r'^ajout_oeuvre/', views.add_works, name='add_works'),
+    url(r'^oeuvre_favoris/', views.favorite_works, name='fav_works'),
+    url(r'^ajout_categorie/', views.add_category, name='add_category'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

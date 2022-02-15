@@ -9,8 +9,9 @@ from django.contrib.auth.models import User
 
 class Category(models.Model):
     '''Category model init with fiels'''
-    name = models.CharField(max_length=200, unique=True,
-                            default='None')
+    name = models.CharField(max_length=150, unique=True,
+                            default='Nom')
+    description = models.CharField(max_length=500, default='Description')
 
     def __str__(self):
         return str(self.name)
@@ -19,10 +20,9 @@ class Category(models.Model):
 class Works(models.Model):
     '''Works model init with fiels'''
     name = models.CharField(max_length=200,
-                            unique=True,
                             default='DEFAULT VALUE')
     web_link = models.URLField()
-    hotel_Main_Img = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='work_image/', unique=True)
     category = models.ForeignKey(Category,
                                  on_delete=models.PROTECT,
                                  null=True,
@@ -44,7 +44,9 @@ class Favorite(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.jpg', blank=True)
+    image = models.ImageField(upload_to='user_image',
+                              default='default.jpg',
+                              blank=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'

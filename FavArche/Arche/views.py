@@ -13,8 +13,8 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.core.mail import send_mail, BadHeaderError
 
 from .forms import RegisterForm, CustomAuthenticationForm, EditProfileForm
-from .forms import ContactForm
-from .models import Profile, Works
+from .forms import ContactForm, ImageForm, CategoryForm
+from .models import Profile, Works, Category
 
 
 def index(request):
@@ -45,6 +45,11 @@ def about_us(request):
     return render(request, 'favarche/about.html')
 
 
+def functionality(request):
+    ''' Return functionality page result '''
+    return render(request, 'favarche/functionality.html')
+
+
 def create_account(request):
     '''return the template to create an user account
        and add in the database all related information'''
@@ -71,11 +76,10 @@ def create_account(request):
                 profile_user = Profile.objects.create(
                     user=user)
                 profile_user.save()
-                print(profile_user)
             else:
                 user = user.first()
 
-            return redirect('/')
+            return redirect('/connexion/')
         else:
             # Form data doesn't match the expected format.
             # Add errors to the template.
@@ -100,7 +104,7 @@ def personal_works(request):
     except IndexError:
         message = """
         <p>Vous n'avez pas encore enregistré d'oeuvres !</p>
-        <p>il n'est jamais tard pour le faire</p>
+        <p>il n'est jamais tard pour le faire.</p>
         """
         context = {'message': message}
     return render(request, 'favarche/personal_works.html', context)
@@ -109,7 +113,52 @@ def personal_works(request):
 @login_required(login_url='/login/')
 def add_works(request):
     ''' return personal works page '''
-    return render(request, 'favarche/add_works.html')
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            work_name = request.POST.get("work_name")
+            category = request.POST.get("category")
+            form.save()
+            # Get the current instance object to display in the template
+            img_obj = form.instance
+            return render(request,
+                          'favarche/add_works.html',
+                          {'form': form, 'img_obj': img_obj})
+    else:
+        form = ImageForm()
+    if Category.objects.count() == 0:
+        category_message = """<p>Il n'y a aucune catégorie disponible. 
+                                 Il est donc impossible d'enregistrer 
+                                 une oeuvre pour le moment</p>
+                              <p>
+                                 Soyez le premier à en créer une 
+                                 <a href='/ajout_categorie'>ici</a>.
+                              </p>
+        """
+        context = {'div': category_message}
+    else:
+        hidden = "hidden"
+        context = {'form': form, 'class_hidden': hidden}
+    return render(request, 'favarche/add_works.html', context)
+
+
+@login_required(login_url='/login/')
+def add_category(request):
+    ''' return add_category page '''
+    if request.method == 'POST':
+        name = request.POST.get("name")
+        description = request.POST.get("description")
+        category = Category.objects.filter(name=name)
+        if not category.exists():
+            category = Category.objects.create(
+                    name=name,
+                    description=description
+                )
+            category.save()
+        else:
+            category = category.first()
+        return redirect('/ajout_oeuvre/')
+    return render(request, 'favarche/add_category.html')
 
 
 @login_required(login_url='/login/')
