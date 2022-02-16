@@ -3,6 +3,7 @@
 
 
 from django.db import models
+from django.utils.timezone import now
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -27,6 +28,8 @@ class Works(models.Model):
                                  on_delete=models.PROTECT,
                                  null=True,
                                  default=None)
+    time = models.DateTimeField(default=now, editable=False)
+    description = models.CharField(max_length=500, default='Description')
     username = models.CharField(max_length=100, default='None')
 
     def __str__(self):

@@ -375,6 +375,7 @@
 		height: 150px;
 		transition: all 0.2s;
 	}
+	margin-left: auto;
 
 	.textarea:hover {
 		cursor: pointer;
@@ -386,6 +387,26 @@
 		color: #333333;
 		background-color: white;
 		border-color: #333333;
+	}
+	#white_div{
+		background-color: white;
+		border-radius: 5px 5px 5px 5px;
+		margin-top: 18px;
+		padding-bottom: 15px;
+		margin-bottom: 30px;
+		width: 40%;
+		text-align: center;
+		margin-left: 30%;
+	}
+	#pers_work_div{
+		background-color: white;
+		border-radius: 5px 5px 5px 5px;
+		margin-bottom: 30px;
+		padding-top: 15px;
+		width: 20%;
+		text-align: center;
+		float: left;
+		margin-right: 5%;
 	}
 
 

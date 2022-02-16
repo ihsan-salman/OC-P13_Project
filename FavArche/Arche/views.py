@@ -13,7 +13,7 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.core.mail import send_mail, BadHeaderError
 
 from .forms import RegisterForm, CustomAuthenticationForm, EditProfileForm
-from .forms import ContactForm, ImageForm, CategoryForm
+from .forms import ContactForm, ImageForm
 from .models import Profile, Works, Category
 
 
@@ -38,16 +38,16 @@ def contact(request):
         except BadHeaderError:
             return HttpResponse('Invalid header found.')
         return redirect('/contact/')
-    return render(request, 'favarche/contact.html')
+    return render(request, 'favarche/informative/contact.html')
 
 def about_us(request):
     ''' Return about page result '''
-    return render(request, 'favarche/about.html')
+    return render(request, 'favarche/informative/about.html')
 
 
 def functionality(request):
     ''' Return functionality page result '''
-    return render(request, 'favarche/functionality.html')
+    return render(request, 'favarche/informative/functionality.html')
 
 
 def create_account(request):
@@ -97,17 +97,17 @@ class CustomLoginView(LoginView):
 @login_required(login_url='/login/')
 def personal_works(request):
     ''' return personal works page '''
-    try:
+    if Works.objects.count() != 0:
         works = Works.objects.filter(username=request.user.username)
-        print(works)
-        context = {'works': works[0]}
-    except IndexError:
+        hidden = "hidden"
+        context = {'works': works, 'class_hidden': hidden}
+    else:
         message = """
         <p>Vous n'avez pas encore enregistré d'oeuvres !</p>
         <p>il n'est jamais tard pour le faire.</p>
         """
         context = {'message': message}
-    return render(request, 'favarche/personal_works.html', context)
+    return render(request, 'favarche/works/personal_works.html', context)
 
 
 @login_required(login_url='/login/')
@@ -118,12 +118,25 @@ def add_works(request):
         if form.is_valid():
             work_name = request.POST.get("work_name")
             category = request.POST.get("category")
-            form.save()
-            # Get the current instance object to display in the template
-            img_obj = form.instance
-            return render(request,
-                          'favarche/add_works.html',
-                          {'form': form, 'img_obj': img_obj})
+            description = request.POST.get("description")
+            category = Category.objects.filter(name=category)
+            category_id = category[0].id
+            work = Works.objects.filter(name=work_name,
+                                        category_id=category_id)
+            if not work.exists():
+                work = Works.objects.create(
+                    name=work_name,
+                    username=request.user.username,
+                    image=form.instance.image,
+                    description=description,
+                    category_id=category_id
+                    )
+                return redirect('/mes_oeuvres/')
+            else :
+                context = {}
+                return render(request,
+                              '/favarche/works/add_works.html',
+                              context)
     else:
         form = ImageForm()
     if Category.objects.count() == 0:
@@ -137,9 +150,11 @@ def add_works(request):
         """
         context = {'div': category_message}
     else:
+        categories = Category.objects.all()
         hidden = "hidden"
-        context = {'form': form, 'class_hidden': hidden}
-    return render(request, 'favarche/add_works.html', context)
+        context = {'form': form,
+                   'class_hidden': hidden, 'categories': categories}
+    return render(request, 'favarche/works/add_works.html', context)
 
 
 @login_required(login_url='/login/')
@@ -158,19 +173,19 @@ def add_category(request):
         else:
             category = category.first()
         return redirect('/ajout_oeuvre/')
-    return render(request, 'favarche/add_category.html')
+    return render(request, 'favarche/works/add_category.html')
 
 
 @login_required(login_url='/login/')
 def favorite_works(request):
     ''' return personal works page '''
-    return render(request, 'favarche/favorite_works.html')
+    return render(request, 'favarche/works/favorite_works.html')
 
 
 @login_required(login_url='/login/')
 def personal_account(request):
     ''' return the template of user's personal informations '''
-    return render(request, 'favarche/my_account.html')
+    return render(request, 'favarche/account/my_account.html')
 
 
 @login_required(login_url='/login/')
@@ -183,7 +198,9 @@ def edit_account(request):
             return redirect('/my_account/')
     else:
         form = EditProfileForm(instance=request.user)
-    return render(request, 'favarche/edit_account.html', {'form': form})
+    return render(request,
+                  'favarche/account/edit_account.html',
+                  {'form': form})
 
 
 @login_required(login_url='/login/')

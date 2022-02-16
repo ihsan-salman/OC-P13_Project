@@ -1,0 +1,40 @@
+{% extends 'favarche/base.html' %}
+
+{% block content %}
+{% load static %}
+	
+	<div id="main-div">
+		<div id="page_main_div">
+			<div id="page_white_div">
+				<div id="white_div">
+					<h3>Ajout d'oeuvres</h3>
+					{% autoescape off %}
+	                    {{ div }}
+	                {% endautoescape %}
+	                <div class="{{ hidden }}">
+			            <p>Ajoutez l'oeuvre que vous voulez en respectant les exigeances !</p>
+			            <form method="post" enctype="multipart/form-data">
+			                {% csrf_token %}
+			                <input type="text" name="work_name" class="contact_field" placeholder="Nom de l'Oeuvre">
+			                <select name="category" size="1">
+			                	<option value="">--Please choose an option--</option>
+			                	{% for category in categories %}
+			                		<option value="{{ category }}">{{ category }}</option>
+			                	{% endfor %}
+			                </select>
+			                <p>
+			                	Cliquez
+			                	<a href="{% url 'add_category' %}">ici</a>
+			                	pour rajouter une catégorie
+			                </p>
+			                <textarea class="textarea" name="description"placeholder="Description"></textarea>
+			                {{ form.as_p }}
+			                <button class="contact_btn" type="submit">Envoyer</button>
+			            </form>
+			        </div>
+			    </div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

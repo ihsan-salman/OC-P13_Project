@@ -1,0 +1,30 @@
+{% extends 'favarche/base.html' %}
+
+{% block content %}
+{% load static %}
+	
+	<div id="main-div">
+		<div id="page_main_div">
+			<div style="text-align: center; margin-left: 10%;">
+				<h3>Mes oeuvres</h3>
+				<div id="white_div" class="{{class_hidden}}">
+					{% autoescape off %}
+						{{ message }}
+					{% endautoescape %}
+				</div>
+				{% for work in works %}
+					<div id="pers_work_div">
+						<p>{{ work.name }}</p>
+						<img src="/media/{{ work.image }}" height="150">
+					</div>
+					{% ifequal forloop.counter|divisibleby:"3" True %}
+						<br>
+					{% endifequal %}
+				{% endfor %}
+				<a href="{% url 'add_works' %}">ajout</a>
+				<a href="{% url 'fav_works' %}">favoris</a>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

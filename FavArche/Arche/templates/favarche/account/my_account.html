@@ -13,15 +13,15 @@
 				<div id="inline_block">
 					<div id="user_label_info_name">
 						<p>Nom d'utilisateur :</p>
+						<p>Email :</p>
 						<p>Prénom :</p>
 						<p>Nom de famille :</p>
-						<p>Email :</p>
 					</div>
 					<div id="user_data_info">
 						<p>{{ user.username }}</p>
+						<p>{{ user.email }}</p>
 						<p>{{ user.first_name }}</p>
 						<p>{{ user.last_name }}</p>
-						<p>{{ user.email }}</p>
 					</div>
 				</div>
 				{% if user.is_superuser  %}
