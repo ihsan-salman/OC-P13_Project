@@ -5,24 +5,36 @@
 	
 	<div id="main-div">
 		<div id="page_main_div">
-			<div style="text-align: center; margin-left: 10%;">
-				<h3>Mes oeuvres</h3>
-				<div id="white_div" class="{{class_hidden}}">
-					{% autoescape off %}
-						{{ message }}
-					{% endautoescape %}
+			<div id="pers_works">
+				<h3 class="align_center">Mes oeuvres</h3>
+				<div class="align_center">
+					<a href="{% url 'add_works' %}">
+						<button class="button-28 tooltip-bottom" data-tooltip="Ajoutez une Oeuvre" id="btn-add-work" role="button">
+							<i class="fas fa-plus fa-2x"></i>
+						</button>
+					</a>
+					<a href="{% url 'fav_works' %}">
+						<button class="button-28 tooltip-bottom" data-tooltip="Visitez vos Favoris" role="button">
+							<i class="fas fa-heart fa-2x"></i>
+						</button>
+					</a>
 				</div>
-				{% for work in works %}
-					<div id="pers_work_div">
-						<p>{{ work.name }}</p>
-						<img src="/media/{{ work.image }}" height="150">
+				<div>
+					<div id="white_div" class="{{class_hidden}}">
+						{% autoescape off %}
+							{{ message }}
+						{% endautoescape %}
 					</div>
-					{% ifequal forloop.counter|divisibleby:"3" True %}
-						<br>
-					{% endifequal %}
-				{% endfor %}
-				<a href="{% url 'add_works' %}">ajout</a>
-				<a href="{% url 'fav_works' %}">favoris</a>
+					{% for work in works %}
+						<div id="work_div">
+							<p>{{ work.name }}</p>
+							<img src="/media/{{ work.image }}" height="150">
+						</div>
+						{% ifequal forloop.counter|divisibleby:"3" True %}
+							<br>
+						{% endifequal %}
+					{% endfor %}
+				</div>
 			</div>
 		</div>
 	</div>

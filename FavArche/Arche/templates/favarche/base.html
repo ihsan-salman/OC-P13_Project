@@ -20,46 +20,36 @@
 			<div id="menu_redirection">
 				<ul id="menu_redirection_list">
 					{% if request.get_full_path != '/' %}
-						<li id="menu_redirection_page" class="tooltip">
+						<li id="menu_redirection_page" class="tooltip-bottom" data-tooltip="Vers l'Acceuil">
 							<a class="nav-link" href="{% url 'home' %}">
-								<i class="fas fa-home">
-									<span class="tooltiptext">Vers l'acceuil</span>
-								</i>
+								<i class="fas fa-home"></i>
 							</a>
 						</li>
 					{% endif %}
 					{% if user.is_authenticated %}
-						<li id="menu_redirection_page" class="tooltip">
+						<li id="menu_redirection_page" class="tooltip-bottom" data-tooltip="Déconnexion">
 							<a class="nav-link" href="{% url 'logout' %}">
-								<i class="fas fa-sign-out-alt">
-									<span class="tooltiptext">Déconnexion</span>
-								</i>
+								<i class="fas fa-sign-out-alt"></i>
 							</a>
 						</li>
 						{% if request.get_full_path != '/mon_compte/' %}
-							<li id="menu_redirection_page" class="tooltip">
+							<li id="menu_redirection_page" class="tooltip-bottom" data-tooltip="Votre Compte">
 								<a class="nav-link" href="{% url 'my_account' %}">
-									<i class="fas fa-user">
-										<span class="tooltiptext">Mon Profil</span>
-									</i>
+									<i class="fas fa-user"></i>
 								</a>
 							</li>
 						{% endif %}
 						{% if request.get_full_path != '/my_works/' %}
-						<li id="menu_redirection_page" class="tooltip">
+						<li id="menu_redirection_page" class="tooltip-bottom" data-tooltip="Vos Oeuvres">
 							<a class="nav-link" href="{% url 'personal_works' %}">
-								<i class="fas fa-book">
-									<span class="tooltiptext">Mes Oeuvres</span>
-								</i>
+								<i class="fas fa-book"></i>
 							</a>
 						</li>
 						{% endif %}
 					{% elif request.get_full_path != '/login/' %}
-						<li id="menu_redirection_page" class="tooltip">
+						<li id="menu_redirection_page" class="tooltip-bottom" data-tooltip="Connexion">
 							<a href="{% url 'login' %}">
-								<i class="fas fa-sign-in-alt">
-									<span class="tooltiptext">Connexion</span>
-								</i>
+								<i class="fas fa-sign-in-alt"></i>
 							</a>
 						</li>
 					{% endif %}

@@ -5,6 +5,8 @@
 import os
 from django.shortcuts import render, redirect
 from django.template import loader
+from django.urls import reverse
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
@@ -164,15 +166,19 @@ def add_category(request):
         name = request.POST.get("name")
         description = request.POST.get("description")
         category = Category.objects.filter(name=name)
-        if not category.exists():
-            category = Category.objects.create(
-                    name=name,
-                    description=description
-                )
-            category.save()
+        if name != '' or description != '':
+            if not category.exists():
+                category = Category.objects.create(
+                        name=name,
+                        description=description
+                    )
+                category.save()
+                return redirect('/ajout_oeuvre/')
+            else:
+                category = category.first()
+                messages.warning(request, 'Cette catégorie existe déja...')
         else:
-            category = category.first()
-        return redirect('/ajout_oeuvre/')
+            messages.warning(request, 'Veuillez entrer les informations demandées.')
     return render(request, 'favarche/works/add_category.html')
 
 
