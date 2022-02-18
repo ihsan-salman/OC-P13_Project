@@ -11,9 +11,14 @@ from django.contrib.auth.forms import AuthenticationForm, UsernameField
 from .models import Works, Category
 
 
-class EditProfileForm(UserChangeForm):
-    password = None
+class ContactForm(forms.Form):
+    email = forms.EmailField(required=True)
+    subject = forms.CharField(required=True)
+    message = forms.CharField(widget=forms.Textarea, required=True)
 
+
+class ImageForm(forms.ModelForm):
+    """ Form for the image field in Works model """
     class Meta:
-        model = User
-        fields = ["username", "email", "first_name", "last_name"]
+        model = Works
+        fields = ["image"]

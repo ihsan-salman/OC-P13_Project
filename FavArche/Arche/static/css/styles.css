@@ -16,6 +16,7 @@
 	}
 	.hidden{
 		visibility: hidden;
+		height:0px
 	}
 	#menu_bar{
 		height: 40px;

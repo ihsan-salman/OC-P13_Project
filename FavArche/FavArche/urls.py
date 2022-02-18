@@ -14,9 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.conf.urls.static import  static
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
@@ -24,48 +24,23 @@ from django.contrib.auth.views import LogoutView
 from arche import views
 
 
-HANDLER404 = 'mes_aliments.views.page_not_found'
-HANDLER500 = 'mes_aliments.views.server_error'
+HANDLER404 = 'registration.views.page_not_found'
+HANDLER500 = 'registration.views.server_error'
 
 urlpatterns = [
-    url(r'^$', views.index, name = 'home'),
     path('admin/', admin.site.urls),
-    url(r'^contact/', views.contact, name = 'contact'),
-    url(r'^a_propos/', views.about_us, name = 'about_us'),
-    url(r'^fonctionnalité/', views.functionality, name = 'functionality'),
 
-    url(r'^créer_compte/', views.create_account, name='create_account'),
-    path('connexion/', views.CustomLoginView.as_view(), name='login'),
-    url(r'^deconneion/$', LogoutView.as_view(), {'next_page':
-        settings.LOGOUT_REDIRECT_URL}, name='logout'),
+    path('', include('arche.urls')),
 
-    path('reset_password/',
-         auth_views.PasswordResetView.as_view(
-            template_name='registration/password-reset/password_reset.html'),
-         name="reset_password"),
-    path('reset_password_sent/',
-         auth_views.PasswordResetDoneView.as_view(
-            template_name='registration/password-reset/password_reset_sent.html'),
-         name="password_reset_done"),
-    path('reset/<uidb64>/<token>/',
-         auth_views.PasswordResetConfirmView.as_view(
-            template_name='registration/password-reset/password_reset_form.html'),
-         name="password_reset_confirm"),
-    path('reset_password_complete/',
-         auth_views.PasswordResetCompleteView.as_view(
-            template_name='registration/password-reset/password_reset_done.html'),
-         name="password_reset_complete"),
+    path('Inscription/', include('registration.urls')),
+
+    path('Oeuvre/', include('work.urls')),
 
     url(r'^mon_compte/', views.personal_account, name='my_account'),
     url(r'^edit_account_information/',
         views.edit_account,
         name='edit_account'),
-    url(r'^change_password/', views.change_password, name='change_password'),
 
-    url(r'^mes_oeuvres/', views.personal_works, name='personal_works'),
-    url(r'^ajout_oeuvre/', views.add_works, name='add_works'),
-    url(r'^oeuvre_favoris/', views.favorite_works, name='fav_works'),
-    url(r'^ajout_categorie/', views.add_category, name='add_category'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

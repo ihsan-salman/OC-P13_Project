@@ -8,7 +8,23 @@ from django.contrib.auth.models import User
 from django.contrib.auth.backends import ModelBackend, UserModel
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
 
-from .models import Works, Category
+
+class RegisterForm(UserCreationForm):
+    '''Register form class'''
+    email = forms.EmailField()
+
+    class Meta:
+        '''Making line between the form and User model'''
+        model = User
+        fields = ["username", "email", "first_name", "last_name","password1", "password2"]
+
+
+class CustomAuthenticationForm(AuthenticationForm):
+    '''change username label in login form to email label'''
+    username = UsernameField(
+        label='Identfiant',
+        widget=forms.TextInput(attrs={'autofocus': True})
+    )
 
 
 class EditProfileForm(UserChangeForm):
