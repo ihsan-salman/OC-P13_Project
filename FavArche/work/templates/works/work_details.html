@@ -1,0 +1,17 @@
+{% extends 'favarche/base.html' %}
+
+{% block content %}
+{% load static %}
+	
+	<div id="main-div">
+		<div id="page_main_div">
+			<div id="page_white_div">
+				{% for work in works %}
+					<h3>{{work.name}}</h3>
+					<img src="/media/{{work.image}}" height="300">
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

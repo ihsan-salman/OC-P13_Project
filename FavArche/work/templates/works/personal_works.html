@@ -26,10 +26,12 @@
 						{% endautoescape %}
 					</div>
 					{% for work in works %}
-						<div id="work_div">
-							<p>{{ work.name }}</p>
-							<img src="/media/{{ work.image }}" height="150">
-						</div>
+						<a href="{% url 'work_details' work.id %}">
+							<div id="work_div">
+								<p>{{ work.name }}</p>
+								<img src="/media/{{ work.image }}" height="150">
+							</div>
+						</a>
 						{% ifequal forloop.counter|divisibleby:"3" True %}
 							<br>
 						{% endifequal %}
