@@ -15,6 +15,8 @@ from django.core.mail import send_mail, BadHeaderError
 from .forms import ContactForm, ImageForm
 from .models import Works, Category
 
+import wikipediaapi
+
 
 @login_required(login_url='/login/')
 def personal_works(request):
@@ -41,6 +43,8 @@ def add_works(request):
             name = request.POST.get("work_name").title()
             category = request.POST.get("category")
             description = request.POST.get("description")
+            if description == "":
+                description = "à remplir"
             category = Category.objects.filter(name=category)
             category_id = category[0].id
             work = Works.objects.filter(name=name,
@@ -53,7 +57,7 @@ def add_works(request):
                     description=description,
                     category_id=category_id
                     )
-                return redirect('/mes_oeuvres/')
+                return redirect('/Oeuvre/personnel/')
             else :
                 context = {}
                 return render(request,
@@ -112,5 +116,36 @@ def work_details(request, work_name):
     ''' return detail page of each work '''
     if request.method == 'GET':
         work_detail = Works.objects.filter(name=work_name)
-        context = {'works': work_detail}
+        wikipedia_settings = wikipediaapi.Wikipedia('fr')
+        work_wiki_page = wikipedia_settings.page(work_detail[0].name)
+        if work_wiki_page.exists() == True:
+            wikipedia_url = work_wiki_page.fullurl
+            print(wikipedia_url)
+            context = {'works': work_detail,
+                       'wikipedia_url': wikipedia_url}
+        else:
+            messages.error(request, """
+                Le nom de votre oeuvre ne permet pas de trouver une url 
+                compatible avec les données de Wikipedia...""")
+            context = {'works': work_detail}
     return render(request, 'works/work_details.html', context)
+
+
+@login_required(login_url='/login/')
+def edit_works(request, work_name):
+    ''' return edit page of each page '''
+    categories = Category.objects.all()
+    if request.method == 'GET':
+        editable_work = Works.objects.filter(name=work_name)
+        context = {'work': editable_work[0], 'categories': categories}
+    if request.method == 'POST':
+        editable_work = Works.objects.filter(name=work_name)
+        name = request.POST.get("name")
+        category = request.POST.get("category")
+        description = request.POST.get("description")
+        editable_work.name = name
+        editable_work.category = category
+        editable_work.description = description
+        editable_work.update()
+        context = {'work': editable_work, 'categories': categories}
+    return render(request, 'works/edit_work.html', context)

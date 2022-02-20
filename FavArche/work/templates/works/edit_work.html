@@ -1,0 +1,31 @@
+{% extends 'favarche/base.html' %}
+
+{% block content %}
+{% load static %}
+	
+	<div id="main-div">
+		<div id="page_main_div">
+			<div id="page_white_div">
+				<h3>Edition d'Oeuvre</h3>
+				<div id="edit_work_div">
+					<form method="post">
+						{% csrf_token %}
+						<input type="text" name="work_name" class="contact_field" placeholder="{{work.name}}">
+						<select name="category" size="1">
+		                	<option value="{{work.category}}">{{ work.category }}</option>
+		                	{% for category in categories %}
+		                		{% if category != work.category %}
+		                			<option value="{{category}}">{{ category }}</option>
+		                		{% endif %}
+		                	{% endfor %}
+		                </select>
+		                <textarea class="textarea" name="description"placeholder="{{work.description}}"></textarea>
+			            <button class="contact_btn" type="submit" onclick="history.back()" value="Cancel">Envoyez
+			            </button>
+		            </form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

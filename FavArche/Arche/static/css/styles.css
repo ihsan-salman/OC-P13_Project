@@ -456,7 +456,10 @@
 		transform: translateY(0);
 	}
 	#pers_works a {text-decoration: none;}
-	#pers_works i { margin-left: -4px; margin-top: -25px;}
+	#pers_works i { 
+		margin-left: -4px; 
+		margin-top: -25px;
+	}
 	#btn-add-work{ margin-right: 30px;}
 	[data-tooltip],
 	.tooltip {
@@ -556,8 +559,35 @@
 		padding-top: 5px;
 		padding-bottom: 5px;
 	}
+	.error{
+		color: black;
+		background-color: #ffbb80;
+		border-radius: 3px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
 	.success{
 
+	}
+	#edit_link_btn{
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	#edit_link_btn i {
+		margin-left: -4px; 
+		margin-top: -25px;
+	}
+	#edit_work_div{
+		display: inline-grid;
+	}
+	#edit_work_div input{
+		width: 30%;
+		border-radius: 3px;
+	}
+	#edit_work_div select{
+		text-align: center;
+		width: 30%;
+		margin-bottom: 20px;
 	}
 
 }

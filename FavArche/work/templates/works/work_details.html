@@ -9,6 +9,34 @@
 				{% for work in works %}
 					<h3>{{work.name}}</h3>
 					<img src="/media/{{work.image}}" height="300">
+					<p>Catégorie: {{work.category}}</p>
+					<p>description:
+						{% if work.description != '' %}
+							{{ work.description }}
+						{% else %}
+							A compléter..
+						{% endif %}
+					</p>
+					{% if messages %}
+					    {% for message in messages %}
+					    	 <p class="align_center  {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% endif %}">
+					    		{{ message }}
+					    	</p>
+					    {% endfor %}
+					{% endif %}
+					{% if wikipedia_url %}
+						<a href="{{ wikipedia_url }}" target="_blank">Lien Wikipédia</a><br>
+					{% endif %}
+
+					{% if user.username == work.username %}
+						<a href="{% url 'edit_work' work.name %}">
+							<button class="button-28 tooltip-bottom" id="edit_link_btn" data-tooltip="Editez votre Oeuvre" role="button">
+							<i class="fas fa-highlighter fa-2x"></i>
+						</button>
+						</a>
+					{% else %}
+						<p>Vous ne pouvez éditer les informations de cette oeuvre, seul l'utilisateur autorisé peut!</p>
+					{% endif %}
 				{% endfor %}
 			</div>
 		</div>

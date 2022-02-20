@@ -21,7 +21,6 @@ class Works(models.Model):
     '''Works model init with fiels'''
     name = models.CharField(max_length=200,
                             default='DEFAULT VALUE')
-    web_link = models.URLField()
     image = models.ImageField(upload_to='work_image/', unique=True)
     category = models.ForeignKey(Category,
                                  on_delete=models.PROTECT,

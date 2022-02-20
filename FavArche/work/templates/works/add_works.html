@@ -27,7 +27,7 @@
 			                	<a href="{% url 'add_category' %}">ici</a>
 			                	pour rajouter une catégorie
 			                </p>
-			                <textarea class="textarea" name="description"placeholder="Description"></textarea>
+			                <textarea class="textarea" name="description"placeholder="{{ description }}"></textarea>
 			                {{ form.as_p }}
 			                <button class="contact_btn" type="submit">Envoyer</button>
 			            </form>
