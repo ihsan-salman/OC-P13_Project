@@ -108,10 +108,9 @@ def favorite_works(request):
     ''' return personal works page '''
     return render(request, 'works/favorite_works.html')
 
-def work_details(request, pk):
+def work_details(request, work_name):
     ''' return detail page of each work '''
     if request.method == 'GET':
-        work_detail = Works.objects.filter(id=pk)
-        print(work_detail)
+        work_detail = Works.objects.filter(name=work_name)
         context = {'works': work_detail}
     return render(request, 'works/work_details.html', context)

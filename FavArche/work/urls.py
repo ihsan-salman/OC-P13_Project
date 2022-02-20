@@ -15,6 +15,6 @@ urlpatterns = [
     path('ajout/', views.add_works, name='add_works'),
     path('favoris/', views.favorite_works, name='fav_works'),
     path('categorie/', views.add_category, name='add_category'),
-    url(r'^detail/(?P<pk>\d+)/$', views.work_details, name='work_details'),
+    path('detail/<str:work_name>/', views.work_details, name='work_details'),
 
 ]

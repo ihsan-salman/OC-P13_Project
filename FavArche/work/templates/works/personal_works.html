@@ -26,7 +26,7 @@
 						{% endautoescape %}
 					</div>
 					{% for work in works %}
-						<a href="{% url 'work_details' work.id %}">
+						<a href="{% url 'work_details' work.name %}">
 							<div id="work_div">
 								<p>{{ work.name }}</p>
 								<img src="/media/{{ work.image }}" height="150">
