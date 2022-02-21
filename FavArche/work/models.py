@@ -27,7 +27,7 @@ class Works(models.Model):
                                  null=True,
                                  default=None)
     time = models.DateTimeField(default=now, editable=False)
-    description = models.CharField(max_length=500, default='Description')
+    description = models.CharField(max_length=500, default='Description', null=True)
     username = models.CharField(max_length=100, default='None')
 
     def __str__(self):

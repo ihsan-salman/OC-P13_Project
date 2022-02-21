@@ -3,6 +3,8 @@
 @charset "UTF-8";
 
 
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One&display=swap')
+
 {% load static%}
 
 @media all
@@ -577,17 +579,140 @@
 		margin-left: -4px; 
 		margin-top: -25px;
 	}
+
+	#background_edit_work_div{
+		background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/38816/image-from-rawpixel-id-2210775-jpeg.jpg") center center no-repeat;
+		background-size: cover;
+		width: 100vw;
+		height: 100vh;
+		display: grid;
+		align-items: center;
+		justify-items: center;
+	}
 	#edit_work_div{
-		display: inline-grid;
+		background: #f8f4e5;
+		padding: 50px 100px;
+		border: 2px solid black;
+		box-shadow: 15px 15px 1px #ffa580, 15px 15px 1px 2px black;
 	}
 	#edit_work_div input{
-		width: 30%;
-		border-radius: 3px;
+		display: block;
+		width: 100%;
+		font-size: 14pt;
+		line-height: 28pt;
+		font-family: "Fjalla One";
+		margin-bottom: 28pt;
+		border: none;
+		border-bottom: 5px solid black;
+		background: #f8f4e5;
+		min-width: 250px;
+		padding-left: 5px;
+		outline: none;
+		color: black; 
+	}
+	#edit_work_div input:focus{
+		border-bottom: 5px solid #ffa580;
+	}
+	#edit_work_div button{
+		display: block;
+		margin: 0 auto;
+		margin-top: 10px	
+		line-height: 28pt;
+		padding: 0 20px;
+		background: #ffa580;
+		letter-spacing: 2px;
+		transition: .2s all ease-in-out;
+		outline: none;
+		border: 1px solid black;
+		box-shadow: 3px 3px 1px #95a4ff, 3px 3px 1px 1px black;
+	}
+	#edit_work_div button:hover{
+		background: black;
+		color: white;
+		border: 1px solid black;
 	}
 	#edit_work_div select{
-		text-align: center;
-		width: 30%;
-		margin-bottom: 20px;
+		background: #f8f4e5;
+		border:  none;
+		width: 108%;
+		min-width: 250px;
+		font-size: 14pt;
+		line-height: 28pt;
+		font-family: "Fjalla One";
+		margin-bottom: 28pt;
+		border-bottom: 5px solid black;
+	}
+	#edit_work_div select:focus{
+		border-bottom: 5px solid #ffa580;
+	}
+	::selection {
+		background: #ffc8ff; 
+	}
+	#edit_work_div input:-webkit-autofill,
+	#edit_work_div input:-webkit-autofill:hover,
+	#edit_work_div input:-webkit-autofill:focus {
+	  border-bottom: 5px solid #95a4ff;
+	  -webkit-text-fill-color: #2A293E;
+	  -webkit-box-shadow: 0 0 0px 1000px #f8f4e5 inset;
+	  transition: background-color 5000s ease-in-out 0s; }
+
+	#work_summary { 
+		font-family: 'Orienta', sans-serif; 
+		font-size: 16px; 
+		line-height: 24px; 
+		margin: 0 0 24px; 
+		text-align: center; 
+		margin-left: auto; 
+		margin-right: auto; 
+		max-width: 50%;
+	}
+	#wiki_logo:hover{
+		transform: translateY(-3px);
+	}
+	#category_list{
+		background: #444;
+		color: #fff;
+		font-family: 'Poppins', sans-serif;
+		margin: 0;
+		width: 95%;
+		max-width: 1220px;
+		margin: 0 auto;
+	}
+	#category_list p {
+	  margin: 0 0 13px 0;
+	}
+
+	.episode {
+	  display: grid;
+	  grid-template-columns: 1fr 3fr;
+	  position: relative;
+	}
+
+	.episode__number {
+	  font-size: 10vw;
+	  font-weight: 600;
+	  padding: 10px 0;
+	  position: sticky;
+	  top: 0;
+	  text-align: center;
+	  height: calc(10vw + 20px);
+	  transition: all 0.2s ease-in;
+	}
+
+	.episode__content {
+	  border-top: 2px solid #fff;
+	  display: grid;
+	  grid-template-columns: 1fr 4fr;
+	  grid-gap: 10px;
+	  padding: 15px 0;
+	}
+
+	.episode__content .title {
+	  font-weight: 600
+	}
+
+	.episode__content .story {
+	  line-height: 26px;
 	}
 
 }

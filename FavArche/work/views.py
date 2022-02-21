@@ -120,9 +120,10 @@ def work_details(request, work_name):
         work_wiki_page = wikipedia_settings.page(work_detail[0].name)
         if work_wiki_page.exists() == True:
             wikipedia_url = work_wiki_page.fullurl
-            print(wikipedia_url)
+            wikipedia_summary = work_wiki_page.summary[0:500]
             context = {'works': work_detail,
-                       'wikipedia_url': wikipedia_url}
+                       'wikipedia_url': wikipedia_url,
+                       'wikipedia_summary': wikipedia_summary}
         else:
             messages.error(request, """
                 Le nom de votre oeuvre ne permet pas de trouver une url 
@@ -140,12 +141,22 @@ def edit_works(request, work_name):
         context = {'work': editable_work[0], 'categories': categories}
     if request.method == 'POST':
         editable_work = Works.objects.filter(name=work_name)
-        name = request.POST.get("name")
+        editable_work = editable_work[0]
+        name = request.POST.get("work_name").title()
+        if editable_work.name != name and editable_work.name != '':
+            editable_work.name = name
+            editable_work.save()
         category = request.POST.get("category")
+        if editable_work.category != category:
+            category = Category.objects.get(name=category)
+            editable_work.category = category
+            editable_work.save()
         description = request.POST.get("description")
-        editable_work.name = name
-        editable_work.category = category
-        editable_work.description = description
-        editable_work.update()
+        if editable_work.description != description:
+            editable_work.description = description
+            editable_work.save()
+        else:
+            pass
+        return redirect('/Oeuvre/personnel')
         context = {'work': editable_work, 'categories': categories}
     return render(request, 'works/edit_work.html', context)

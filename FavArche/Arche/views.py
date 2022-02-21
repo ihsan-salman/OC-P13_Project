@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
 
 from .forms import EditProfileForm
+from work.models import Works, Category
 
 
 def index(request):
@@ -42,6 +43,15 @@ def about_us(request):
 def functionality(request):
     ''' Return functionality page result '''
     return render(request, 'favarche/informative/functionality.html')
+
+
+def category(request):
+    ''' Return category page result '''
+    number_list = []
+    for i in range(Category.objects.count()):
+        number_list.append(i + 1)
+    context = {'categories': Category.objects.all(), 'number_list': number_list}
+    return render(request, 'favarche/informative/category.html', context)
 
 
 @login_required(login_url='/login/')
