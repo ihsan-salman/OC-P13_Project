@@ -412,9 +412,16 @@
 	#add_cat button {
 		display: flex; 
 		margin-left: 45%; 
-		width: 100px;}
+		width: 100px;
+	}
 	#add_cat input {
-		width: 90%;
+		width: 20%;
+		padding: 0.5rem 1rem;
+		outline: none;
+		border: 2px solid rgba(0, 0, 0, 0.0);
+		background-color: rgba(230, 230, 230, 0.6);
+		margin-bottom: 22px;
+		transition: .3s;
 	}
 
 	.button-28 {
@@ -590,10 +597,10 @@
 		justify-items: center;
 	}
 	#edit_work_div{
-		background: #f8f4e5;
+		background: white;
 		padding: 50px 100px;
 		border: 2px solid black;
-		box-shadow: 15px 15px 1px #ffa580, 15px 15px 1px 2px black;
+		box-shadow: 15px 15px 1px #4FCBFF, 15px 15px 1px 2px black;
 	}
 	#edit_work_div input{
 		display: block;
@@ -603,15 +610,19 @@
 		font-family: "Fjalla One";
 		margin-bottom: 28pt;
 		border: none;
+		border-radius: 3px 3px 0px 0px;
 		border-bottom: 5px solid black;
-		background: #f8f4e5;
+		background: white;
 		min-width: 250px;
 		padding-left: 5px;
 		outline: none;
 		color: black; 
 	}
+	#edit_work_div input:hover{
+		background: #fcffb0;
+	}
 	#edit_work_div input:focus{
-		border-bottom: 5px solid #ffa580;
+		border-bottom: 5px solid #4FCBFF;
 	}
 	#edit_work_div button{
 		display: block;
@@ -619,7 +630,7 @@
 		margin-top: 10px	
 		line-height: 28pt;
 		padding: 0 20px;
-		background: #ffa580;
+		background: #4FCBFF;
 		letter-spacing: 2px;
 		transition: .2s all ease-in-out;
 		outline: none;
@@ -630,9 +641,10 @@
 		background: black;
 		color: white;
 		border: 1px solid black;
+		transform:  translateY(-3px);
 	}
 	#edit_work_div select{
-		background: #f8f4e5;
+		background: white;
 		border:  none;
 		width: 108%;
 		min-width: 250px;
@@ -642,11 +654,11 @@
 		margin-bottom: 28pt;
 		border-bottom: 5px solid black;
 	}
-	#edit_work_div select:focus{
-		border-bottom: 5px solid #ffa580;
+	#edit_work_div select:hover{
+		background: #fcffb0;
 	}
-	::selection {
-		background: #ffc8ff; 
+	#edit_work_div select:focus{
+		border-bottom: 5px solid #4FCBFF;
 	}
 	#edit_work_div input:-webkit-autofill,
 	#edit_work_div input:-webkit-autofill:hover,

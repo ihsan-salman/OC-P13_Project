@@ -12,7 +12,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.core.mail import send_mail, BadHeaderError
 
-from .forms import ContactForm, ImageForm
+from .forms import ContactForm, ImageForm, CategoryForm, EditCategoryForm
 from .models import Works, Category
 
 import wikipediaapi
@@ -88,23 +88,15 @@ def add_works(request):
 def add_category(request):
     ''' return add_category page '''
     if request.method == 'POST':
-        name = request.POST.get("name").title()
-        description = request.POST.get("description")
-        category = Category.objects.filter(name=name)
-        if name != '' or description != '':
-            if not category.exists():
-                category = Category.objects.create(
-                        name=name,
-                        description=description
-                    )
-                category.save()
-                return redirect('/Oeuvre/ajout/')
-            else:
-                category = category.first()
-                messages.warning(request, 'Cette catégorie existe déja...')
-        else:
-            messages.warning(request, 'Veuillez entrer les informations demandées.')
-    return render(request, 'works/add_category.html')
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/Oeuvre/ajout/')
+            messages.warning(request, 'Cette catégorie existe déja...')
+    else:
+        form = CategoryForm()
+    context = {'form': form,}
+    return render(request, 'works/add_category.html', context)
 
 
 @login_required(login_url='/login/')
@@ -160,3 +152,18 @@ def edit_works(request, work_name):
         return redirect('/Oeuvre/personnel')
         context = {'work': editable_work, 'categories': categories}
     return render(request, 'works/edit_work.html', context)
+
+
+@login_required(login_url='/login/')
+def edit_category(request, category_name):
+    ''' return edit category page '''
+    category_instance = Category.objects.get(name=category_name)
+    if request.method == 'POST':
+        form = EditCategoryForm(request.POST, instance=category_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('/categories/')
+    else:
+        form = EditCategoryForm(instance=category_instance)
+    context = {'form': form,}
+    return render(request, 'works/edit_category.html', context)

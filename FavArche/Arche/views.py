@@ -12,6 +12,7 @@ from .forms import EditProfileForm
 from work.models import Works, Category
 
 
+
 def index(request):
     ''' Return index page result '''
     return render(request, 'favarche/index.html')
@@ -67,7 +68,7 @@ def edit_account(request):
         form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('/my_account/')
+            return redirect('/mon_compte/')
     else:
         form = EditProfileForm(instance=request.user)
     return render(request,

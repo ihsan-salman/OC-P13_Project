@@ -5,13 +5,15 @@
 from django.db import models
 from django.utils.timezone import now
 
+from ckeditor.fields import RichTextField
+
 # Create your models here.
 
 class Category(models.Model):
     '''Category model init with fiels'''
     name = models.CharField(max_length=150, unique=True,
                             default='Nom')
-    description = models.CharField(max_length=500, default='Description')
+    description = RichTextField(blank=True, null=True)
 
     def __str__(self):
         return str(self.name)

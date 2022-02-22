@@ -6,7 +6,7 @@
 	<div id="main-div">
 		<div id="page_main_div">
 			<div id="page_white_div">
-				<h3>Ajout de Catégorie</h3>
+				<h3>Edition de Catégorie</h3>
 				<div id="add_cat">
 					{% if messages %}
 					    {% for message in messages %}
@@ -18,9 +18,7 @@
 					<form method="post">
 						{% csrf_token %}
 						{{ form.media }}
-						{% for field in form %} 
-							{{field}} 
-						{% endfor %} 
+						{{form.description}}
 						<button class="button-28" type="submit">Validez</button>
 					</form>
 				</div>

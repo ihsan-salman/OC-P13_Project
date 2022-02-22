@@ -37,7 +37,7 @@ urlpatterns = [
     path('Oeuvre/', include('work.urls')),
 
     url(r'^mon_compte/', views.personal_account, name='my_account'),
-    url(r'^edit_account_information/',
+    url(r'^changer_mes_donnees/',
         views.edit_account,
         name='edit_account'),
 

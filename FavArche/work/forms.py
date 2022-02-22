@@ -12,13 +12,28 @@ from .models import Works, Category
 
 
 class ContactForm(forms.Form):
+    ''' Contact Form fields '''
     email = forms.EmailField(required=True)
     subject = forms.CharField(required=True)
     message = forms.CharField(widget=forms.Textarea, required=True)
 
 
 class ImageForm(forms.ModelForm):
-    """ Form for the image field in Works model """
+    ''' Form for the image field in Works model '''
     class Meta:
         model = Works
         fields = ["image"]
+
+
+class CategoryForm(forms.ModelForm):
+    ''' Category form with cdkeditor Text field '''
+    class Meta:
+        model = Category
+        fields = ['name', 'description']
+
+
+class EditCategoryForm(forms.ModelForm):
+    ''' Category form with cdkeditor Text field '''
+    class Meta:
+        model = Category
+        fields = ['description']
