@@ -24,9 +24,6 @@ from django.contrib.auth.views import LogoutView
 from arche import views
 
 
-HANDLER404 = 'registration.views.page_not_found'
-HANDLER500 = 'registration.views.server_error'
-
 urlpatterns = [
     path('admin/', admin.site.urls),
 

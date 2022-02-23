@@ -22,7 +22,8 @@ import wikipediaapi
 def personal_works(request):
     ''' return personal works page '''
     if Works.objects.count() != 0:
-        works = Works.objects.filter(username=request.user.username)
+        user = User.objects.get(username=request.user.username)
+        works = Works.objects.filter(user=user)
         hidden = "hidden"
         context = {'works': works, 'class_hidden': hidden}
     else:
@@ -49,10 +50,11 @@ def add_works(request):
             category_id = category[0].id
             work = Works.objects.filter(name=name,
                                         category_id=category_id)
+            user_work = User.objects.get(username=request.user.username)
             if not work.exists():
                 work = Works.objects.create(
                     name=name,
-                    username=request.user.username,
+                    user=user_work.id,
                     image=form.instance.image,
                     description=description,
                     category_id=category_id

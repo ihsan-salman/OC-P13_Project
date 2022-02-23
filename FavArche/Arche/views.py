@@ -11,11 +11,15 @@ from django.core.mail import send_mail, BadHeaderError
 from .forms import EditProfileForm
 from work.models import Works, Category
 
+from validate_email import validate_email
+
 
 
 def index(request):
     ''' Return index page result '''
-    return render(request, 'favarche/index.html')
+    works = Works.objects.filter(time__year=2022)
+    context = {'works': works}
+    return render(request, 'favarche/index.html', context)
 
 
 def contact(request):
@@ -24,15 +28,17 @@ def contact(request):
         email = request.POST.get("email")
         subject = request.POST.get("subject")
         email_message = request.POST.get("message")
-        print(email, subject, email_message)
-        try:
-            send_mail(subject,
-                      email_message,
-                      email,
-                      [os.environ['EMAIL_HOST_USER']])
-        except BadHeaderError:
-            return HttpResponse('Invalid header found.')
-        return redirect('/contact/')
+        if email != '' or subject != '' or email_message != '':
+            try:
+                send_mail(subject,
+                          email_message,
+                          email,
+                          [os.environ['EMAIL_HOST_USER']])
+                return redirect('/')
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+        else:
+             return render(request, 'error_page/404.html', status=404)
     return render(request, 'favarche/informative/contact.html')
 
 
@@ -51,7 +57,8 @@ def category(request):
     number_list = []
     for i in range(Category.objects.count()):
         number_list.append(i + 1)
-    context = {'categories': Category.objects.all(), 'number_list': number_list}
+    context = {'categories': Category.objects.all(),
+               'number_list': number_list}
     return render(request, 'favarche/informative/category.html', context)
 
 

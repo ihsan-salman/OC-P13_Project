@@ -4,6 +4,7 @@
 
 from django.db import models
 from django.utils.timezone import now
+from django.contrib.auth.models import User
 
 from ckeditor.fields import RichTextField
 
@@ -26,11 +27,10 @@ class Works(models.Model):
     image = models.ImageField(upload_to='work_image/', unique=True)
     category = models.ForeignKey(Category,
                                  on_delete=models.PROTECT,
-                                 null=True,
-                                 default=None)
+                                 null=True)
     time = models.DateTimeField(default=now, editable=False)
     description = models.CharField(max_length=500, default='Description', null=True)
-    username = models.CharField(max_length=100, default='None')
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.name)
@@ -38,9 +38,8 @@ class Works(models.Model):
 
 class Favorite(models.Model):
     '''Favorite model init with fiels'''
-    works = models.ForeignKey(Works,
-                              on_delete=models.PROTECT,
-                              related_name='product')
+    favorite_works = models.OneToOneField(Works, null=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.name)

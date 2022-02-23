@@ -14,6 +14,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 
 from .forms import RegisterForm, CustomAuthenticationForm, EditProfileForm
+from arche.models import Profile
 
 
 def create_account(request):
@@ -39,9 +40,11 @@ def create_account(request):
                     password=password
                 )
                 user.save()
+                print(user)
                 profile_user = Profile.objects.create(
-                    user=user)
+                    user=user.id)
                 profile_user.save()
+                print(profile_user)
             else:
                 user = user.first()
 

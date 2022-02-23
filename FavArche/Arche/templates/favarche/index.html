@@ -34,7 +34,24 @@
 					</ul>
 				</div>
 			</div>
-			<div id="middle_div">ihsan</div>
+			<div id="middle_div">
+				{% if works|length == 0 %}
+				<p>ihsan</p>
+				{% else %}
+				<p>sinem</p>
+				{% endif %}
+				{% for work in works %}
+						<div id="work_div_index">
+							<p>{{ work.name }}</p>
+							<a href="{% url 'work_details' work.name %}">
+								<img src="/media/{{ work.image }}">
+							</a>
+						</div>
+						{% ifequal forloop.counter|divisibleby:"1" True %}
+							<br>
+						{% endifequal %}
+				{% endfor %}
+			</div>
 			<div id="social_menu">ihsan</div>
 		</div>
 	</div>

@@ -62,9 +62,10 @@
 		width: 100%;
 	}
 	#side_menu{
+		margin-top: -10px;
+		top: 20px;
 		float: left;
 		width: 23%;
-		margin-top: -10px;
 	}
 	#side_menu_div1{
 		height: 40px;
@@ -100,14 +101,26 @@
 	#middle_div{
 		float: left;
 		width: 50%;
-		margin-left: 15px;
-		background-color: white;
+		margin-left: 1%;
 		border-radius: 3px 3px 3px 3px;
+		max-height: 700px;
+		overflow: hidden;
+		overflow-y: scroll;
+		margin-top: -15px;
+	}
+	#work_div_index{
+		background: white;
+		border-radius: 3px;
+	}
+	#work_div_index img{
+		width: 80%;
+		border-radius: 6px;
+		padding-left: 10%;
 	}
 	#social_menu{
-		float: right;
+    	top: 49px;
+		margin-left: 75%;
 		width: 25%;
-		margin-left: 10px;
 		background-color: white;
 		border-radius: 3px 3px 3px 3px;
 

@@ -7,7 +7,7 @@ from django.utils.timezone import now
 from django.contrib.auth.models import User
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='user_image',
                               default='default.jpg',
                               blank=True)
