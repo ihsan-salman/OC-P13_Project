@@ -30,7 +30,7 @@ class Works(models.Model):
                                  null=True)
     time = models.DateTimeField(default=now, editable=False)
     description = models.CharField(max_length=500, default='Description', null=True)
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.name)
@@ -39,7 +39,7 @@ class Works(models.Model):
 class Favorite(models.Model):
     '''Favorite model init with fiels'''
     favorite_works = models.OneToOneField(Works, null=True, on_delete=models.CASCADE)
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.name)

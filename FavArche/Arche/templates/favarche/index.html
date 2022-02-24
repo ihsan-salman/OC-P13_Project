@@ -36,21 +36,23 @@
 			</div>
 			<div id="middle_div">
 				{% if works|length == 0 %}
-				<p>ihsan</p>
+				<div id="work_div_index">
+					<h1>Il n'existe aucune oeuvre pour le moment</h1>
+				</div>
 				{% else %}
-				<p>sinem</p>
+					{% for work in works %}
+							<div id="work_div_index">
+								<p>{{ work.user }}</p>
+								<p>{{ work.name }}</p>
+								<a href="{% url 'work_details' work.name %}">
+									<img src="/media/{{ work.image }}">
+								</a>
+							</div>
+							{% ifequal forloop.counter|divisibleby:"1" True %}
+								<br>
+							{% endifequal %}
+					{% endfor %}
 				{% endif %}
-				{% for work in works %}
-						<div id="work_div_index">
-							<p>{{ work.name }}</p>
-							<a href="{% url 'work_details' work.name %}">
-								<img src="/media/{{ work.image }}">
-							</a>
-						</div>
-						{% ifequal forloop.counter|divisibleby:"1" True %}
-							<br>
-						{% endifequal %}
-				{% endfor %}
 			</div>
 			<div id="social_menu">ihsan</div>
 		</div>

@@ -21,7 +21,8 @@ import wikipediaapi
 @login_required(login_url='/login/')
 def personal_works(request):
     ''' return personal works page '''
-    if Works.objects.count() != 0:
+    user = User.objects.get(username=request.user.username)
+    if Works.objects.filter(user=user).count() != 0:
         user = User.objects.get(username=request.user.username)
         works = Works.objects.filter(user=user)
         hidden = "hidden"
@@ -54,14 +55,17 @@ def add_works(request):
             if not work.exists():
                 work = Works.objects.create(
                     name=name,
-                    user=user_work.id,
+                    user=user_work,
                     image=form.instance.image,
                     description=description,
                     category_id=category_id
                     )
                 return redirect('/Oeuvre/personnel/')
             else :
-                context = {}
+                form = ImageForm(request.POST, request.FILES)
+                context = {'form': form}
+                messages.error(request, """
+                Vous semblez avoir rentrée des données déjà comprise dans la base données.""")
                 return render(request,
                               'works/add_works.html',
                               context)

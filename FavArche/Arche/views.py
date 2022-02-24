@@ -5,11 +5,13 @@
 import os
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
 
 from .forms import EditProfileForm
 from work.models import Works, Category
+from arche.models import Profile
 
 from validate_email import validate_email
 
@@ -65,7 +67,11 @@ def category(request):
 @login_required(login_url='/login/')
 def personal_account(request):
     ''' return the template of user's personal informations '''
-    return render(request, 'favarche/account/my_account.html')
+    user = User.objects.get(username=request.user.username)
+    user_profile_img = Profile.objects.get(user=user)
+    print(user_profile_img.image.url)
+    context = {'img': user_profile_img}
+    return render(request, 'favarche/account/my_account.html', context)
 
 
 @login_required(login_url='/login/')

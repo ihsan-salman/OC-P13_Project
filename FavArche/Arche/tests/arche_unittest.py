@@ -87,31 +87,6 @@ class Page404TestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
 
-class LoginPageTestCase(TestCase):
-    '''Login page test class'''
-    def test_login_page_returns_200(self):
-        '''Test of the Http request returns 200'''
-        response = self.client.get(reverse('login'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'registration/login.html')
-
-    def setUp(self):
-        '''Init all needed data to test the user's login'''
-        self.credentials = {
-            'username': 'testuser',
-            'password': 'secret'}
-        User.objects.create_user(**self.credentials)
-
-    def test_login(self):
-        '''Test if the user is logged after the login step'''
-        # send login data
-        response = self.client.post(reverse('login'),
-                                    self.credentials,
-                                    follow=True)
-        # should be logged in now
-        self.assertTrue(response.context['user'].is_authenticated)
-
-
 class AccountPageTestCase(TestCase):
     '''Account page test class'''
     def setUp(self):

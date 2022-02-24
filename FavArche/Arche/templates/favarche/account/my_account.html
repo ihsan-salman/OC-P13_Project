@@ -8,7 +8,7 @@
 			<div id="page_white_div">
 				<h3 id="h3_title">Mes données personnelles</h3>
 				<div>
-					<img src="{{ user.profile.image.url }}" height="240" width="240">
+					<img src="{{ img.image.url }}" height="240" width="240">
 				</div>
 				<div id="inline_block">
 					<div id="user_label_info_name">
@@ -18,17 +18,17 @@
 						<p>Nom de famille :</p>
 					</div>
 					<div id="user_data_info">
-						<p>{{ user.username }}</p>
-						<p>{{ user.email }}</p>
-						<p>{{ user.first_name }}</p>
-						<p>{{ user.last_name }}</p>
+						<p id="username">{{ user.username }}</p>
+						<p id="email">{{ user.email }}</p>
+						<p id="first_name">{{ user.first_name }}</p>
+						<p id="last_name">{{ user.last_name }}</p>
 					</div>
 				</div>
 				{% if user.is_superuser  %}
 					<h5>Administrateur</h5>
 				{% endif %}
 				<div>
-					<a href="{% url 'edit_account' %}">Changez vos informations personnelles</a>
+					<a href="{% url 'edit_account' %}" id="edit_account">Changez vos informations personnelles</a>
 				</div>
 			</div>
 		</div>

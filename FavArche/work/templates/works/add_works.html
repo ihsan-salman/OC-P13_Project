@@ -11,6 +11,13 @@
 					{% autoescape off %}
 	                    {{ div }}
 	                {% endautoescape %}
+	                {% if messages %}
+					    {% for message in messages %}
+					    	 <p class="align_center  {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% endif %}">
+					    		{{ message }}
+					    	</p>
+					    {% endfor %}
+					{% endif %}
 	                <div class="{{ hidden }}">
 			            <p>Ajoutez l'oeuvre que vous voulez en respectant les exigeances !</p>
 			            <form method="post" enctype="multipart/form-data">

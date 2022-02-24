@@ -40,15 +40,11 @@ def create_account(request):
                     password=password
                 )
                 user.save()
-                print(user)
-                profile_user = Profile.objects.create(
-                    user=user.id)
+                profile_user = Profile.objects.create(user=user)
                 profile_user.save()
-                print(profile_user)
+                return redirect(reverse('login'))
             else:
                 user = user.first()
-
-            return redirect('/connexion/')
         else:
             # Form data doesn't match the expected format.
             # Add errors to the template.
@@ -71,9 +67,9 @@ def change_password(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            return redirect(reverse('accounts:view_profile'))
+            return redirect(reverse('my_account'))
         else:
-            return redirect(reverse('accounts:change_password'))
+             return render(request, 'error_page/404.html', status=404)
     else:
         form = PasswordChangeForm(user=request.user)
 
