@@ -19,8 +19,22 @@ from validate_email import validate_email
 
 def index(request):
     ''' Return index page result '''
+    users = User.objects.all()
+    user_image_list1 = []
+    for user in users:
+        if user.username != request.user.username:
+            image = Profile.objects.get(user=user)
+            user_image_list1.append(image)
     works = Works.objects.filter(time__year=2022)
-    context = {'works': works}
+    user_image_list2 = []
+    for work in works:
+        user = User.objects.get(username=work.user)
+        image = Profile.objects.get(user=user)
+        user_image_list2.append(image)
+    context = {'works': works,
+               'user_image': user_image_list2,
+               'users': users,
+               'social_user_img': user_image_list1}
     return render(request, 'favarche/index.html', context)
 
 

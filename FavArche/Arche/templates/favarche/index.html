@@ -2,6 +2,7 @@
 
 {% block content %}
 {% load static %}
+{% load multifor %}
 	
 	<div id="main-div">
 		<div id="page_main_div">
@@ -40,12 +41,13 @@
 					<h1>Il n'existe aucune oeuvre pour le moment</h1>
 				</div>
 				{% else %}
-					{% for work in works %}
+					{% for work in works; image in user_image %}
 							<div id="work_div_index">
-								<p>{{ work.user }}</p>
+								<img  id="user_img" src="{{image.image.url}}">
+								<p id="user_name">{{ work.user }}</p>
 								<p>{{ work.name }}</p>
 								<a href="{% url 'work_details' work.name %}">
-									<img src="/media/{{ work.image }}">
+									<img id="work_img" src="/media/{{ work.image }}">
 								</a>
 							</div>
 							{% ifequal forloop.counter|divisibleby:"1" True %}
@@ -54,8 +56,22 @@
 					{% endfor %}
 				{% endif %}
 			</div>
-			<div id="social_menu">ihsan</div>
+			<div id="social_menu">
+				{% for user_account in users; img in social_user_img %}
+					<div id="social_user_div">
+						{% if user_account.username != user.username %}
+							<p>
+								<img id="social_user_img" src="{{img.image.url}}">
+								{{ user_account.username }}
+							</p>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
 		</div>
 	</div>
 
+<script type="text/javascript">
+	console.log("{{profile.image.url}}")
+</script>
 {% endblock %}

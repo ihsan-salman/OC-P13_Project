@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'arche.apps.ArcheConfig',
     'registration.apps.RegistrationConfig',
     'work.apps.WorkConfig',
+    'social.apps.SocialConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

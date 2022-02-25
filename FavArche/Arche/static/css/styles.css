@@ -103,7 +103,7 @@
 		width: 50%;
 		margin-left: 1%;
 		border-radius: 3px 3px 3px 3px;
-		max-height: 700px;
+		max-height: 680px;
 		overflow: hidden;
 		overflow-y: auto;
 		margin-top: -15px;
@@ -111,19 +111,50 @@
 	#work_div_index{
 		background: white;
 		border-radius: 3px;
+		margin-bottom: -10px;
 	}
-	#work_div_index img{
+	#user_name{
+		padding-top: 25px;
+		margin-left: 10%;
+		font-weight: bolder;
+	}
+	#work_div_index p {
+		margin-left: 10%;
+		font-weight: bolder;
+	}
+	#user_img{
+		float: left;
+		padding-left: 40px;
+		padding-top: 20px;
+		height: 30px;
+		width: 30px;
+		border-radius: 3px
+	}
+	#work_img{
 		width: 80%;
 		border-radius: 6px;
-		padding-left: 10%;
+		margin-left: 10%;
 	}
 	#social_menu{
-    	top: 49px;
+    	margin-top: 1px;
+    	padding-top: 5px;
 		margin-left: 75%;
 		width: 25%;
 		background-color: white;
 		border-radius: 3px 3px 3px 3px;
 
+	}
+	#social_user_img{
+		height: 30px;
+		width: 30px;
+		border-radius: 3px;
+	}
+	#social_user_div{
+
+	}
+	#social_user_div p{
+		margin-bottom: -5px;
+		margin-left: 30%;
 	}
 	#page_white_div{
 		background-color: white;
