@@ -11,5 +11,5 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-   path('/', )
+   path('compte/<str:username>', views.account, name='other_accounts'),
 ]

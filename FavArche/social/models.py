@@ -1,3 +1,11 @@
-from django.db import models
+'''!/usr/bin/python3
+   -*- coding: Utf-8 -'''
 
-# Create your models here.
+
+from django.db import models
+from django.utils.timezone import now
+from django.contrib.auth.models import User
+
+
+class Comment(models.Model):
+	''' User comment model '''

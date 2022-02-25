@@ -1,0 +1,34 @@
+{% extends 'favarche/base.html' %}
+
+{% block content %}
+{% load static %}
+	
+	<div id="main-div">
+		<div id="page_main_div">
+			<div id="page_white_div">
+				<h3 id="h3_title">Données</h3>
+				<div>
+					<img src="{{ user_image.image.url }}" height="240" width="240">
+				</div>
+				<div id="inline_block">
+					<div id="user_label_info_name">
+						<p>Nom d'utilisateur :</p>
+						<p>Email :</p>
+						<p>Prénom :</p>
+						<p>Nom de famille :</p>
+					</div>
+					<div id="user_data_info">
+						<p id="username">{{ user_account.username }}</p>
+						<p id="email">{{ user_account.email }}</p>
+						<p id="first_name">{{ user_account.first_name }}</p>
+						<p id="last_name">{{ user_account.last_name }}</p>
+					</div>
+				</div>
+				{% if user.is_superuser  %}
+					<h5>Administrateur</h5>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

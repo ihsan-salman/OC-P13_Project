@@ -43,8 +43,10 @@
 				{% else %}
 					{% for work in works; image in user_image %}
 							<div id="work_div_index">
-								<img  id="user_img" src="{{image.image.url}}">
-								<p id="user_name">{{ work.user }}</p>
+								<a href="{% url 'other_accounts' work.user.username %}" id="link_color">
+									<img  id="user_img" src="{{image.image.url}}">
+									<p id="user_name">{{ work.user }}</p>
+								</a>
 								<p>{{ work.name }}</p>
 								<a href="{% url 'work_details' work.name %}">
 									<img id="work_img" src="/media/{{ work.image }}">

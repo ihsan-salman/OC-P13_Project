@@ -33,6 +33,8 @@ urlpatterns = [
 
     path('Oeuvre/', include('work.urls')),
 
+    path('Communaute/', include('social.urls')),
+
     url(r'^mon_compte/', views.personal_account, name='my_account'),
     url(r'^changer_mes_donnees/',
         views.edit_account,
