@@ -12,6 +12,8 @@ from django.core.mail import send_mail, BadHeaderError
 from .forms import EditProfileForm
 from work.models import Works, Category
 from arche.models import Profile
+from social.models import Comment
+from social.forms import CommentForm
 
 from validate_email import validate_email
 
@@ -27,14 +29,32 @@ def index(request):
             user_image_list1.append(image)
     works = Works.objects.filter(time__year=2022)
     user_image_list2 = []
+    comment_list = []
     for work in works:
         user = User.objects.get(username=work.user)
         image = Profile.objects.get(user=user)
+        comment = Comment.objects.filter(work=work.id)
         user_image_list2.append(image)
+        comment_list.append(comment)
+    if request.is_ajax():
+        return HttpResponse("OK")
+    if request.method == 'POST':
+        user_work = Works.objects.get(id=request.POST.get("work_id"))
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated:
+                form.instance.user = request.user
+                form.instance.work = user_work
+                form.save()
+                
+    else:
+        form = CommentForm()
     context = {'works': works,
                'user_image': user_image_list2,
                'users': users,
-               'social_user_img': user_image_list1}
+               'social_user_img': user_image_list1,
+               'form': form,
+               'comment_list': comment_list}
     return render(request, 'favarche/index.html', context)
 
 

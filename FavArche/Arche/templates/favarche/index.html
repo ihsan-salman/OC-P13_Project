@@ -41,7 +41,7 @@
 					<h1>Il n'existe aucune oeuvre pour le moment</h1>
 				</div>
 				{% else %}
-					{% for work in works; image in user_image %}
+					{% for work in works; image in user_image; comments in comment_list %}
 							<div id="work_div_index">
 								<a href="{% url 'other_accounts' work.user.username %}" id="link_color">
 									<img  id="user_img" src="{{image.image.url}}">
@@ -51,6 +51,19 @@
 								<a href="{% url 'work_details' work.name %}">
 									<img id="work_img" src="/media/{{ work.image }}">
 								</a>
+								<div>
+									{% for comment in comments %}
+										<p>{{ comment.content }}</p>
+									{% endfor %}
+								</div>
+								<div id="comment_form">
+									<form method="post">
+										{% csrf_token %}
+										{{ form.as_p }}
+										<input type="hidden" name="work_id" value="{{work.id}}">
+										<button type="submit" id="btn_comment">Commenter</button>
+									</form>
+								</div>
 							</div>
 							{% ifequal forloop.counter|divisibleby:"1" True %}
 								<br>
@@ -73,7 +86,4 @@
 		</div>
 	</div>
 
-<script type="text/javascript">
-	console.log("{{profile.image.url}}")
-</script>
 {% endblock %}
