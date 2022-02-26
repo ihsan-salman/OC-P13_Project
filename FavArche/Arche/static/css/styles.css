@@ -135,6 +135,15 @@
 		border-radius: 6px;
 		margin-left: 10%;
 	}
+	#btn_comment{
+		margin-left: 40%;
+		margin-bottom: 5px;
+	}
+	#btn_comment:hover{
+		background-color: #006eff;
+		transform: translateY(-1px)
+	}
+
 	#social_menu{
     	margin-top: 1px;
     	padding-top: 5px;

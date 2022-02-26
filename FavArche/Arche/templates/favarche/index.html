@@ -57,18 +57,14 @@
 									{% endfor %}
 								</div>
 								<div id="comment_form">
-									<form method="post">
-										{% csrf_token %}
-										{{ form.as_p }}
-										<input type="hidden" name="work_id" value="{{work.id}}">
-										<button type="submit" id="btn_comment">Commenter</button>
-									</form>
+									<textarea placeholder="Commentez-ici" id="comment{{work.id}}"></textarea>
+									<button id="btn_comment{{work.id}}" type="submit" onclick="send_comment_data({{work.id}})">Commenter</button>
 								</div>
 							</div>
 							{% ifequal forloop.counter|divisibleby:"1" True %}
 								<br>
 							{% endifequal %}
-					{% endfor %}
+						{% endfor %}
 				{% endif %}
 			</div>
 			<div id="social_menu">
@@ -85,5 +81,50 @@
 			</div>
 		</div>
 	</div>
+
+<script type="text/javascript">
+
+	function getCookie(name) {
+	    let cookieValue = null;
+	    if (document.cookie && document.cookie !== '') {
+	        const cookies = document.cookie.split(';');
+	        for (let i = 0; i < cookies.length; i++) {
+	            const cookie = cookies[i].trim();
+	            // Does this cookie string begin with the name we want?
+	            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+	                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+	                break;
+	            }
+	        }
+	    }
+	    return cookieValue;
+	}
+
+	function send_comment_data(work_id){
+
+			var comment = document.getElementById("comment" + work_id);
+			
+            var fav_data = {
+                "work_id": work_id,
+                "comment": comment.value
+            };
+
+             $.ajax({
+                url: "{% url 'home' %}",
+                type: "POST",
+                data: fav_data,
+                headers: {'X-CSRFToken': getCookie('csrftoken')},
+                success: function(data){
+                    if (data == "OK"){
+                    	document. location.reload();
+                    } else{
+                        console.log("siniem");
+                    }}
+                
+            })
+
+        }
+
+</script>
 
 {% endblock %}
