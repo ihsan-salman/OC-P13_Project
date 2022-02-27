@@ -1,4 +1,4 @@
-{% extends 'favarche/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 {% load static %}
@@ -51,15 +51,36 @@
 								<a href="{% url 'work_details' work.name %}">
 									<img id="work_img" src="/media/{{ work.image }}">
 								</a>
+								{% if request.user not in work.liked.all %}
+									<button onclick="send_like({{work.id}})"><i class="fa fa-thumbs-up fa-2x"></i></button>
+								{% else %}
+									<button onclick="send_like({{work.id}})"><i class="fa fa-thumbs-down fa-2x"></i></button>
+								{% endif %}
+								<p id="like_number">{{work.liked.all.count}} like</p>
 								<div>
 									{% for comment in comments %}
-										<p>{{ comment.content }}</p>
+										<div class="display_inline">
+											<p id="comment_user">{{ comment.user }}</p>
+											<p id="comment_date">{{ comment.date }}</p>
+											<br>
+										</div>
+										<div id="comment_div">
+											<p id="comment_content">{{ comment.content }}<p>
+											{% if comment.user == request.user%}
+											<button id="dlt_btn{{comment.id}}" onclick="send_comment_id({{comment.id}})"><i class="fa fa-trash fa-2x"></i></button>
+											{% endif %}
+											<br>
+										</div>
 									{% endfor %}
 								</div>
-								<div id="comment_form">
-									<textarea placeholder="Commentez-ici" id="comment{{work.id}}"></textarea>
-									<button id="btn_comment{{work.id}}" type="submit" onclick="send_comment_data({{work.id}})">Commenter</button>
-								</div>
+								{% if request.user.is_authenticated%}
+									<div id="comment_form">
+										<textarea placeholder="Commentez-ici" id="comment{{work.id}}" class="comment_textarea"></textarea>
+										<button id="btn_comment{{work.id}}" type="submit" class="button-28" onclick="send_comment_data({{work.id}})">Validez</button>
+									</div>
+								{% else %}
+									<p class="align_center">Vous devez vous connecter pour écrire un commentaire</p>
+								{% endif %}
 							</div>
 							{% ifequal forloop.counter|divisibleby:"1" True %}
 								<br>
@@ -72,8 +93,10 @@
 					<div id="social_user_div">
 						{% if user_account.username != user.username %}
 							<p>
-								<img id="social_user_img" src="{{img.image.url}}">
-								{{ user_account.username }}
+								<a href="{% url 'other_accounts' user_account.username %}" id="link_color">
+									<img id="social_user_img" src="{{img.image.url}}">
+									{{ user_account.username }}
+								</a>
 							</p>
 						{% endif %}
 					</div>
@@ -104,7 +127,7 @@
 
 			var comment = document.getElementById("comment" + work_id);
 			
-            var fav_data = {
+            var work_data = {
                 "work_id": work_id,
                 "comment": comment.value
             };
@@ -112,13 +135,58 @@
              $.ajax({
                 url: "{% url 'home' %}",
                 type: "POST",
-                data: fav_data,
+                data: work_data,
+                headers: {'X-CSRFToken': getCookie('csrftoken')},
+                success: function(data){
+                    if (data == "OK"){
+                    	document. location.reload();
+                    	document.getElementById("comment" + work_id).value = "";
+                    } else{
+                        console.log("");
+                    }}
+                
+            })
+
+        }
+
+    function send_comment_id(comment_id){
+			
+            var comment_data = {
+                "comment_id": comment_id,
+            };
+
+             $.ajax({
+                url: "{% url 'delete_comment' %}",
+                type: "POST",
+                data: comment_data,
                 headers: {'X-CSRFToken': getCookie('csrftoken')},
                 success: function(data){
                     if (data == "OK"){
                     	document. location.reload();
                     } else{
-                        console.log("siniem");
+                        console.log("");
+                    }}
+                
+            })
+
+        }
+
+    function send_like(work_id){
+			
+            var data = {
+                "work_id": work_id,
+            };
+
+             $.ajax({
+                url: "{% url 'Like' %}",
+                type: "POST",
+                data: data,
+                headers: {'X-CSRFToken': getCookie('csrftoken')},
+                success: function(data){
+                    if (data == "OK"){
+                    	document. location.reload();
+                    } else{
+                        console.log("");
                     }}
                 
             })

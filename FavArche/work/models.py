@@ -31,9 +31,15 @@ class Works(models.Model):
     time = models.DateTimeField(default=now, editable=False)
     description = models.CharField(max_length=500, default='Description', null=True)
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    liked = models.ManyToManyField(User, default=None, blank=True, related_name='work_post')
 
     def __str__(self):
         return str(self.name)
+
+    @property
+    def num_likes(self):
+        '''  '''
+        return self.liked.all().count()
 
 
 class Favorite(models.Model):

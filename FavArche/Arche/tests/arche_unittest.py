@@ -8,18 +8,36 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 
 from arche.forms import EditProfileForm
+from arche.models import Profile
+from work.models import Works, Category
 
 """ Django Unittest including medthods, views and database """
 """ Using Testcase library from Django Test """
 
 class IndexPageTestCase(TestCase):
     ''' Index page test class '''
+    def setUp(self):
+        ''' init all variables to cover view method statements '''
+        self.credentials = {
+            'username': 'testuser',
+            'password': 'secret'}
+        self.user = User.objects.create_user(**self.credentials)
+        self.category = Category.objects.create(name='test')
+        self.test_work = Works.objects.create()
+
     def test_index_page_returns_200(self):
         ''' Test if the Http request returns 200 code statue 
             and the template used '''
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'favarche/index.html')
+
+    def test_work_data_post(self):
+        ''' test if the post method returns 200 '''
+        response = self.client.post(reverse('home'), 
+                                    data={'work_id': '1',
+                                          'comment': 'blabla'})
+        self.assertEqual(response.status_code, 200)
 
 
 class ContactPageTestCase(TestCase):
@@ -94,7 +112,8 @@ class AccountPageTestCase(TestCase):
         self.credentials = {
             'username': 'testuser',
             'password': 'secret'}
-        User.objects.create_user(**self.credentials)
+        self.user = User.objects.create_user(**self.credentials)
+        Profile.objects.create(user=self.user)
 
     def test_login(self):
         '''Test if the Http request returns 200 when the user is logged'''

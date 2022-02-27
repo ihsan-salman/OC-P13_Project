@@ -40,13 +40,15 @@ def index(request):
         work_id = request.POST.get('work_id')
         comment = request.POST.get('comment')
         user_work = Works.objects.get(id=work_id)
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            user = "anonymous"
         if comment != '':
             user_comment = Comment.objects.create(
                 content=comment,
-                user=request.user,
+                user=user,
                 work=user_work)
-        if request.user.is_authenticated:
-            print(Comment.objects.all())
     if request.is_ajax():
         return HttpResponse("OK")
     context = {'works': works,
@@ -102,7 +104,6 @@ def personal_account(request):
     ''' return the template of user's personal informations '''
     user = User.objects.get(username=request.user.username)
     user_profile_img = Profile.objects.get(user=user)
-    print(user_profile_img.image.url)
     context = {'img': user_profile_img}
     return render(request, 'favarche/account/my_account.html', context)
 

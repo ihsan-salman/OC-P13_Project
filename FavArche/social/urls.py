@@ -12,4 +12,6 @@ from . import views
 
 urlpatterns = [
    path('compte/<str:username>', views.account, name='other_accounts'),
+   path('', views.delete_comment, name='delete_comment'),
+   path('like/', views.like, name='Like'),
 ]

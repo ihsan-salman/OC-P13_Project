@@ -18,3 +18,20 @@ class Comment(models.Model):
 
 	def __str__(self):
 		return self.user.username
+
+
+LIKE_CHOICES = (
+    ('Like', 'Like'),
+    ('Unlike', 'Unlike'),
+)
+
+
+class Like(models.Model):
+    '''  '''
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    work = models.ForeignKey(Works, on_delete=models.CASCADE)
+    value = models.CharField(choices=LIKE_CHOICES, default='Like', max_length=10)
+
+    def __str__(self):
+        '''  '''
+        return str(self.work)
