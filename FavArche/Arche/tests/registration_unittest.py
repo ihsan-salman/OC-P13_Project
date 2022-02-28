@@ -6,11 +6,15 @@ from unittest import mock
 
 from django.urls import reverse
 from django.test import TestCase
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 
+from urllib.parse import urlencode
+
 from registration import views
+from registration.forms import CustomAuthenticationForm, RegisterForm
 
 
 """ Django Unittest including medthods, views and database """
@@ -29,14 +33,15 @@ class LoginPageTestCase(TestCase):
         self.credentials = {
             'username': 'testuser',
             'password': 'secret'}
-        User.objects.create_user(**self.credentials)
+        self.user = User.objects.create_user(**self.credentials)
 
     def test_login(self):
         '''Test if the user is logged after the login step'''
         # send login data
-        response = self.client.post(reverse('login'),
-                                    self.credentials,
-                                    follow=True)
+        response = self.client.post(
+            reverse('login'),
+                    self.credentials,
+                    follow=True)
         # should be logged in now
         self.assertTrue(response.context['user'].is_authenticated)
 
@@ -52,8 +57,24 @@ class CreateAccountPageTestCase(TestCase):
     def test_create_account_ok(self):
         ''' Test of acccount creation '''
         response = self.client.post(reverse('create_account'), data={
-            'email': 'i@i.com', 'username': 'iiii', 'password1': 'azeqsd00'})
+            'email': 'i@i.com',
+            'username': 'iiii',
+            'first_name': 'aaaa',
+            'last_name': 'oooo',
+            'password1': 'azeqsd00'})
         self.assertEqual(response.status_code, 200)
+
+    def test_form_validation(self):
+        ''''''
+        password = make_password("azeqsd00")
+        data={
+            'email': 'i@i.com',
+            'username': 'iiii',
+            'first_name': 'aaaa',
+            'last_name': 'oooo',
+            'password1': password}
+        form = RegisterForm(data=data)
+        self.assertTrue(form.is_valid())
 
 
 class ChangePasswordPageTestCase(TestCase):

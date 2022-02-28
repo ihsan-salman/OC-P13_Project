@@ -6,6 +6,7 @@ import os
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
 
@@ -42,8 +43,13 @@ def index(request):
         user_work = Works.objects.get(id=work_id)
         if request.user.is_authenticated:
             user = User.objects.get(username=request.user.username)
-        else:
-            user = "anonymous"
+        elif not User.objects.filter(username='anonymous').exists():
+            user = User.objects.create(
+                username='anonymous',
+                email='ano@nymous.com',
+                first_name='ano',
+                last_name='nymous',
+                password=make_password(os.environ['ANONYMOUS_PASSWORD']))
         if comment != '':
             user_comment = Comment.objects.create(
                 content=comment,

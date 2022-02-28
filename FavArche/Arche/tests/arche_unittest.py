@@ -11,6 +11,8 @@ from arche.forms import EditProfileForm
 from arche.models import Profile
 from work.models import Works, Category
 
+from urllib.parse import urlencode
+
 """ Django Unittest including medthods, views and database """
 """ Using Testcase library from Django Test """
 
@@ -38,10 +40,18 @@ class IndexPageTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'favarche/index.html')
 
-    def test_work_data_post(self):
-        ''' test if the post method returns 200 '''
+    def test_work_data_post_with_login(self):
+        ''' test if the post method returns 200 with user logged in'''
+        self.client.post(reverse('login'), self.credentials, follow=True)
         response = self.client.post(reverse('home'), 
-                                    data={'work_id': '2',
+                                    data={'work_id': self.test_work.id,
+                                          'comment': 'blabla'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_work_data_post(self):
+        ''' test if the post method returns 200 with user isn' connected'''
+        response = self.client.post(reverse('home'), 
+                                    data={'work_id': self.test_work.id,
                                           'comment': 'blabla'})
         self.assertEqual(response.status_code, 200)
 
@@ -142,16 +152,19 @@ class EditProfilePageTestCase(TestCase):
     def test_login(self):
         '''Test if the Http request returns 200 when the user is logged'''
         # send login data
-        self.client.post(reverse('login'), self.credentials, follow=True)
+        self.client.post(reverse('login'),
+                         self.credentials,
+                         follow=True)
         response = self.client.get(reverse('edit_account'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'favarche/account/edit_account.html')
 
     def test_form_validation(self):
         ''' test if the edit profile form is valid '''
-        form_data = {'username': 'test_user',
+        self.form_data = {'username': 'test_user',
                      'email': 'i@i.com',
                      'first_name': 'test',
                      'last_name': 'user'}
-        form = EditProfileForm(data=form_data)
+        form = EditProfileForm(data=self.form_data)
         self.assertTrue(form.is_valid())
+
