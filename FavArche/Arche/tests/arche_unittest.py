@@ -22,8 +22,14 @@ class IndexPageTestCase(TestCase):
             'username': 'testuser',
             'password': 'secret'}
         self.user = User.objects.create_user(**self.credentials)
+        Profile.objects.create(user=self.user)
         self.category = Category.objects.create(name='test')
-        self.test_work = Works.objects.create()
+        self.test_work = Works.objects.create(
+            name='test_work',
+            user=self.user,
+            image='test.jpg',
+            description='test description',
+            category=self.category)
 
     def test_index_page_returns_200(self):
         ''' Test if the Http request returns 200 code statue 
@@ -35,7 +41,7 @@ class IndexPageTestCase(TestCase):
     def test_work_data_post(self):
         ''' test if the post method returns 200 '''
         response = self.client.post(reverse('home'), 
-                                    data={'work_id': '1',
+                                    data={'work_id': '2',
                                           'comment': 'blabla'})
         self.assertEqual(response.status_code, 200)
 

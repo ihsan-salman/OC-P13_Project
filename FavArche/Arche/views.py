@@ -41,7 +41,7 @@ def index(request):
         comment = request.POST.get('comment')
         user_work = Works.objects.get(id=work_id)
         if request.user.is_authenticated:
-            user = request.user
+            user = User.objects.get(username=request.user.username)
         else:
             user = "anonymous"
         if comment != '':
