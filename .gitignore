@@ -1,4 +1,4 @@
 /env
 script.bat
 /FavArche/htmlcov
-/FavArche/migration_script.bat
+migration_script.bat
