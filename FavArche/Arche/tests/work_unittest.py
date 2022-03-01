@@ -12,6 +12,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.files.uploadedfile import SimpleUploadedFile
 
+from unittest import mock
+
 from arche.models import Profile
 from work.models import Works, Category
 from work.forms import CategoryForm, EditCategoryForm, ImageForm
@@ -95,10 +97,21 @@ class AddWorkPageTestCase(TestCase):
             'username': 'testuser',
             'password': 'secret'}
         self.user = User.objects.create_user(**self.credentials)
-        self.category = Category.objects.create(name='test')
         self.client.post(reverse('login'), self.credentials, follow=True)
 
     def test_work_add_returns_200_with_category(self):
+        ''' test if adding work returns 200 '''
+        self.category = Category.objects.create(name='test')
+        self.data_form = {'image': 'image.jpg'}
+        form = ImageForm(data=self.data_form)
+        response = self.client.post(reverse('add_works'),
+                                    data={'form': form,
+                                          'work_name': 'test_work',
+                                          'category': 'test',
+                                          'description': ''})
+        self.assertEqual(response.status_code, 200)
+
+    def test_work_add_returns_200_without_category(self):
         ''' test if adding work returns 200 '''
         self.data_form = {'image': 'image.jpg'}
         form = ImageForm(data=self.data_form)
@@ -107,6 +120,7 @@ class AddWorkPageTestCase(TestCase):
                                           'work_name': 'test_work',
                                           'category': 'test',
                                           'description': ''})
+        self.assertEqual(response.status_code, 200)
 
 
 

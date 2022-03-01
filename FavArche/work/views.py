@@ -39,39 +39,6 @@ def personal_works(request):
 @login_required(login_url='/login/')
 def add_works(request):
     ''' return personal works page '''
-    if request.method == 'POST':
-        form = ImageForm(request.POST, request.FILES)
-        name = request.POST.get("work_name").title()
-        category = request.POST.get("category")
-        description = request.POST.get("description")
-        if description == "":
-            description = "à remplir"
-        category = Category.objects.filter(name=category)
-        category_id = category[0].id
-        work = Works.objects.filter(name=name,
-                                    category_id=category_id)
-        user_work = User.objects.get(username=request.user.username)
-        if form.is_valid():
-            image = form.instance.image
-            if not work.exists():
-                work = Works.objects.create(
-                    name=name,
-                    user=user_work,
-                    image=image,
-                    description=description,
-                    category_id=category_id
-                    )
-                return redirect('/Oeuvre/personnel/')
-            else :
-                form = ImageForm(request.POST, request.FILES)
-                context = {'form': form}
-                messages.error(request, """
-                Vous semblez avoir rentrée des données déjà comprise dans la base données.""")
-                return render(request,
-                              'works/add_works.html',
-                              context)
-    else:
-        form = ImageForm()
     if Category.objects.count() == 0:
         category_message = """<p>Il n'y a aucune catégorie disponible. 
                                  Il est donc impossible d'enregistrer 
@@ -84,6 +51,39 @@ def add_works(request):
         hidden = "hidden"
         context = {'div': category_message, 'hidden': hidden}
     else:
+        if request.method == 'POST':
+            form = ImageForm(request.POST, request.FILES)
+            name = request.POST.get("work_name").title()
+            category = request.POST.get("category")
+            description = request.POST.get("description")
+            if description == "":
+                description = "à remplir"
+            category = Category.objects.filter(name=category)
+            category_id = category[0].id
+            work = Works.objects.filter(name=name,
+                                        category_id=category_id)
+            user_work = User.objects.get(username=request.user.username)
+            if form.is_valid():
+                image = form.instance.image
+                if not work.exists():
+                    work = Works.objects.create(
+                        name=name,
+                        user=user_work,
+                        image=image,
+                        description=description,
+                        category_id=category_id
+                        )
+                    return redirect('/Oeuvre/personnel/')
+                else :
+                    form = ImageForm(request.POST, request.FILES)
+                    context = {'form': form}
+                    messages.error(request, """
+                    Vous semblez avoir rentrée des données déjà comprise dans la base données.""")
+                    return render(request,
+                                  'works/add_works.html',
+                                  context)
+        else:
+            form = ImageForm()
         categories = Category.objects.all()
         hidden = "hidden"
         context = {'form': form,
