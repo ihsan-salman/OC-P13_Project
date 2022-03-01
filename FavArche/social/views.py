@@ -33,7 +33,7 @@ def delete_comment(request):
 
 def like(request):
     '''  '''
-    user = request.user
+    user = User.objects.get(username=request.user.username)
     if request.method == 'POST':
         work_id = request.POST.get("work_id")
         work_obj = Works.objects.get(id=work_id)

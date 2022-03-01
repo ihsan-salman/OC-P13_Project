@@ -41,22 +41,23 @@ def add_works(request):
     ''' return personal works page '''
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES)
+        name = request.POST.get("work_name").title()
+        category = request.POST.get("category")
+        description = request.POST.get("description")
+        if description == "":
+            description = "à remplir"
+        category = Category.objects.filter(name=category)
+        category_id = category[0].id
+        work = Works.objects.filter(name=name,
+                                    category_id=category_id)
+        user_work = User.objects.get(username=request.user.username)
         if form.is_valid():
-            name = request.POST.get("work_name").title()
-            category = request.POST.get("category")
-            description = request.POST.get("description")
-            if description == "":
-                description = "à remplir"
-            category = Category.objects.filter(name=category)
-            category_id = category[0].id
-            work = Works.objects.filter(name=name,
-                                        category_id=category_id)
-            user_work = User.objects.get(username=request.user.username)
+            image = form.instance.image
             if not work.exists():
                 work = Works.objects.create(
                     name=name,
                     user=user_work,
-                    image=form.instance.image,
+                    image=image,
                     description=description,
                     category_id=category_id
                     )
@@ -137,7 +138,7 @@ def edit_works(request, work_name):
     if request.method == 'GET':
         editable_work = Works.objects.filter(name=work_name)
         context = {'work': editable_work[0], 'categories': categories}
-    if request.method == 'POST':
+    elif request.method == 'POST':
         editable_work = Works.objects.filter(name=work_name)
         editable_work = editable_work[0]
         name = request.POST.get("work_name").title()
