@@ -67,13 +67,13 @@ class CreateAccountPageTestCase(TestCase):
     def test_form_validation(self):
         ''''''
         password = make_password("azeqsd00")
-        data={
+        form = RegisterForm(data={
             'email': 'i@i.com',
-            'username': 'iiii',
-            'first_name': 'aaaa',
-            'last_name': 'oooo',
-            'password1': password}
-        form = RegisterForm(data=data)
+            'username': 'iiiidbuybeb',
+            'first_name': 'aaaedubefva',
+            'last_name': 'oooohsshhsh',
+            'password1': password,
+            'password2': password})
         self.assertTrue(form.is_valid())
 
 
