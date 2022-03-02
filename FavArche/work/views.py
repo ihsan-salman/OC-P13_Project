@@ -1,3 +1,5 @@
+'''!/usr/bin/python3
+   -*- coding: Utf-8 -'''
 
 
 import os
@@ -15,7 +17,7 @@ from django.core.mail import send_mail, BadHeaderError
 from .forms import ContactForm, ImageForm, CategoryForm, EditCategoryForm
 from .models import Works, Category
 
-import wikipediaapi
+from work.helper import wiki_page
 
 
 @login_required(login_url='/login/')
@@ -58,10 +60,9 @@ def add_works(request):
             description = request.POST.get("description")
             if description == "":
                 description = "à remplir"
-            category = Category.objects.filter(name=category)
-            category_id = category[0].id
+            category = Category.objects.get(name=category)
             work = Works.objects.filter(name=name,
-                                        category_id=category_id)
+                                        category_id=category.id)
             user_work = User.objects.get(username=request.user.username)
             if form.is_valid():
                 image = form.instance.image
@@ -71,7 +72,7 @@ def add_works(request):
                         user=user_work,
                         image=image,
                         description=description,
-                        category_id=category_id
+                        category_id=category.id
                         )
                     return redirect('/Oeuvre/personnel/')
                 else :
@@ -85,6 +86,7 @@ def add_works(request):
         else:
             form = ImageForm()
         categories = Category.objects.all()
+        print(categories)
         hidden = "hidden"
         context = {'form': form,
                    'class_hidden': hidden, 'categories': categories}
@@ -115,18 +117,13 @@ def work_details(request, work_name):
     ''' return detail page of each work '''
     if request.method == 'GET':
         work_detail = Works.objects.filter(name=work_name)
-        wikipedia_settings = wikipediaapi.Wikipedia('fr')
-        work_wiki_page = wikipedia_settings.page(work_detail[0].name)
-        if work_wiki_page.exists() == True:
-            wikipedia_url = work_wiki_page.fullurl
-            wikipedia_summary = work_wiki_page.summary[0:500]
+        wiki_result = wiki_page(work_name)
+        if len(wiki_result) == 2:
             context = {'works': work_detail,
-                       'wikipedia_url': wikipedia_url,
-                       'wikipedia_summary': wikipedia_summary}
+                       'wikipedia_url': wiki_result[0],
+                       'wikipedia_summary': wiki_result[1]}
         else:
-            messages.error(request, """
-                Le nom de votre oeuvre ne permet pas de trouver une url 
-                compatible avec les données de Wikipedia...""")
+            messages.error(request, wiki_result[0])
             context = {'works': work_detail}
     return render(request, 'works/work_details.html', context)
 
