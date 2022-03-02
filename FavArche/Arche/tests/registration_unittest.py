@@ -75,6 +75,8 @@ class CreateAccountPageTestCase(TestCase):
             'password1': password,
             'password2': password})
         self.assertTrue(form.is_valid())
+        response = self.client.post(reverse('create_account'),
+                                    data={'form': form})
 
 
 class ChangePasswordPageTestCase(TestCase):
@@ -82,24 +84,26 @@ class ChangePasswordPageTestCase(TestCase):
         '''Init all needed data to test the user's login'''
         self.credentials = {
             'username': 'testuser',
-            'password': 'secret'}
-        User.objects.create_user(**self.credentials)
+            'password': 'secret57'}
+        self.user = User.objects.create_user(**self.credentials)
+        self.client.post(reverse('login'), self.credentials, follow=True)
 
     ''' Change password test case '''
-    def test_password_change(self):
+    def test_password_change_return_200(self):
         ''' Test of the Http request returns 200 '''
-        self.client.post(reverse('login'),
-                                    self.credentials,
-                                    follow=True)
-        response = self.client.get(reverse('change_password'),)
+        response = self.client.get(reverse('change_password'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/change_password.html')
 
+    def test_password_change(self):
+        ''' Test of the Http request returns 200 '''
+        self.form_data = {'old_password': 'secret57',
+                          'new_password1': 'secret58',
+                          'new_password2': 'secret58'}
+        form = PasswordChangeForm(data=self.form_data, user=self.user)
         response = self.client.post(reverse('change_password'),
-                                     data={'old_password': 'test_user',
-                                           'new_password1': 'gfnfnffnfn',
-                                           'new_password2': 'gfnfnfn'})
-        self.assertEqual(response.status_code, 200)
+                                    data={'form': form})
+        self.assertTrue(form.is_valid())
 
 
 

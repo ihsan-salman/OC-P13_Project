@@ -86,7 +86,6 @@ def add_works(request):
         else:
             form = ImageForm()
         categories = Category.objects.all()
-        print(categories)
         hidden = "hidden"
         context = {'form': form,
                    'class_hidden': hidden, 'categories': categories}

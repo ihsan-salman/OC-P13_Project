@@ -159,22 +159,20 @@ class WorkDetailPageTestCase(TestCase):
             description='test description',
             category=self.category)
 
+    @patch('work.helper.wiki_page', ["""
+                    Le nom de votre oeuvre ne permet pas de trouver une url
+                    compatible avec les données de Wikipedia..."""])
     def test_page_returns_200_with_message(self, **kwargs):
         ''' test if the work detail page returns 200 Http code statue '''
-        with patch('work.helper.wiki_page') as mock_get:
-            mock_get.return_value = ["""
-                    Le nom de votre oeuvre ne permet pas de trouver une url
-                    compatible avec les données de Wikipedia..."""]
         response = self.client.get(reverse('work_details',
                                            kwargs={'work_name': 
                                                    self.test_work.name}))
         self.assertEqual(response.status_code, 200)
 
+    @patch('work.helper.wiki_page', ['https://fr.wikipedia.org/wiki/One_Piece',
+                                     ' One Piece '])
     def test_page_returns_200_without_message(self, **kwargs):
         ''' test if the work detail page returns 200 Http code statue '''
-        with patch('work.helper.wiki_page') as mock_get:
-            mock_get.return_value = ['https://fr.wikipedia.org/wiki/One_Piece',
-                                     ' One Piece ']
         response = self.client.get(reverse('work_details',
                                            kwargs={'work_name': 
                                                    self.test_work.name}))
