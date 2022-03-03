@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+    
+    <div id="main-div">
+        <div id="page_main_div">
+            <div id="page_white_div">
+                <h3 id="h3_title">Chat</h3>
+                <p>What chat room would you like to enter?<p>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="text" name="room_name">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

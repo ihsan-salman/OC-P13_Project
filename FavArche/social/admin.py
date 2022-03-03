@@ -7,13 +7,13 @@ from django.core.paginator import Paginator
 from django.core.cache import cache
 from django.db import models
 
-from .models import Comment, Like, PublicChatRoom, PublicRoomChatMessageManager, PublicRoomChatMessage
+from .models import Comment, Like, ChatRoom, RoomChatMessageManager, ChatMessage
 
 
 admin.site.register(Comment)
 admin.site.register(Like)
 
-class PublicChatRoomAdmin(admin.ModelAdmin):
+class ChatRoomAdmin(admin.ModelAdmin):
     '''  '''
     list_display = ['id', 'title']
     search_fields = ['id', 'title']
@@ -21,9 +21,9 @@ class PublicChatRoomAdmin(admin.ModelAdmin):
 
     class Meta:
         '''  '''
-        model = PublicChatRoom
+        model = ChatRoom
 
-admin.site.register(PublicChatRoom, PublicChatRoomAdmin)
+admin.site.register(ChatRoom, ChatRoomAdmin)
 
 
 class CachingPaginator(Paginator):
@@ -48,7 +48,7 @@ class CachingPaginator(Paginator):
     count = property(_get_count)
 
 
-class PublicRoomChatMessageAdmin(admin.ModelAdmin):
+class RoomChatMessageAdmin(admin.ModelAdmin):
     list_filter = ['room', 'user', 'timestamp']
     list_display = ['room', 'user', 'timestamp', 'content']
     search_fields = ['room__title', 'user__username', 'content']
@@ -59,8 +59,8 @@ class PublicRoomChatMessageAdmin(admin.ModelAdmin):
 
     class Meta:
         '''  '''
-        model = PublicRoomChatMessage
+        model = ChatMessage
 
 
-admin.site.register(PublicRoomChatMessage, PublicRoomChatMessageAdmin)
+admin.site.register(ChatMessage, RoomChatMessageAdmin)
 

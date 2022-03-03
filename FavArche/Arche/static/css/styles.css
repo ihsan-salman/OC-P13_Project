@@ -865,6 +865,27 @@
 	  line-height: 26px;
 	}
 
+    #display_message{
+        margin-left: auto;
+        width: 60%;
+        max-height: 500px;
+        margin-right: auto;
+        overflow: hidden;
+        overflow-y: scroll;
+        background: white;
+        border-radius: 5px;
+        scrollbar-width: none;
+    }
+    #display_message span{
+        font-size: 10px;
+    }
+    #message_div{
+        background: blue;
+        margin-left: 10px;
+        width: 40%;
+        border-radius: 10px;
+    }
+
 }
 
 @media screen and (max-width: 768px){

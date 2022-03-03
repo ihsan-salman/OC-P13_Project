@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+    
+    <div id="main-div">
+        <div id="page_main_div">
+            <h3 id="h3_title">ChatRoom</h3>
+            <div id="display_message">
+                <script>
+
+                var objDiv = document.getElementById("display_message");
+                objDiv.scrollTop = objDiv.scrollHeight;
+
+                $(document).ready(function(){
+
+                    setInterval(function(){
+
+                        $.ajax({
+                            type: 'GET',
+                            url : "{% url 'get_message' room.title %}",
+                            success: function(response){
+                                $("#display_message").empty();
+                                for (var key in response.messages)
+                                { 
+                                    var temp="<div id='message_div'><p>"
+                                             + response.messages[key].user + "</p><p>" + 
+                                             response.messages[key].content + 
+                                             "</p><span>"+ 
+                                             response.messages[key].timestamp + "</span></div>";
+                                    $("#display_message").append(temp);
+
+                                }
+                            },
+                            error: function(response){
+                                alert('An error occured')
+                            }
+                        });
+                    },2000);
+                })
+                </script>
+            </div>
+            <form id="post-form">
+                {% csrf_token %}
+                <input type="hidden" name="username" id="username" value="{{request.user.username}}"/>
+                <input type="hidden" name="room_id" id="room_id" value="{{room.id}}"/>
+                <input type="text" name="message" id="message" width="100px" />
+                <input type="submit" value="Send">
+            </form>
+            <script type="text/javascript">
+              $(document).on('submit','#post-form',function(e){
+                e.preventDefault();
+
+                $.ajax({
+                  type:'POST',
+                  url:"{% url 'send_message' %}",
+                  data:{
+                      username:$('#username').val(),
+                      room_id:$('#room_id').val(),
+                      message:$('#message').val(),
+                      csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                  },
+                  success: function(data){
+                     //alert(data)
+                  }
+                });
+                document.getElementById('message').value = ''
+              });
+            </script>
+        </div>
+    </div>
+
+{% endblock %}

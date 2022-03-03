@@ -3,15 +3,17 @@
 
 
 import os
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+import json
+from django.core import serializers
+from django.shortcuts import render, redirect, reverse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
 
 from arche.models import Profile
 from work.models import Works
-from .models import Comment, Like
+from .models import Comment, Like, ChatRoom, ChatMessage
 
 
 def account(request, username):
@@ -53,3 +55,40 @@ def like(request):
         like.save()
 
         return HttpResponse('OK')
+
+
+def chat(request, **kwargs):
+    ''' return the chat page '''
+    if request.method == 'POST':
+        room_name = request.POST.get('room_name')
+        if ChatRoom.objects.filter(title=room_name).exists():
+            return redirect(reverse('room', kwargs={'room_name': room_name}))
+        else:
+            new_room = ChatRoom.objects.create(title=room_name)
+            new_room.save()
+            return redirect(reverse('room', kwargs={'room_name': room_name}))
+        
+    return render(request, 'social/chat.html')
+
+
+def room(request, room_name):
+    room = ChatRoom.objects.get(title=room_name)
+    context = {'room': room}
+    return render(request, 'social/room.html', context)
+
+def send(request):
+    message = request.POST['message']
+    username = request.POST['username']
+    room_id = request.POST['room_id']
+    room = ChatRoom.objects.get(id=room_id)
+
+    new_message = ChatMessage.objects.create(content=message,
+                                             user=username,
+                                             room=room)
+    new_message.save()
+    return HttpResponse('Message sent successfully')
+
+def getMessages(request, room):
+    room = ChatRoom.objects.get(title=room)
+    messages = ChatMessage.objects.filter(room=room.id)
+    return JsonResponse({"messages": list(messages.values())})

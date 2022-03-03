@@ -39,11 +39,11 @@ class Like(models.Model):
         '''  '''
         return str(self.work)
 
-class PublicChatRoom(models.Model):
+class ChatRoom(models.Model):
     '''  '''
     title = models.CharField(max_length=255, unique=True, blank=False)
     users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
+        User,
         blank=True,
         help_text="user who are connected to the chat")
 
@@ -77,29 +77,28 @@ class PublicChatRoom(models.Model):
     def group_name(self):
         ''' return the channels group name that sockets should subscribe 
             to and ge sent messages as they are generated '''
-        return f"PublicChatRoom-{self.id}"
+        return f"ChatRoom-{self.id}"
 
 
-class PublicRoomChatMessageManager(models.Manager):
+class RoomChatMessageManager(models.Manager):
     '''  '''
     def by_room(self, room):
         '''  '''
-        qs = PublicRoomChatMessage.objects.filter(
+        qs = ChatMessage.objects.filter(
             room=room).order_by('-timestamp')
         return qs
 
 
-class PublicRoomChatMessage(models.Model):
+class ChatMessage(models.Model):
     ''' public room chat model '''
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
-    room = models.ForeignKey(PublicChatRoom,
+    user = models.TextField(unique=False, blank=False)
+    room = models.ForeignKey(ChatRoom,
                              on_delete=models.CASCADE)
 
     timestamp = models.DateTimeField(auto_now_add=True)
     content = models.TextField(unique=False, blank=False)
 
-    objects = PublicRoomChatMessageManager()
+    objects = RoomChatMessageManager()
 
     def __str__(self):
         '''  '''
