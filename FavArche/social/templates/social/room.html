@@ -24,10 +24,10 @@
                                 for (var key in response.messages)
                                 { 
                                     var temp="<div id='message_div'><p>"
-                                             + response.messages[key].user + "</p><p>" + 
+                                             + response.messages[key].user + "<span>" +
+                                             response.messages[key].timestamp + "</span></p><p id='message_content'>" + 
                                              response.messages[key].content + 
-                                             "</p><span>"+ 
-                                             response.messages[key].timestamp + "</span></div>";
+                                             "</p></div>";
                                     $("#display_message").append(temp);
 
                                 }
