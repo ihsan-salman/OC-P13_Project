@@ -31,3 +31,19 @@ finally, use the requirement document by entering the following command in the t
 pip install -r requirements.txt      # for unix
 pip install -r requirements.txt       # for windows/mac
 ```
+
+# How to use the program
+
+To start the program, go to this website:
+```bash
+
+```
+
+Or you can launch the website with Django command:
+```bash
+cd FavArche        # place in the good file
+
+manage.py runserver          # launch the local server
+
+http://127.0.0.1:8000/       # local url
+```
