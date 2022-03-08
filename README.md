@@ -36,7 +36,7 @@ pip install -r requirements.txt       # for windows/mac
 
 To start the program, go to this website:
 ```bash
-
+complete_here_plz
 ```
 
 Or you can launch the website with Django command:
