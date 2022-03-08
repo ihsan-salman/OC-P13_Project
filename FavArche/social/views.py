@@ -73,7 +73,9 @@ def chat(request, **kwargs):
 
 def room(request, room_name):
     room = ChatRoom.objects.get(title=room_name)
-    context = {'room': room}
+    message_count = ChatMessage.objects.count()
+    context = {'room': room,
+               'message_number': message_count}
     return render(request, 'social/room.html', context)
 
 def send(request):
@@ -81,14 +83,14 @@ def send(request):
     username = request.POST['username']
     room_id = request.POST['room_id']
     room = ChatRoom.objects.get(id=room_id)
-
-    new_message = ChatMessage.objects.create(content=message,
-                                             user=username,
-                                             room=room)
-    new_message.save()
-    return HttpResponse('Message sent successfully')
+    if message != '':
+        new_message = ChatMessage.objects.create(content=message,
+                                                 user=username,
+                                                 room=room)
+        new_message.save()
+        return HttpResponse('Message sent successfully')
 
 def getMessages(request, room):
     room = ChatRoom.objects.get(title=room)
-    messages = ChatMessage.objects.filter(room=room.id)
+    messages = ChatMessage.objects.filter(room=room.id).order_by('timestamp')
     return JsonResponse({"messages": list(messages.values())})

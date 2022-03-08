@@ -6,11 +6,11 @@
     <div id="main-div">
         <div id="page_main_div">
             <h3 id="h3_title">ChatRoom</h3>
+            {% if message_number == 0 %}
+            <h4 class="align_center" id="no_message">Aucun message n'a été envoyé pour le moment</h4>
+            {% endif %}
             <div id="display_message">
                 <script>
-
-                var objDiv = document.getElementById("display_message");
-                objDiv.scrollTop = objDiv.scrollHeight;
 
                 $(document).ready(function(){
 
@@ -22,12 +22,20 @@
                             success: function(response){
                                 $("#display_message").empty();
                                 for (var key in response.messages)
-                                { 
-                                    var temp="<div id='message_div'><p>"
+                                {
+                                    if (response.messages[key].user == '{{request.user}}'){
+                                        var temp = "<div id='to_left'><p>"
                                              + response.messages[key].user + "<span>" +
                                              response.messages[key].timestamp + "</span></p><p id='message_content'>" + 
                                              response.messages[key].content + 
                                              "</p></div>";
+                                    } else {
+                                        var temp = "<div id='message_div'><p>"
+                                             + response.messages[key].user + "<span>" +
+                                             response.messages[key].timestamp + "</span></p><p id='message_content'>" + 
+                                             response.messages[key].content + 
+                                             "</p></div>";
+                                    };
                                     $("#display_message").append(temp);
 
                                 }
@@ -36,7 +44,7 @@
                                 alert('An error occured')
                             }
                         });
-                    },2000);
+                    },1000);
                 })
                 </script>
             </div>
@@ -44,28 +52,30 @@
                 {% csrf_token %}
                 <input type="hidden" name="username" id="username" value="{{request.user.username}}"/>
                 <input type="hidden" name="room_id" id="room_id" value="{{room.id}}"/>
-                <input type="text" name="message" id="message" width="100px" />
+                <textarea type="text" name="message" id="message" class="comment_textarea" placeholder="Entrez votre message"/></textarea>
                 <input type="submit" value="Send">
             </form>
             <script type="text/javascript">
-              $(document).on('submit','#post-form',function(e){
+            $(document).on('submit','#post-form',function(e){
                 e.preventDefault();
 
                 $.ajax({
-                  type:'POST',
-                  url:"{% url 'send_message' %}",
-                  data:{
-                      username:$('#username').val(),
-                      room_id:$('#room_id').val(),
-                      message:$('#message').val(),
-                      csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-                  },
-                  success: function(data){
-                     //alert(data)
-                  }
+                    type:'POST',
+                    url:"{% url 'send_message' %}",
+                    data: {
+                        username:$('#username').val(),
+                        room_id:$('#room_id').val(),
+                        message:$('#message').val(),
+                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                    },
+                    success: function(data){
+                        var objDiv = document.getElementById("display_message");
+                        objDiv.scrollTop = objDiv.scrollHeight;
+                        document.getElementById('message').value = '';
+                        $('#no_message').remove();
+                    }
                 });
-                document.getElementById('message').value = ''
-              });
+            });
             </script>
         </div>
     </div>

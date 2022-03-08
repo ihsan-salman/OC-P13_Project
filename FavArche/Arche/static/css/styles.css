@@ -878,10 +878,11 @@
     }
     #display_message span{
         font-size: 10px;
+        margin-left: 5%;
     }
     #message_div{
         margin-left: 10px;
-        width: 50%;
+        width: 40%;
     }
     #message_content{
         padding-left: 5px;
@@ -890,6 +891,21 @@
         background: #4FCBFF;
         border-radius: 8px;
         font-size: 12px;
+    }
+    #message{
+        width: 55%;
+    }
+    #to_left{
+        margin-left: 60%;
+    }
+    .no_style{
+        list-style-type: none;
+    }
+    .no_style a {
+        text-decoration: underline 2px;
+        text-decoration-color: #4FCBFF;
+        font-weight: 1000;
+        color: black;
     }
 
 }
