@@ -18,7 +18,8 @@
 	}
 	.hidden{
 		visibility: hidden;
-		height:0px
+        display: none;
+        width: 0px;
 	}
 	#menu_bar{
 		height: 40px;
@@ -906,6 +907,9 @@
         text-decoration-color: #4FCBFF;
         font-weight: 1000;
         color: black;
+    }
+    .no_style hr{
+        margin-right: 5%;
     }
 
 }

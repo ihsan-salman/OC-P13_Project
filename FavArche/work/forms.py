@@ -37,3 +37,9 @@ class EditCategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['description']
+
+class WorksDescriptionForm(forms.ModelForm):
+    ''' Works description form with cdkeditor text field '''
+    class Meta:
+        model = Works
+        fields = ['description']

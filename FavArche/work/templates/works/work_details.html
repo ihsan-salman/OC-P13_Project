@@ -29,7 +29,7 @@
 						<br>
 					{% endif %}
 
-					{% if user.username == work.username %}
+					{% if user.id == work.user_id %}
 						<a href="{% url 'edit_work' work.name %}">
 							<button class="button-28 tooltip-bottom" id="edit_link_btn" data-tooltip="Editez votre Oeuvre" role="button">
 							<i class="fas fa-highlighter fa-2x"></i>

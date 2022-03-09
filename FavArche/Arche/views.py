@@ -110,6 +110,9 @@ def personal_account(request):
     ''' return the template of user's personal informations '''
     user = User.objects.get(username=request.user.username)
     user_profile_img = Profile.objects.get(user=user)
+    if request.method == 'POST':
+        user_profile_img.image = request.FILES['user_img']
+        user_profile_img.save()
     context = {'img': user_profile_img}
     return render(request, 'favarche/account/my_account.html', context)
 

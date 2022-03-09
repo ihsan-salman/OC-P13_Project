@@ -15,6 +15,7 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.core.mail import send_mail, BadHeaderError
 
 from .forms import ContactForm, ImageForm, CategoryForm, EditCategoryForm
+from .forms import WorksDescriptionForm
 from .models import Works, Category
 
 from work.helper import wiki_page
@@ -54,41 +55,45 @@ def add_works(request):
         context = {'div': category_message, 'hidden': hidden}
     else:
         if request.method == 'POST':
-            form = ImageForm(request.POST, request.FILES)
+            form_image = ImageForm(request.POST, request.FILES)
+            form_description = WorksDescriptionForm(request.POST)
             name = request.POST.get("work_name").title()
             category = request.POST.get("category")
             description = request.POST.get("description")
-            if description == "":
-                description = "à remplir"
             category = Category.objects.get(name=category)
             work = Works.objects.filter(name=name,
                                         category_id=category.id)
             user_work = User.objects.get(username=request.user.username)
             if form.is_valid():
-                image = form.instance.image
                 if not work.exists():
                     work = Works.objects.create(
                         name=name,
                         user=user_work,
-                        image=image,
-                        description=description,
+                        image=form_image.instance.image,
+                        description=form_description.instance.description,
                         category_id=category.id
                         )
                     return redirect('/Oeuvre/personnel/')
                 else :
-                    form = ImageForm(request.POST, request.FILES)
-                    context = {'form': form}
+                    form_image = ImageForm(request.POST, request.FILES)
+                    form_description = WorksDescriptionForm(request.POST)
+                    context = {'form_image': form_image,
+                               'form_description': form_description}
                     messages.error(request, """
-                    Vous semblez avoir rentrée des données déjà comprise dans la base données.""")
+                    Vous semblez avoir rentrée des données 
+                    déjà comprise dans la base données.""")
                     return render(request,
                                   'works/add_works.html',
                                   context)
         else:
-            form = ImageForm()
+            form_image = ImageForm()
+            form_description = WorksDescriptionForm()
         categories = Category.objects.all()
         hidden = "hidden"
-        context = {'form': form,
-                   'class_hidden': hidden, 'categories': categories}
+        context = {'form_image': form_image,
+                   'form_description': form_description,
+                   'class_hidden': hidden,
+                   'categories': categories}
     return render(request, 'works/add_works.html', context)
 
 

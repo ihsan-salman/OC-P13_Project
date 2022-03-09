@@ -34,8 +34,19 @@
 			                	<a href="{% url 'add_category' %}">ici</a>
 			                	pour rajouter une catégorie
 			                </p>
-			                <textarea class="textarea" name="description"placeholder="{{ description }}"></textarea>
-			                {{ form.as_p }}
+                            <p>Vous avez la possibilité de rédiger vous-même un résumé ou bien de récupérer dans la limite du possible un résumé Wikipédia.</p>
+                            <p>Faites votre choix:</p>
+                            <div id="own_checkbox">
+                                <input type="checkbox" id="own" name="own" onclick="choose_own()">
+                                <label for="own">Moi-même</label>
+                            </div>
+                            <div id="wiki_checkbox">
+                                <input type="checkbox" id="wiki" name="wiki" onclick="choose_wiki()">
+                                <label for="wiki">Wikipédia</label>
+                            </div>
+                            {{ form_description.media }}
+                            {{ form_description.description }}
+			                {{ form_image.as_p }}
 			                <button class="contact_btn" type="submit">Envoyer</button>
 			            </form>
 			        </div>
@@ -43,5 +54,34 @@
 			</div>
 		</div>
 	</div>
+
+<script type="text/javascript">
+
+$('input[type="checkbox"]').on('change', function() {
+   $('input[type="checkbox"]').not(this).prop('checked', false);
+});
+
+document.querySelector('[data-field-id=id_description]').style.display = 'none';
+
+function choose_own(){
+    if(document.getElementById('own').checked){
+        document.querySelector('[data-field-id=id_description]').style.display = 'block';
+    } else {
+        document.querySelector('[data-field-id=id_description]').style.display = 'none';
+    };
+};
+
+function choose_wiki(){
+    if(document.getElementById('wiki').checked){
+        document.querySelector('[data-field-id=id_description]').style.display = 'block';
+    } else {
+        document.querySelector('[data-field-id=id_description]').style.display = 'none';
+    };
+};
+
+
+
+
+</script>
 
 {% endblock %}

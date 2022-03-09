@@ -29,7 +29,7 @@ class Works(models.Model):
                                  on_delete=models.PROTECT,
                                  null=True)
     time = models.DateTimeField(default=now, editable=False)
-    description = models.CharField(max_length=500, default='Description', null=True)
+    description = RichTextField(blank=True, null=True)
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     liked = models.ManyToManyField(User, default=None, blank=True, related_name='work_post')
 
