@@ -5,6 +5,7 @@
 import os
 from django.shortcuts import render, redirect
 from django.template import loader
+from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -57,17 +58,16 @@ def add_works(request):
         if request.method == 'POST':
             form_image = ImageForm(request.POST, request.FILES)
             form_description = WorksDescriptionForm(request.POST)
-            name = request.POST.get("work_name").title()
             category = request.POST.get("category")
-            description = request.POST.get("description")
             category = Category.objects.get(name=category)
-            work = Works.objects.filter(name=name,
+            work = Works.objects.filter(name=request.POST.get(
+                "work_name").title(),
                                         category_id=category.id)
             user_work = User.objects.get(username=request.user.username)
-            if form.is_valid():
+            if form_image.is_valid():
                 if not work.exists():
                     work = Works.objects.create(
-                        name=name,
+                        name=request.POST.get("work_name").title(),
                         user=user_work,
                         image=form_image.instance.image,
                         description=form_description.instance.description,
@@ -175,3 +175,11 @@ def edit_category(request, category_name):
         form = EditCategoryForm(instance=category_instance)
     context = {'form': form,}
     return render(request, 'works/edit_category.html', context)
+
+def get_wiki(request):
+    ''' return wikipedia data '''
+    if request.method == 'POST':
+        work_name = request.POST.get('work_name')
+    wiki_result = wiki_page(work_name)
+    if request.is_ajax():
+        return HttpResponse(wiki_result[1])

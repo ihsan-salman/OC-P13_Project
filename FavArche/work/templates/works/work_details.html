@@ -10,9 +10,7 @@
 					<h3>{{work.name}}</h3>
 					<img src="/media/{{work.image}}" height="300">
 					<p>Catégorie: {{work.category}}</p>
-                    {% if wikipedia_summary %}
-                    <p id="work_summary">{{ wikipedia_summary }} ... (la suite dans le lien Wikipédia &#128517;)</p>
-                    {% endif %}
+                    <p id="work_summary">{{ work.description }} ... (la suite dans le lien Wikipédia &#128517;)</p>
 
 					{% if messages %}
 					    {% for message in messages %}

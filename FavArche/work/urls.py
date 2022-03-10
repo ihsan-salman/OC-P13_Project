@@ -18,5 +18,6 @@ urlpatterns = [
     path('categorie/', views.add_category, name='add_category'),
     path('edition_categorie/<str:category_name>/', views.edit_category, name='edit_category'),
     path('detail/<str:work_name>/', views.work_details, name='work_details'),
+    path('', views.get_wiki, name='wiki_data'),
 
 ]

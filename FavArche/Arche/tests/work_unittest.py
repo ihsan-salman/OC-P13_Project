@@ -2,10 +2,6 @@
    -*- coding: Utf-8 -'''
 
 
-import wikipediaapi
-
-from unittest import mock
-
 from django.urls import reverse
 from django.test import TestCase
 from django.http import HttpResponse, HttpRequest
@@ -145,6 +141,7 @@ class AddCategoryPageTestCase(TestCase):
 
 class WorkDetailPageTestCase(TestCase):
     ''' work detail page page test case '''
+
     def setUp(self):
         ''' init all variables to cover view method statements '''
         self.credentials = {
@@ -159,9 +156,13 @@ class WorkDetailPageTestCase(TestCase):
             description='test description',
             category=self.category)
 
-    @patch('work.helper.wiki_page', ["""
-                    Le nom de votre oeuvre ne permet pas de trouver une url
-                    compatible avec les données de Wikipedia..."""])
+    def return_error(self):
+        error = """Le nom de votre oeuvre ne permet pas 
+                   de trouver une url compatible avec 
+                   les données de Wikipedia..."""
+        return error
+
+    @patch("work.views.wiki_page", return_error)
     def test_page_returns_200_with_message(self, **kwargs):
         ''' test if the work detail page returns 200 Http code statue '''
         response = self.client.get(reverse('work_details',
@@ -169,8 +170,12 @@ class WorkDetailPageTestCase(TestCase):
                                                    self.test_work.name}))
         self.assertEqual(response.status_code, 200)
 
-    @patch('work.helper.wiki_page', ['https://fr.wikipedia.org/wiki/One_Piece',
-                                     ' One Piece '])
+    def return_wiki_data(self):
+        data = ['https://fr.wikipedia.org/wiki/test_work',
+                ' test_work..blabla ']
+        return data
+
+    @patch('work.views.wiki_page', return_wiki_data)
     def test_page_returns_200_without_message(self, **kwargs):
         ''' test if the work detail page returns 200 Http code statue '''
         response = self.client.get(reverse('work_details',
