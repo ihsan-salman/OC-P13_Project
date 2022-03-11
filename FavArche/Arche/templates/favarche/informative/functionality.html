@@ -33,9 +33,15 @@
                     <li>
                         <hr>
                         <h4>Ajout d'Oeuvre ou Catégorie:</h4>
-                        <p>L'essence même de cette application repose sur l'enregistrement d'oeuvre.</p>
+                        <p>L'essence même de cette application repose sur l'enregistrement d'oeuvre. Pour l'ensemble des instructions décrites ci-dessous, il vous faudra être connecter.</p>
                         <p>Vous avez la possibilité d'ajouter en premier lieu des <a href="{% url 'add_category' %}">catégories</a>.</p>
-                        <p>Cependant veuillez vous assurer qu'elles n'existent pas déjà dans la <a href="{% url 'category' %}">base de données.</p>
+                        <p>Cependant veuillez vous assurer qu'elles n'existent pas déjà dans la <a href="{% url 'category' %}">base de données</a>.</p>
+                        <p>Dès lors que vous avez les informations suffisantes pour ajouter une <a href="{% url 'add_works' %}">oeuvre</a>, remplissez le formulaire avec une photo</p>
+                    </li>
+                    <li>
+                        <hr>
+                        <h4>Compléments d'Oeuvres</h4>
+                        <p>Depuis la barre-menu, en cliquant sur le logo <i class="fa fa-book"></i> , vous pouvez accèder à vos <a href="{% url 'personal_works' %}">oeuvres personnels</a>.</p>
                     </li>
                 </ul>
 			</div>

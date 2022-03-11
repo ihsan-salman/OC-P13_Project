@@ -7,12 +7,17 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
+from django.conf.urls import handler404
 from django.conf.urls import include, url
+from django.views.static import serve
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 
 from arche import views
 
+
+handler404 = 'registration.views.page_not_found'
+HANDLER500 = 'registration.views.server_error'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +34,7 @@ urlpatterns = [
     url(r'^changer_mes_donnees/',
         views.edit_account,
         name='edit_account'),
+    url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

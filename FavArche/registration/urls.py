@@ -9,10 +9,6 @@ from django.contrib.auth import views as auth_views
 
 from . import views
 
-
-HANDLER404 = "registration.views.page_not_found"
-HANDLER500 = "registration.views.server_error"
-
 urlpatterns = [
     path('connexion/', views.CustomLoginView.as_view(), name='login'),
     path('creer_compte/', views.create_account, name='create_account'),

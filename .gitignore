@@ -2,3 +2,8 @@
 script.bat
 /FavArche/htmlcov
 /FavArche/migration_script.bat
+arche/_pycache__
+FavArche/_pycache__
+registration/_pycache__
+social/_pycache__
+work/_pycache__
