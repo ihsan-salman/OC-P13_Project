@@ -46,7 +46,7 @@
                             </div>
                             {{ form_description.media }}
                             {{ form_description.description }}
-                            <textarea name="description" id="description" class="comment_textarea"></textarea>
+                            <p id="wiki_summary"></p>
 			                {{ form_image.as_p }}
 			                <button class="contact_btn" type="submit">Envoyer</button>
 			            </form>
@@ -79,7 +79,7 @@ $('input[type="checkbox"]').on('change', function() {
 });
 
 document.querySelector('[data-field-id=id_description]').style.display = 'none';
-document.getElementById('description').style.display = 'none';
+document.getElementById('wiki_summary').style.display = 'none';
 
 function choose_own(){
     if(document.getElementById('own').checked){
@@ -91,20 +91,20 @@ function choose_own(){
 
 function choose_wiki(){
     if(document.getElementById('wiki').checked){
-        document.querySelector('[data-field-id=id_description]').style.display = 'block';
         $.ajax({
             url: "{% url 'wiki_data' %}",
             type: "POST",
             data: {'work_name': document.querySelector('[name="work_name"]').value},
             headers: {'X-CSRFToken': getCookie('csrftoken')},
             success: function(data){
-                document.querySelector('body.cke_editable').innerHTML = data + '...';
+                document.getElementById('wiki_summary').innerHTML = data + '...';
+                document.getElementById('wiki_summary').style.display = 'block';
 
             }
         })
 
     } else {
-        document.querySelector('[data-field-id=id_description]').style.display = 'none';
+        document.getElementById('wiki_summary').style.display = 'none';
     };
 };
 

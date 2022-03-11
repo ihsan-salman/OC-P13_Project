@@ -64,13 +64,17 @@ def add_works(request):
                 "work_name").title(),
                                         category_id=category.id)
             user_work = User.objects.get(username=request.user.username)
+            description = request.POST.get('description')
+            if request.POST.get('description') == '':
+                description = wiki_page(request.POST.get('work_name'))[1]
+            print(description)
             if form_image.is_valid():
                 if not work.exists():
                     work = Works.objects.create(
                         name=request.POST.get("work_name").title(),
                         user=user_work,
                         image=form_image.instance.image,
-                        description=form_description.instance.description,
+                        description=description,
                         category_id=category.id
                         )
                     return redirect('/Oeuvre/personnel/')
@@ -121,6 +125,8 @@ def work_details(request, work_name):
     ''' return detail page of each work '''
     if request.method == 'GET':
         work_detail = Works.objects.filter(name=work_name)
+        if not work_detail.exists():
+            return render(request, 'error_page/404.html')
         wiki_result = wiki_page(work_name)
         if len(wiki_result) == 2:
             context = {'works': work_detail,
