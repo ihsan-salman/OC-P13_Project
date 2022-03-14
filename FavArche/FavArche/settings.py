@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "multiforloop",
     "ckeditor",
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'FavArche.urls'
@@ -146,7 +148,7 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'arche/media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'Arche/media')
 
 if os.environ.get('ENV') == 'PRODUCTION':
 

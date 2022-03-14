@@ -16,8 +16,6 @@ from .models import Profile
 from social.models import Comment
 from social.forms import CommentForm
 
-from validate_email import validate_email
-
 
 
 def index(request):
