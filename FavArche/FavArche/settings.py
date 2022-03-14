@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "multiforloop",
     "ckeditor",
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +58,6 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'FavArche.urls'
