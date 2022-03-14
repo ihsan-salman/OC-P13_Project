@@ -2,7 +2,7 @@
    -*- coding: Utf-8 -'''
 
 """
-WSGI config for FavArche project.
+WSGI config for FavArche project
 """
 
 import os
