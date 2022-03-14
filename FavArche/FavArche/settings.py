@@ -26,7 +26,7 @@ if os.environ.get('ENV') == 'PRODUCTION':
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'favarche.herokuapp.com']
+ALLOWED_HOSTS = ['favarche.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
