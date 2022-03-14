@@ -12,7 +12,7 @@ from django.core.mail import send_mail, BadHeaderError
 
 from .forms import EditProfileForm
 from work.models import Works, Category
-from arche.models import Profile
+from .models import Profile
 from social.models import Comment
 from social.forms import CommentForm
 
