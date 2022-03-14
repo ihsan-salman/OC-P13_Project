@@ -146,7 +146,7 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'Arche/media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'arche/media')
 
 if os.environ.get('ENV') == 'PRODUCTION':
 
