@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'arche',
+    'arche.apps.ArcheConfig',
     'registration.apps.RegistrationConfig',
     'work.apps.WorkConfig',
     'social.apps.SocialConfig',
