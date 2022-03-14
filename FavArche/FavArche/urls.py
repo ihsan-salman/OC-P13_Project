@@ -13,7 +13,7 @@ from django.views.static import serve
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 
-from FavArche.arche import views
+from arche import views
 
 
 handler404 = 'registration.views.page_not_found'
