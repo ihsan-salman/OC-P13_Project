@@ -6,7 +6,7 @@ from unittest import mock
 
 from django.urls import reverse
 from django.test import TestCase
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse, HttpRequest, HttpResponseServerError
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
@@ -114,3 +114,10 @@ class Page404TestCase(TestCase):
             and the template used '''
         response = self.client.get('/udhduehd/')
         self.assertEqual(response.status_code, 404)
+
+
+class Page500TestCase(TestCase):
+    ''' 500 page test case '''
+    def test_page_returns_500(self):
+        response = HttpResponseServerError()
+        self.assertEqual(response.status_code,500)

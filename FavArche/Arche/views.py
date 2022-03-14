@@ -4,7 +4,6 @@
 
 import os
 from django.shortcuts import render, redirect
-from django.conf import settings
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
@@ -61,7 +60,6 @@ def index(request):
                'users': users,
                'social_user_img': user_image_list1,
                'comment_list': comment_list}
-    print(settings.INSTALLED_APPS)
     return render(request, 'favarche/index.html', context)
 
 

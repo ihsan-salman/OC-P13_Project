@@ -10,11 +10,11 @@
 				<p>Cette page a pour but de vous aider à vous orienter à travers les différentes fonctionalitées du site.</p>
                 <p>Elles seront définis de manière à vous faire comprendre comment utiliser chaque outils pour répondre à vos besoins.</p>
                 <ul class="no_style">
-                    <li>
+                    <li id="connection_and_account_creation">
                         <hr>
                         <h4>Connexion et Création de compte:</h4>
                         <p>De nombreux outils de cette application sont soumis à une restriction d'authentification.</p>
-                        <p>Vous devez donc vous <a href="{% url 'login' %}">connectez</a> à l'aide d'un identifiant et un mot de passe valide.
+                        <p>Vous devez donc vous <a href="{% url 'login' %}">connecter</a> à l'aide d'un identifiant et un mot de passe valide.
                         <p>Pour accéder à l'authentification, vous devez créer un <a href="{% url 'create_account'}">compte</a> en remplissant les données nécessaires.</p>
                     </li>
                     <li>
@@ -41,7 +41,8 @@
                     <li>
                         <hr>
                         <h4>Compléments d'Oeuvres</h4>
-                        <p>Depuis la barre-menu, en cliquant sur le logo <i class="fa fa-book"></i> , vous pouvez accèder à vos <a href="{% url 'personal_works' %}">oeuvres personnels</a>.</p>
+                        <p>Depuis la barre-menu, en cliquant sur le logo <i class="fa fa-book"></i> , vous pouvez accèder à vos <a href="{% url 'personal_works' %}">oeuvres personnels</a>, la <a href="#connection_and_account_creation">connexion</a> est encore requise.</p>
+                        <p>Sur cette même page, deux bouttons de fonctions et designs différents ont été mise en place pour ajouter une oeuvre, mais aussi accéder à vos favoris.</p>
                     </li>
                 </ul>
 			</div>

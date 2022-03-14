@@ -98,6 +98,12 @@ class AddWorkPageTestCase(TestCase):
         self.user = User.objects.create_user(**self.credentials)
         self.client.post(reverse('login'), self.credentials, follow=True)
 
+    def return_error(self):
+        error = """Le nom de votre oeuvre ne permet pas 
+                   de trouver une url compatible avec 
+                   les données de Wikipedia..."""
+        return error
+
     def test_work_add_returns_200_with_category(self):
         ''' test if adding work returns 200 '''
         self.category = Category.objects.create(name='test')
@@ -110,10 +116,8 @@ class AddWorkPageTestCase(TestCase):
                                           'description': ''})
         self.assertEqual(response.status_code, 200)
 
-    @patch('work.views')
-    def test_work_add_returns_200_without_category(self, mock_get):
+    def test_work_add_returns_200_without_category(self):
         ''' test if adding work returns 200 '''
-        mock_get.return_value.views.Category.objects.count = 0
         response = self.client.get(reverse('add_works'))
         self.assertEqual(response.status_code, 200)
 
@@ -149,38 +153,40 @@ class WorkDetailPageTestCase(TestCase):
             'password': 'secret'}
         self.user = User.objects.create_user(**self.credentials)
         self.category = Category.objects.create(name='test')
+
+    def test_page_returns_200(self, **kwargs):
+        ''' test if the work detail page returns 200 Http code statue '''
         self.test_work = Works.objects.create(
             name='test_work',
             user=self.user,
             image='test.jpg',
             description='test description',
             category=self.category)
-
-    def return_error(self):
-        error = """Le nom de votre oeuvre ne permet pas 
-                   de trouver une url compatible avec 
-                   les données de Wikipedia..."""
-        return error
-
-    @patch("work.views.wiki_page", return_error)
-    def test_page_returns_200_with_message(self, **kwargs):
-        ''' test if the work detail page returns 200 Http code statue '''
         response = self.client.get(reverse('work_details',
                                            kwargs={'work_name': 
                                                    self.test_work.name}))
         self.assertEqual(response.status_code, 200)
 
-    def return_wiki_data(self):
-        data = ['https://fr.wikipedia.org/wiki/test_work',
-                ' test_work..blabla ']
-        return data
-
-    @patch('work.views.wiki_page', return_wiki_data)
-    def test_page_returns_200_without_message(self, **kwargs):
+    def test_page_returns_404(self, **kwargs):
         ''' test if the work detail page returns 200 Http code statue '''
         response = self.client.get(reverse('work_details',
                                            kwargs={'work_name': 
-                                                   self.test_work.name}))
+                                                   'test_work'}))
+        self.assertEqual(response.status_code, 404)
+
+
+class FavoriteWorksPageTestCase(TestCase):
+    ''' Favorite page test case '''
+    def setUp(self):
+        ''' init all variables to cover view method statements '''
+        self.credentials = {
+            'username': 'testuser',
+            'password': 'secret'}
+        self.user = User.objects.create_user(**self.credentials)
+        self.client.post(reverse('login'), self.credentials, follow=True)
+
+    def test_page_returns_200(self):
+        response = self.client.get(reverse('fav_works'))
         self.assertEqual(response.status_code, 200)
 
 
@@ -212,4 +218,17 @@ class EditCategoryPageTestCase(TestCase):
                                            kwargs={'category_name': 
                                                    self.category.name}),
                                    data={'form': form})
+        self.assertEqual(response.status_code, 200)
+
+
+class GetWikiDataTestCase(TestCase):
+    ''' Test get_wiki view '''
+    def return_wiki(self):
+        return ['www.test_work.com', 'test_work']
+
+    @patch("work.views.wiki_page", return_wiki)
+    def test_get_wiki_returns_200(self):
+        response = self.client.post(reverse('wiki_data'),
+                                   data={'work_name': 'test_work'},
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
