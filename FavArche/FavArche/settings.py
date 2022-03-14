@@ -26,13 +26,13 @@ if os.environ.get('ENV') == 'PRODUCTION':
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['favarche.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'arche.apps.ArcheConfig',
+    'arche',
     'registration.apps.RegistrationConfig',
     'work.apps.WorkConfig',
     'social.apps.SocialConfig',
