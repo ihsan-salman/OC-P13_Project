@@ -129,7 +129,13 @@ def work_details(request, work_name):
         work_detail = Works.objects.filter(name=work_name)
         if not work_detail.exists():
             return render(request, 'error_page/404.html', status=404)
-        context = {'works': work_detail}
+        wiki_result = wiki_page(work_name)
+        if len(wiki_result) == 2:
+            context = {'works': work_detail,
+                       'wiki_url': wiki_result[0]}
+        else:
+            messages.error(request, wiki_result[0])
+            context = {'works': work_detail}
     return render(request, 'works/work_details.html', context)
 
 
