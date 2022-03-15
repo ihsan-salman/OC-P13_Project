@@ -11,7 +11,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 
-from arche.models import Profile
+from main.models import Profile
 from work.models import Works, Category
 from social.models import Comment
 

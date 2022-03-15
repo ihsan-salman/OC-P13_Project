@@ -32,11 +32,6 @@
 							 	Catégories
 							</a>
 						</li>
-                        <li id="explore_menu_link" class="tooltip-bottom" data-tooltip="Discutez avec les autres">
-                            <a id="explore_link_color" href="{% url 'chat' %}">
-                                chat
-                            </a>
-                        </li>
 					</ul>
 				</div>
 			</div>
@@ -78,7 +73,7 @@
 										</div>
 									{% endfor %}
 								</div>
-								{% if request.user.is_authenticated%}
+								{% if request.user.is_authenticated %}
 									<div id="comment_form">
 										<textarea placeholder="Commentez-ici" id="comment{{work.id}}" class="comment_textarea"></textarea>
 										<button id="btn_comment{{work.id}}" type="submit" class="button-28" onclick="send_comment_data({{work.id}})">Validez</button>

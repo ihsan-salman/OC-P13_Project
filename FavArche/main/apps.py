@@ -5,7 +5,7 @@
 from django.apps import AppConfig
 
 
-class ArcheConfig(AppConfig):
+class MainConfig(AppConfig):
     ''' App defalut config class '''
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'arche'
+    name = 'main'

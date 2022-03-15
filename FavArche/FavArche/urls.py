@@ -13,7 +13,7 @@ from django.views.static import serve
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 
-from arche import views
+from main import views
 
 
 handler404 = 'registration.views.page_not_found'
@@ -22,7 +22,7 @@ HANDLER500 = 'registration.views.server_error'
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', include('arche.urls')),
+    path('', include('main.urls')),
 
     path('Inscription/', include('registration.urls')),
 

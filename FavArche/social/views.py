@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
 
-from arche.models import Profile
+from main.models import Profile
 from work.models import Works
 from .models import Comment, Like, ChatRoom, ChatMessage
 
@@ -57,22 +57,24 @@ def like(request):
         return HttpResponse('OK')
 
 
-def chat(request, **kwargs):
+def chat(request, username):
     ''' return the chat page '''
-    if request.method == 'POST':
-        room_name = request.POST.get('room_name')
-        if ChatRoom.objects.filter(title=room_name).exists():
-            return redirect(reverse('room', kwargs={'room_name': room_name}))
+    if request.method == 'GET':
+        other_user = User.objects.get(username=username)
+        chatroom = ChatRoom.objects.filter(users=(other_user.id, request.user.id))
+        print(chatroom.first().id)
+        if chatroom.exists():
+            return redirect(reverse('room', kwargs={'id': chatroom.first().id}))
         else:
-            new_room = ChatRoom.objects.create(title=room_name)
+            new_room = ChatRoom.objects.create()
+            user = User.objects.get(username=request.user.username)
+            new_room.users.add(other_user, user)
             new_room.save()
-            return redirect(reverse('room', kwargs={'room_name': room_name}))
-        
-    return render(request, 'social/chat.html')
+        return redirect(reverse('room', kwargs={'id': new_room[0].id}))
 
 
-def room(request, room_name):
-    room = ChatRoom.objects.get(title=room_name)
+def room(request, id):
+    room = ChatRoom.objects.get(id=id)
     message_count = ChatMessage.objects.count()
     context = {'room': room,
                'message_number': message_count}
@@ -90,7 +92,7 @@ def send(request):
         new_message.save()
         return HttpResponse('Message sent successfully')
 
-def getMessages(request, room):
-    room = ChatRoom.objects.get(title=room)
+def getMessages(request, id):
+    room = ChatRoom.objects.get(id=id)
     messages = ChatMessage.objects.filter(room=room.id).order_by('timestamp')
     return JsonResponse({"messages": list(messages.values())})

@@ -7,8 +7,8 @@ from django.test import TestCase
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 
-from arche.forms import EditProfileForm
-from arche.models import Profile
+from main.forms import EditProfileForm
+from main.models import Profile
 from work.models import Works, Category
 
 from urllib.parse import urlencode

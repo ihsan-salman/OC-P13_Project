@@ -14,8 +14,8 @@ urlpatterns = [
    path('compte/<str:username>', views.account, name='other_accounts'),
    path('', views.delete_comment, name='delete_comment'),
    path('like/', views.like, name='Like'),
-   path('chat/', views.chat, name='chat'),
-   path('chatroom/<str:room_name>/', views.room, name='room'),
+   path('chat/<str:username>/', views.chat, name='chat'),
+   path('chatroom/<str:id>/', views.room, name='room'),
    path('send', views.send, name='send_message'),
-   path('getMessages/<str:room>/', views.getMessages, name='get_message'),
+   path('getMessages/<str:id>/', views.getMessages, name='get_message'),
 ]

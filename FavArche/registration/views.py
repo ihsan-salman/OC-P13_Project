@@ -15,7 +15,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 
 from .forms import RegisterForm, CustomAuthenticationForm, EditProfileForm
-from arche.models import Profile
+from main.models import Profile
 
 
 def create_account(request):

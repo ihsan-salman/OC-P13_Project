@@ -12,7 +12,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from unittest.mock import patch
 
-from arche.models import Profile
+from main.models import Profile
 from work.models import Works, Category
 from work.forms import CategoryForm, EditCategoryForm, ImageForm
 from work.helper import wiki_page
