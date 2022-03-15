@@ -17,7 +17,6 @@ from social.models import Comment
 from social.forms import CommentForm
 
 
-
 def index(request):
     ''' Return index page result '''
     users = User.objects.all()
