@@ -63,7 +63,7 @@ def index(request):
 
 
 def contact(request):
-    ''' Return contact page result '''
+    ''' Return contact form page result '''
     if request.method == 'POST':
         email = request.POST.get("email")
         subject = request.POST.get("subject")
