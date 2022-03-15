@@ -155,9 +155,11 @@ if os.environ.get('ENV') == 'PRODUCTION':
 
     STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
+    os.makedirs(STATIC_ROOT, exist_ok=True)
+
     # Extra places for collectstatic to find static files.
     STATICFILES_DIRS = (
-        os.path.join(PROJECT_ROOT, 'static/'),
+        os.path.join(PROJECT_ROOT, 'static'),
     )
 
 
