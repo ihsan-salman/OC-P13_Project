@@ -942,6 +942,7 @@
 }
 
 @media screen and (max-width: 768px){
+
     #menu_redirection{
         margin-left: 45%;
     }
@@ -980,7 +981,26 @@
 	.content_section .social{
 		text-align: center;
 	}
-    .fa-2x{
-        height: 10px;
+    #zero_work{
+        font-size: 20px;
+    }
+    #zero_img{
+        width: 70%;
+        margin-left: 15%;
+    }
+    #work_div_index p{
+        font-size: 12px;
+    }
+    #social_menu p{
+        font-size: 12px;
+    }
+    #side_menu_div1{
+        padding-left: 5px;
+    }
+    #side_menu_div2{
+        padding-left: 5px;
+    }
+    #side_menu_div2 li{
+        list-style: none;
     }
 }
