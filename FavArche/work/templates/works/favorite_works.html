@@ -4,11 +4,29 @@
 {% load static %}
 	
 	<div id="main-div">
-		<div id="page_main_div">
-			<div id="page_white_div">
-				<h3>Oeuvres favorites</h3>
-			</div>
-		</div>
-	</div>
+        <div id="page_main_div">
+                {% if favorites|length == 0 %}
+                    <div id="page_white_div">
+                        <h3>Oeuvres favorites</h3>
+                        <p>Aucun favoris n'a été enregistré pour le moment...</p>
+                    </div>
+                {% else %}
+                    <div id="fav_div">
+                        <h3 class="align_center">Oeuvres favorites</h3>
+                        {% for favorite in favorites %}
+                            <a href="{% url 'work_details' favorite.favorite_works.name %}">
+                                <div id="work_div">
+                                    <p>{{ favorite.favorite_works.name }}</p>
+                                    <img src="/media/{{ favorite.favorite_works.image }}" height="150">
+                                </div>
+                            </a>
+                            {% ifequal forloop.counter|divisibleby:"3" True %}
+                                <br>
+                            {% endifequal %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+        </div>
+    </div>
 
 {% endblock %}

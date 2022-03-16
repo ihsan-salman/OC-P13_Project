@@ -38,7 +38,9 @@
 			<div id="middle_div">
 				{% if works|length == 0 %}
 				<div id="work_div_index">
-					<h1>Il n'existe aucune oeuvre pour le moment</h1>
+					<h1 id="zero_work">Il n'existe aucune oeuvre pour le moment</h1>
+                    <img src="{% static 'img/zero.png' %}" id="zero_img">
+                    <p class="align_center">Vous pouvez participer au développement de la communauté en rajoutant une oeuvre!</p>
 				</div>
 				{% else %}
 					{% for work in works; image in user_image; comments in comment_list %}
@@ -57,6 +59,11 @@
 									<button onclick="send_like({{work.id}})"><i class="fa fa-thumbs-down fa-2x"></i></button>
 								{% endif %}
 								<p id="like_number">{{work.liked.all.count}} like</p>
+                                {% if request.user not in work.fav.all %}
+                                    <button id="send_fav" onclick="send_fav({{work.id}})"><i class="far fa-bookmark fa-2x"></i></button>
+                                {% else %}
+                                    <button id="send_fav" onclick="send_fav({{work.id}})"><i class="fas fa-bookmark fa-2x"></i></button>
+                                {% endif %}
 								<div>
 									{% for comment in comments %}
 										<div class="display_inline">
@@ -89,18 +96,23 @@
 				{% endif %}
 			</div>
 			<div id="social_menu">
-				{% for user_account in users; img in social_user_img %}
-					<div id="social_user_div">
-						{% if user_account.username != user.username %}
-							<p>
-								<a href="{% url 'other_accounts' user_account.username %}" id="link_color">
-									<img id="social_user_img" src="{{img.image.url}}">
-									{{ user_account.username }}
-								</a>
-							</p>
-						{% endif %}
-					</div>
-				{% endfor %}
+                {% if users|length < 2 %}
+                <p>vous êtes le seul utilisateur de cette application..</p>
+                <p>Ramenez aussi vos amis!</p>
+                {% else %}
+    				{% for user_account in users; img in social_user_img %}
+    					<div id="social_user_div">
+    						{% if user_account.username != user.username %}
+    							<p>
+    								<a href="{% url 'other_accounts' user_account.username %}" id="link_color">
+    									<img id="social_user_img" src="{{img.image.url}}">
+    									{{ user_account.username }}
+    								</a>
+    							</p>
+    						{% endif %}
+    					</div>
+    				{% endfor %}
+                {% endif %}
 			</div>
 		</div>
 	</div>
@@ -151,47 +163,74 @@
 
     function send_comment_id(comment_id){
 			
-            var comment_data = {
-                "comment_id": comment_id,
-            };
+        var comment_data = {
+            "comment_id": comment_id,
+        };
 
-             $.ajax({
-                url: "{% url 'delete_comment' %}",
-                type: "POST",
-                data: comment_data,
-                headers: {'X-CSRFToken': getCookie('csrftoken')},
-                success: function(data){
-                    if (data == "OK"){
-                    	document. location.reload();
-                    } else{
-                        console.log("");
-                    }}
-                
-            })
+         $.ajax({
+            url: "{% url 'delete_comment' %}",
+            type: "POST",
+            data: comment_data,
+            headers: {'X-CSRFToken': getCookie('csrftoken')},
+            success: function(data){
+                if (data == "OK"){
+                	document. location.reload();
+                } else{
+                    console.log("");
+                }}
+            
+        })
 
-        }
+    }
 
     function send_like(work_id){
 			
+        var data = {
+            "work_id": work_id,
+        };
+
+         $.ajax({
+            url: "{% url 'Like' %}",
+            type: "POST",
+            data: data,
+            headers: {'X-CSRFToken': getCookie('csrftoken')},
+            success: function(data){
+                if (data == "OK"){
+                	document. location.reload();
+                } else{
+                    console.log("");
+                }}
+            
+        })
+
+    }
+
+    function send_fav(work_id){
+
+        var button_value = document.getElementById("send_fav").innerHTML;
+
+        if(button_value == '<i class="far fa-bookmark fa-2x" aria-hidden="true"></i>'){
+            document.getElementById("send_fav").innerHTML = '<i class="fas fa-bookmark fa-2x" aria-hidden="true"></i>';
             var data = {
+                "to_do": "create",
                 "work_id": work_id,
             };
+        }else{
+            document.getElementById("send_fav").innerHTML = '<i class="far fa-bookmark fa-2x" aria-hidden="true">';
+            var data = {
+                "work_id": work_id,
+                "to_do": "delete",
+            };
+        };
 
-             $.ajax({
-                url: "{% url 'Like' %}",
-                type: "POST",
-                data: data,
-                headers: {'X-CSRFToken': getCookie('csrftoken')},
-                success: function(data){
-                    if (data == "OK"){
-                    	document. location.reload();
-                    } else{
-                        console.log("");
-                    }}
-                
-            })
+        $.ajax({
+            url: "{% url 'fav_works' %}",
+            type: "POST",
+            data: data,
+            headers: {'X-CSRFToken': getCookie('csrftoken')},
+        });
 
-        }
+    }
 
 </script>
 

@@ -61,16 +61,18 @@ def chat(request, username):
     ''' return the chat page '''
     if request.method == 'GET':
         other_user = User.objects.get(username=username)
-        chatroom = ChatRoom.objects.filter(users=(other_user.id, request.user.id))
-        print(chatroom.first().id)
-        if chatroom.exists():
-            return redirect(reverse('room', kwargs={'id': chatroom.first().id}))
+        if other_user.id != request.user.id:
+            chatroom = ChatRoom.objects.filter(users=(other_user.id, request.user.id))
+            if chatroom.exists():
+                return redirect(reverse('room', kwargs={'id': chatroom.first().id}))
+            else:
+                new_room = ChatRoom.objects.create()
+                user = User.objects.get(username=request.user.username)
+                new_room.users.add(other_user, user)
+                new_room.save()
+                return redirect(reverse('room', kwargs={'id': new_room[0].id}))
         else:
-            new_room = ChatRoom.objects.create()
-            user = User.objects.get(username=request.user.username)
-            new_room.users.add(other_user, user)
-            new_room.save()
-        return redirect(reverse('room', kwargs={'id': new_room[0].id}))
+            return render(request, 'error_page/404.html', status=404)
 
 
 def room(request, id):

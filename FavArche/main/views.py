@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
 
 from .forms import EditProfileForm
-from work.models import Works, Category
+from work.models import Works, Category, Favorite
 from .models import Profile
 from social.models import Comment
 from social.forms import CommentForm
@@ -54,11 +54,13 @@ def index(request):
                 work=user_work)
     if request.is_ajax():
         return HttpResponse("OK")
+    all_favorite = Favorite.objects.all()
     context = {'works': works,
                'user_image': user_image_list2,
                'users': users,
                'social_user_img': user_image_list1,
-               'comment_list': comment_list}
+               'comment_list': comment_list,
+               'favorites': all_favorite}
     return render(request, 'favarche/index.html', context)
 
 

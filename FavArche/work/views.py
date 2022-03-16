@@ -17,7 +17,7 @@ from django.core.mail import send_mail, BadHeaderError
 
 from .forms import ContactForm, ImageForm, CategoryForm, EditCategoryForm
 from .forms import WorksDescriptionForm
-from .models import Works, Category
+from .models import Works, Category, Favorite
 
 from work.helper import wiki_page
 
@@ -121,7 +121,22 @@ def add_category(request):
 @login_required(login_url='/login/')
 def favorite_works(request):
     ''' return personal works page '''
-    return render(request, 'works/favorite_works.html')
+    user = User.objects.get(username=request.user.username)
+    if request.method == 'POST':
+        work_id = request.POST.get('work_id')
+        to_do = request.POST.get('to_do')
+        work = Works.objects.get(id=work_id)
+        fav_work = Favorite.objects.filter(favorite_works_id=work_id, user=user)
+        if to_do == 'create' and not fav_work.exists():
+            fav_work = Favorite.objects.create(favorite_works_id=work_id,
+                                               user=user)
+            work.fav.add(user)
+        elif to_do == 'delete':
+            fav_work.delete()
+            work.fav.remove(user)
+    user_fav_works = Favorite.objects.filter(user=user)
+    context = {'favorites': user_fav_works}
+    return render(request, 'works/favorite_works.html', context)
 
 def work_details(request, work_name):
     ''' return detail page of each work '''

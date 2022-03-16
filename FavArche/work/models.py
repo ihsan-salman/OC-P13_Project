@@ -31,7 +31,8 @@ class Works(models.Model):
     time = models.DateTimeField(default=now, editable=False)
     description = RichTextField(blank=True, null=True)
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-    liked = models.ManyToManyField(User, default=None, blank=True, related_name='work_post')
+    liked = models.ManyToManyField(User, default=None, blank=True, related_name='work_post_like')
+    fav = models.ManyToManyField(User, default=None, blank=True, related_name='work_post_fav')
 
     def __str__(self):
         return str(self.name)
@@ -48,4 +49,4 @@ class Favorite(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.name)
+        return str(self.favorite_works)

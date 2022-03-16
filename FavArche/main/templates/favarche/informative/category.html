@@ -7,22 +7,28 @@
 	<div id="main-div">
 		<div id="category_list">
 			<h1 class="align_center">Liste des Catégories</h1>
-				{% for category in categories; category_number in number_list %}
-					<article class="episode">
-						<div class="episode__number">{{ category_number }}</div>
-						<div class="episode__content">
-							<div class="title">{{ category.name }}</div>
-							<div class="story">
-								{{ category.description|safe }}
-								<a href="{% url 'edit_category' category.name %}">
-									<button class="button-28 tooltip-bottom" id="edit_link_btn" data-tooltip="Editez votre Oeuvre" role="button">
-										<i class="fas fa-highlighter fa-2x"></i>
-									</button>
-								</a>
-							</div>
-						</div>
-					</article>
-				{% endfor %}
+                {% if categories|length == 0%}
+                <p class="align_center">Aucune catégorie n'a été enrégistrée pour le moment.</p>
+                <p class="align_center">voici un <a href="{% url 'add_category' %}">lien</a> pour en ajouter.</p>
+                <img src="{% static 'img/zero_category.jpg' %}">
+                {% else %}
+    				{% for category in categories; category_number in number_list %}
+    					<article class="episode">
+    						<div class="episode__number">{{ category_number }}</div>
+    						<div class="episode__content">
+    							<div class="title">{{ category.name }}</div>
+    							<div class="story">
+    								{{ category.description|safe }}
+    								<a href="{% url 'edit_category' category.name %}">
+    									<button class="button-28 tooltip-bottom" id="edit_link_btn" data-tooltip="Editez votre Oeuvre" role="button">
+    										<i class="fas fa-highlighter fa-2x"></i>
+    									</button>
+    								</a>
+    							</div>
+    						</div>
+    					</article>
+    				{% endfor %}
+                {% endif %}
 				
 		</div>
 	</div>

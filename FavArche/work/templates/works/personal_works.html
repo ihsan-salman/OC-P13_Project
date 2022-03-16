@@ -24,6 +24,7 @@
 						{% autoescape off %}
 							{{ message }}
 						{% endautoescape %}
+                        <img src="{% static 'img/zero_work.jpg' %}">
 					</div>
 					{% for work in works %}
 						<a href="{% url 'work_details' work.name %}">
