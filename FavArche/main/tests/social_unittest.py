@@ -62,7 +62,7 @@ class DeleteCommentTestCase(TestCase):
 
 
 class LikeTestCase(TestCase):
-    ''' like test case '''
+    ''' like page test case '''
     def setUp(self):
         '''Init all needed data to test the user's login'''
         self.credentials = {
@@ -84,3 +84,43 @@ class LikeTestCase(TestCase):
         response = self.client.post(reverse('Like'),
                                     data={'work_id': self.test_work.id})
         self.assertEqual(response.status_code, 200)
+
+
+class ChatTestCase(TestCase):
+    ''' chat view test case '''
+    def setUp(self):
+        '''Init all needed data to test the user's login'''
+        self.credentials1 = {
+            'username': 'testuser',
+            'password': 'secret'}
+        self.user1 = User.objects.create_user(**self.credentials1)
+        self.client.post(reverse('login'), self.credentials1, follow=True)
+
+    def test_page_returns_404(self, **kwargs):
+        response = self.client.get(reverse('chat',
+                                           kwargs={'username': self.user1.username}))
+        self.assertEqual(response.status_code, 404)
+
+    def test_page_returns_302(self, **kwargs):
+        self.credentials2 = {
+            'username': 'testuser2',
+            'password': 'secret2'}
+        self.user2 = User.objects.create_user(**self.credentials2)
+        response = self.client.get(reverse('chat',
+                                           kwargs={'username': self.user2.username}))
+        self.assertEqual(response.status_code, 302)
+
+
+class RoomPageTestCase(TestCase):
+    '''  '''
+    
+
+
+class SendMessagesTestCase(TestCase):
+    ''' send message test case '''
+    def setUp(self):
+        '''Init all needed data to test the user's login'''
+        self.credentials = {
+            'username': 'testuser',
+            'password': 'secret'}
+        self.user = User.objects.create_user(**self.credentials)

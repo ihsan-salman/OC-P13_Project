@@ -65,18 +65,16 @@ class CreateAccountPageTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_form_validation(self):
-        ''''''
+        ''' test of form validation '''
         password = make_password("azeqsd00")
-        form = RegisterForm(data={
-            'email': 'i@i.com',
-            'username': 'iiiidbuybeb',
-            'first_name': 'aaaedubefva',
-            'last_name': 'oooohsshhsh',
-            'password1': password,
-            'password2': password})
-        self.assertTrue(form.is_valid())
         response = self.client.post(reverse('create_account'),
-                                    data={'form': form})
+                                    data={'email': 'i@i.com',
+                                          'username': 'iiiidbuybeb',
+                                          'first_name': 'aaaedubefva',
+                                          'last_name': 'oooohsshhsh',
+                                          'password1': password,
+                                          'password2': password})
+        self.assertEqual(response.status_code, 302)
 
 
 class ChangePasswordPageTestCase(TestCase):

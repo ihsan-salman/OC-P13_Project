@@ -70,7 +70,7 @@ def chat(request, username):
                 user = User.objects.get(username=request.user.username)
                 new_room.users.add(other_user, user)
                 new_room.save()
-                return redirect(reverse('room', kwargs={'id': new_room[0].id}))
+                return redirect(reverse('room', kwargs={'id': new_room.id}))
         else:
             return render(request, 'error_page/404.html', status=404)
 
