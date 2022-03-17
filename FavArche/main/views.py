@@ -19,6 +19,7 @@ from social.forms import CommentForm
 
 def index(request):
     ''' Return index page result '''
+    all_favorite = Favorite.objects.all()
     users = User.objects.all()
     user_image_list1 = []
     for user in users:
@@ -56,9 +57,8 @@ def index(request):
                 content=comment,
                 user=user,
                 work=user_work)
-    if request.is_ajax():
-        return HttpResponse("OK")
-    all_favorite = Favorite.objects.all()
+        if request.is_ajax():
+            return HttpResponse("OK")
     context = {'works': works,
                'user_image': user_image_list2,
                'users': users,
