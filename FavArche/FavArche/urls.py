@@ -3,6 +3,7 @@
 
 """FavArche URL Configuration
 """
+import os
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path
@@ -38,7 +39,7 @@ urlpatterns = [
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-if not settings.DEBUG:
+if os.environ.get('ENV') == 'PRODUCTION' or settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         url(r'^__debug__/', include(debug_toolbar.urls)),
