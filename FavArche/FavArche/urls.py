@@ -3,8 +3,6 @@
 
 """FavArche URL Configuration
 """
-import os
-import debug_toolbar
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path
@@ -24,8 +22,6 @@ HANDLER500 = 'registration.views.server_error'
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    url(r'^__debug__/', include(debug_toolbar.urls)),
-
     path('', include('main.urls')),
 
     path('Inscription/', include('registration.urls')),
@@ -41,3 +37,9 @@ urlpatterns = [
     url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
