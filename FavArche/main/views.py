@@ -22,7 +22,11 @@ def index(request):
     users = User.objects.all()
     user_image_list1 = []
     for user in users:
-        if user.username != request.user.username:
+        if request.user.is_authenticated:
+            if user.username != request.user.username:
+                image = Profile.objects.get(user=user)
+                user_image_list1.append(image)
+        else:
             image = Profile.objects.get(user=user)
             user_image_list1.append(image)
     works = Works.objects.filter(time__year=2022)
