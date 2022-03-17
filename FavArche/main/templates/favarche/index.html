@@ -53,17 +53,19 @@
 								<a href="{% url 'work_details' work.name %}">
 									<img id="work_img" src="/media/{{ work.image }}">
 								</a>
-								{% if request.user not in work.liked.all %}
-									<button id="send_like"onclick="send_like({{work.id}}, {{work.liked.all.count}})"><i class="fa fa-thumbs-up fa-2x"></i></button>
-								{% else %}
-									<button id="send_like" onclick="send_like({{work.id}}, {{work.liked.all.count}})"><i class="fa fa-thumbs-down fa-2x"></i></button>
-								{% endif %}
-								<p id="like_number">{{work.liked.all.count}} like</p>
+                                {% if request.user.is_authenticated %}
+    								{% if request.user not in work.liked.all %}
+    									<button id="send_like"onclick="send_like({{work.id}}, {{work.liked.all.count}})"><i class="fa fa-thumbs-up fa-2x"></i></button>
+    								{% else %}
+    									<button id="send_like" onclick="send_like({{work.id}}, {{work.liked.all.count}})"><i class="fa fa-thumbs-down fa-2x"></i></button>
+    								{% endif %}
+    								<p id="like_number">{{work.liked.all.count}} like</p>
 
-                                {% if request.user not in work.fav.all %}
-                                    <button id="send_fav" onclick="send_fav({{work.id}})"><i class="far fa-bookmark fa-2x"></i></button>
-                                {% else %}
-                                    <button id="send_fav" onclick="send_fav({{work.id}})"><i class="fas fa-bookmark fa-2x"></i></button>
+                                    {% if request.user not in work.fav.all %}
+                                        <button id="send_fav" onclick="send_fav({{work.id}})"><i class="far fa-bookmark fa-2x"></i></button>
+                                    {% else %}
+                                        <button id="send_fav" onclick="send_fav({{work.id}})"><i class="fas fa-bookmark fa-2x"></i></button>
+                                    {% endif %}
                                 {% endif %}
 								<div>
 									{% for comment in comments %}
