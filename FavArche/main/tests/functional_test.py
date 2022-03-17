@@ -59,6 +59,7 @@ class TestProject(LiveServerTestCase):
             "innerHTML")
         self.assertEqual([self.first_name_value, self.last_name_value,],
                          ['ihsan', 'salman'])
+        self.browser.quit()
 
     def test_contact_email(self):
         ''' test if the user can send an email to contact admin '''
@@ -70,6 +71,97 @@ class TestProject(LiveServerTestCase):
         self.browser.find_element_by_name("message").send_keys('nothing')
         self.browser.find_element_by_css_selector("button").click()
         self.assertEqual(self.browser.current_url, self.INDEX_PAGE_URL)
+        self.browser.quit()
 
+    def test_add_work(self):
+        '''  '''
+        self.browser.get(self.INDEX_PAGE_URL)
+        self.browser.find_element_by_partial_link_text("Masquer").click()
 
+        self.browser.find_element_by_css_selector("i.fa-sign-in-alt").click()
+        self.browser.find_element_by_id(
+            "id_username").send_keys('ihsan')
+        self.browser.find_element_by_id(
+            "id_password").send_keys('far57450')
+        self.browser.find_element_by_css_selector("button").click()
 
+        self.browser.find_element_by_css_selector(".fa-book").click()
+
+        self.browser.find_element_by_css_selector(".fa-plus").click()
+        self.browser.find_element_by_partial_link_text("ici").click()
+        self.browser.find_element_by_css_selector(
+            "#id_name").clear()
+        self.browser.find_element_by_css_selector(
+            "#id_name").send_keys('film')
+        self.browser.find_element_by_css_selector(".button-28").click()
+
+        self.browser.find_element_by_name('work_name').send_keys('one piece')
+        self.browser.find_element_by_xpath(
+            "//select[@name='category']/option[@value='film']").click()
+        self.browser.find_element_by_name('wiki').click()
+        self.browser.find_element_by_xpath(
+            '//input[@type="file"]').send_keys(
+            "C://Users/ihsan/Pictures/wallpaper/one_piece.png")
+        self.browser.find_element_by_css_selector('.contact_btn').click()
+
+        self.browser.find_element_by_id("work_div").click()
+        self.work_name = self.browser.find_element_by_xpath(
+            "//div[@id='page_white_div']//h3").get_attribute('innerHTML')
+        self.assertEqual(self.work_name, 'One Piece')
+        time.sleep(2)
+        self.browser.quit()
+
+    def test_social_work_functionality(self):
+        ''' test if all social functionality 
+            about works funtion correctly '''
+        self.browser.get(self.INDEX_PAGE_URL)
+        self.browser.find_element_by_partial_link_text("Masquer").click()
+
+        self.browser.find_element_by_css_selector("i.fa-sign-in-alt").click()
+        self.browser.find_element_by_id(
+            "id_username").send_keys('ihsan')
+        self.browser.find_element_by_id(
+            "id_password").send_keys('far57450')
+        self.browser.find_element_by_css_selector("button").click()
+
+        self.browser.find_element_by_css_selector(".fa-thumbs-up").click()
+        self.browser.find_element_by_css_selector(".far").click()
+
+        self.browser.find_element_by_css_selector(
+            ".comment_textarea").send_keys('hello')
+        self.browser.find_element_by_css_selector(".button-28").click()
+        time.sleep(1)
+        self.comment_value = self.browser.find_element_by_id(
+            "comment_content").get_attribute("innerHTML")
+        self.like_number = self.browser.find_element_by_id(
+            "like_number").get_attribute("innerHTML")
+        self.assertEqual((self.like_number, self.comment_value), 
+                         ('1 like', 'hello'))
+
+        self.browser.find_element_by_css_selector(".fa-book").click()
+        self.browser.find_element_by_css_selector(".fa-heart").click()
+        self.work_name = self.browser.find_element_by_xpath(
+            "//div[@id='work_div']//p").get_attribute("innerHTML")
+        self.assertEqual(self.work_name, 'One Piece')
+
+    def test_chat(self):
+        ''' test if the chat works correctly '''
+        self.browser.get(self.INDEX_PAGE_URL)
+        self.browser.find_element_by_partial_link_text("Masquer").click()
+
+        self.browser.find_element_by_css_selector("i.fa-sign-in-alt").click()
+        self.browser.find_element_by_id(
+            "id_username").send_keys('ihsan')
+        self.browser.find_element_by_id(
+            "id_password").send_keys('far57450')
+        self.browser.find_element_by_css_selector("button").click()
+
+        self.browser.find_element_by_partial_link_text("kenshiro57").click()
+        self.browser.find_element_by_css_selector(".fa-comments").click()
+        self.browser.find_element_by_id("message").send_keys('hello')
+        self.browser.find_element_by_xpath("//input[@value='Send']").click()
+        time.sleep(3)
+        self.message = self.browser.find_element_by_id(
+            "message_content").get_attribute("innerHTML")
+        self.assertEqual(self.message, 'hello')
+        self.browser.quit()

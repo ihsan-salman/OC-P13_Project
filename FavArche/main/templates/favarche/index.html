@@ -54,11 +54,12 @@
 									<img id="work_img" src="/media/{{ work.image }}">
 								</a>
 								{% if request.user not in work.liked.all %}
-									<button onclick="send_like({{work.id}})"><i class="fa fa-thumbs-up fa-2x"></i></button>
+									<button id="send_like"onclick="send_like({{work.id}}, {{work.liked.all.count}})"><i class="fa fa-thumbs-up fa-2x"></i></button>
 								{% else %}
-									<button onclick="send_like({{work.id}})"><i class="fa fa-thumbs-down fa-2x"></i></button>
+									<button id="send_like" onclick="send_like({{work.id}}, {{work.liked.all.count}})"><i class="fa fa-thumbs-down fa-2x"></i></button>
 								{% endif %}
 								<p id="like_number">{{work.liked.all.count}} like</p>
+
                                 {% if request.user not in work.fav.all %}
                                     <button id="send_fav" onclick="send_fav({{work.id}})"><i class="far fa-bookmark fa-2x"></i></button>
                                 {% else %}
@@ -183,7 +184,17 @@
 
     }
 
-    function send_like(work_id){
+    function send_like(work_id, work_like_number){
+
+        var button_value = document.getElementById("send_like").innerHTML;
+
+        var like_number = parseInt(work_like_number, 10);
+
+        if(button_value == '<i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>'){
+            document.getElementById("send_like").innerHTML = '<i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>';
+        }else{
+            document.getElementById("send_like").innerHTML = '<i class="fa fa-thumbs-up fa-2x" aria-hidden="true">';
+        };
 			
         var data = {
             "work_id": work_id,
@@ -195,14 +206,9 @@
             data: data,
             headers: {'X-CSRFToken': getCookie('csrftoken')},
             success: function(data){
-                if (data == "OK"){
-                	document. location.reload();
-                } else{
-                    console.log("");
-                }}
-            
-        })
-
+                document.getElementById("like_number").innerHTML = data + ' like'
+            }
+        });
     }
 
     function send_fav(work_id){

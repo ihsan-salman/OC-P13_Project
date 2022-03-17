@@ -54,7 +54,7 @@ def like(request):
                 like.value = 'Like'
         like.save()
 
-        return HttpResponse('OK')
+        return HttpResponse(work_obj.liked.count())
 
 
 def chat(request, username):
