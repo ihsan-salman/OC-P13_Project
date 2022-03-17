@@ -83,9 +83,9 @@ def room(request, id):
     return render(request, 'social/room.html', context)
 
 def send(request):
-    message = request.POST['message']
-    username = request.POST['username']
-    room_id = request.POST['room_id']
+    message = request.POST.get('message')
+    username = request.POST.get('username')
+    room_id = request.POST.get('room_id')
     room = ChatRoom.objects.get(id=room_id)
     if message != '':
         new_message = ChatMessage.objects.create(content=message,

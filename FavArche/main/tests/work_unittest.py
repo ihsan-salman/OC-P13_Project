@@ -104,6 +104,7 @@ class AddWorkPageTestCase(TestCase):
                    les données de Wikipedia..."""
         return error
 
+    @patch("work.views.wiki_page", return_error)
     def test_work_add_returns_200_with_category(self):
         ''' test if adding work returns 200 '''
         self.category = Category.objects.create(name='test')
@@ -116,11 +117,11 @@ class AddWorkPageTestCase(TestCase):
                                           'description': ''})
         self.assertEqual(response.status_code, 200)
 
+    @patch("work.views.wiki_page", return_error)
     def test_work_add_returns_200_without_category(self):
         ''' test if adding work returns 200 '''
         response = self.client.get(reverse('add_works'))
         self.assertEqual(response.status_code, 200)
-
 
 
 class AddCategoryPageTestCase(TestCase):
@@ -154,6 +155,10 @@ class WorkDetailPageTestCase(TestCase):
         self.user = User.objects.create_user(**self.credentials)
         self.category = Category.objects.create(name='test')
 
+    def return_url(self):
+        return ['www.url.com']
+
+    @patch("work.views.wiki_page", return_url)
     def test_page_returns_200(self, **kwargs):
         ''' test if the work detail page returns 200 Http code statue '''
         self.test_work = Works.objects.create(
@@ -184,9 +189,30 @@ class FavoriteWorksPageTestCase(TestCase):
             'password': 'secret'}
         self.user = User.objects.create_user(**self.credentials)
         self.client.post(reverse('login'), self.credentials, follow=True)
+        self.category = Category.objects.create(name='test')
+        self.test_work = Works.objects.create(
+            name='test_work',
+            user=self.user,
+            image='test.jpg',
+            description='test description',
+            category=self.category)
 
     def test_page_returns_200(self):
         response = self.client.get(reverse('fav_works'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_create_fav_returns_200(self):
+        ''' test if posting data returns 200 '''
+        response = self.client.post(reverse('fav_works'), 
+                                    data={'work_id': self.test_work.id,
+                                          'to_do': 'create'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_delete_fav_returns_200(self):
+        ''' test if posting data returns 200 '''
+        response = self.client.post(reverse('fav_works'), 
+                                    data={'work_id': self.test_work.id,
+                                          'to_do': 'delete'})
         self.assertEqual(response.status_code, 200)
 
 
