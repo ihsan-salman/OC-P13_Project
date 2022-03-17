@@ -39,8 +39,8 @@ urlpatterns = [
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-if os.environ.get('ENV') == 'PRODUCTION' or settings.DEBUG:
-    import debug_toolbar
-    urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+import debug_toolbar
+
+urlpatterns = [
+    url(r'^__debug__/', include(debug_toolbar.urls)),
+] + urlpatterns
