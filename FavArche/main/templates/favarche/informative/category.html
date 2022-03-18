@@ -10,7 +10,7 @@
                 {% if categories|length == 0%}
                 <p class="align_center">Aucune catégorie n'a été enrégistrée pour le moment.</p>
                 <p class="align_center">voici un <a href="{% url 'add_category' %}">lien</a> pour en ajouter.</p>
-                <img src="{% static 'img/zero_category.jpg' %}">
+                <img src="{% static 'img/zero_category.jpg' %}" id="zero_category_img">
                 {% else %}
     				{% for category in categories; category_number in number_list %}
     					<article class="episode">

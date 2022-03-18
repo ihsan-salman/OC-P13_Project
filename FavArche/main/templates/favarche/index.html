@@ -19,7 +19,7 @@
 						</li>
 						<li id="explore_menu_link" class="tooltip-bottom" data-tooltip="A Propos de Nous">
 							<a id="explore_link_color" href="{% url 'about_us' %}">
-								A Propos
+								A_Propos
 							</a>
 						</li>
 						<li id="explore_menu_link" class="tooltip-bottom" data-tooltip="Découvrez quoi faire!">
@@ -76,13 +76,20 @@
 										</div>
 										<div id="comment_div">
 											<p id="comment_content">{{ comment.content }}<p>
-											{% if comment.user == request.user%}
+											{% if comment.user == request.user %}
 											<button id="dlt_btn{{comment.id}}" onclick="send_comment_id({{comment.id}})"><i class="fa fa-trash fa-2x"></i></button>
 											{% endif %}
 											<br>
 										</div>
 									{% endfor %}
 								</div>
+                                {% if messages %}
+                                    {% for message in messages %}
+                                         <p class="align_center  {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% endif %}">
+                                            {{ message }}
+                                        </p>
+                                    {% endfor %}
+                                {% endif %}
 								{% if request.user.is_authenticated %}
 									<div id="comment_form">
 										<textarea placeholder="Commentez-ici" id="comment{{work.id}}" class="comment_textarea"></textarea>

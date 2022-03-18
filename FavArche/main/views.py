@@ -5,6 +5,7 @@
 import os
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
@@ -22,7 +23,7 @@ def index(request):
     all_favorite = Favorite.objects.all()
     users = User.objects.all()
     user_image_list1 = []
-    if all_favorite.count() != 0:
+    if users.count() != 0:
         for user in users:
             if request.user.is_authenticated:
                 if user.username != request.user.username:
@@ -45,23 +46,16 @@ def index(request):
         work_id = request.POST.get('work_id')
         comment = request.POST.get('comment')
         user_work = Works.objects.get(id=work_id)
-        if request.user.is_authenticated:
-            user = User.objects.get(username=request.user.username)
-        elif not User.objects.filter(username='anonymous').exists():
-            user = User.objects.create(
-                username='anonymous',
-                email='ano@nymous.com',
-                first_name='ano',
-                last_name='nymous',
-                password=make_password(os.environ['ANONYMOUS_PASSWORD']))
+        user = User.objects.get(username=request.user.username)
         if comment != '':
             user_comment = Comment.objects.create(
                 content=comment,
                 user=user,
                 work=user_work)
+        else:
+            messages.error(request, "Rentrez un commentaire valide")
         if request.is_ajax():
             return HttpResponse("OK")
-        return HttpResponse("OK")
     context = {'works': works,
                'user_image': user_image_list2,
                'users': users,

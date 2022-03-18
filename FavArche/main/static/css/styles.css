@@ -21,6 +21,11 @@
         display: none;
         width: 0px;
 	}
+    #logo_img{
+        width: 50%;
+        float: left;
+        margin-top: 12px;
+    }
 	#menu_bar{
 		height: 40px;
 		width: 100%;
@@ -843,8 +848,8 @@
         color: #fff;
     }
     #category_list img{
-        height: 400px;
-        margin-left: 30%;
+        width: 60%;
+        margin-left: 20%;
     }
 
 	.episode {
@@ -935,6 +940,12 @@
     #fav_div{
         margin-left: 10%;
     }
+    #zero_fav_img{
+        width: 30%;
+    }
+    #user_profile_img{
+        width: 15%;
+    }
 
 }
 
@@ -943,13 +954,41 @@
 
 @media screen and (max-width: 768px){
 
+    #menu_title{
+        width: 30%
+    }
+    #logo_img{
+        width: 100%;
+        margin-top: 20px;
+    }
     #menu_redirection{
-        margin-left: 45%;
+        margin-left: 40%;
     }
     #menu_redirection_page{
         margin-left: 10px;
     }
-
+    #white_div{
+        width: 80%;
+        margin-left: 5%;
+    }
+    #page_white_div{
+        padding-left: 10px;
+    }
+    #user_profile_img{
+        width: 60%;
+    }
+    .contact-box{
+        display: inline-block;
+    }
+    .contact-box-right{
+        border-radius: 3px;
+    }
+    .no_style{
+        margin-left: -40px;
+    }
+    .django-ckeditor-widget {
+      width: 100%;
+    }
 	.container_about{
 	width: 80%;
 	display: block;
@@ -1003,4 +1042,23 @@
     #side_menu_div2 li{
         list-style: none;
     }
+    #zero_fav_img{
+        width: 80%;
+    }
+    .story p {
+        font-size: 12px;
+    }
+    #explore_link_color{
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 350px){
+    #menu_redirection{
+        margin-left: 30%;
+    }
+    #menu_redirection_page{
+        margin-left: 10px;
+    }
+
 }

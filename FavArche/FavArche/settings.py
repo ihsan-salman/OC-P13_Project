@@ -47,6 +47,12 @@ INSTALLED_APPS = [
     "ckeditor",
 ]
 
+CKEDITOR_CONFIGS = {
+    'default': {
+        'width': '98%',
+    },
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
