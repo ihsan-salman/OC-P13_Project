@@ -19,30 +19,30 @@ from social.forms import CommentForm
 
 def index(request):
     ''' Return index page result '''
-    all_favorite = Favorite.objects.all()
-    users = User.objects.all()
-    user_image_list1 = []
-    for user in users:
-        if request.user.is_authenticated:
-            if user.username != request.user.username:
+    try:
+        all_favorite = Favorite.objects.all()
+        users = User.objects.all()
+        user_image_list1 = []
+        for user in users:
+            if request.user.is_authenticated:
+                if user.username != request.user.username:
+                    image = Profile.objects.get(user=user)
+                    user_image_list1.append(image)
+            else:
                 image = Profile.objects.get(user=user)
                 user_image_list1.append(image)
-        else:
+            works = Works.objects.filter(time__year=2022)
+        user_image_list2 = []
+        comment_list = []
+        for work in works:
+            user = User.objects.get(username=work.user)
             image = Profile.objects.get(user=user)
-            user_image_list1.append(image)
-    try:
-        works = Works.objects.filter(time__year=2022)
+            comment = Comment.objects.filter(work=work.id)
+            user_image_list2.append(image)
+            comment_list.append(comment)
     except Exception as err:
         exception_type = type(err).__name__
-        print(exception_type)
-    user_image_list2 = []
-    comment_list = []
-    for work in works:
-        user = User.objects.get(username=work.user)
-        image = Profile.objects.get(user=user)
-        comment = Comment.objects.filter(work=work.id)
-        user_image_list2.append(image)
-        comment_list.append(comment)
+        return HttpResponse(exception_type)
     if request.method == 'POST':
         work_id = request.POST.get('work_id')
         comment = request.POST.get('comment')
