@@ -113,7 +113,7 @@ def personal_account(request):
     ''' return the template of user's personal informations '''
     try:
         user = User.objects.get(username=request.user.username)
-        user_profile_img = Profile.objects.get(user=user)
+        user_profile_img = Profile.objects.filter(user=user)
         if request.method == 'POST':
             user_profile_img.image = request.FILES['user_img']
             user_profile_img.save()
