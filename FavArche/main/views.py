@@ -29,10 +29,12 @@ def index(request):
                 if request.user.is_authenticated:
                     if user.username != request.user.username:
                         image = Profile.objects.filter(user=user)
-                        user_image_list1.append(image[0])
+                        if image.count() == 1:
+                            user_image_list1.append(image[0])
                 else:
                     image = Profile.objects.get(user=user)
-                    user_image_list1.append(image)
+                    if image.count() == 1:
+                        user_image_list1.append(image)
         works = Works.objects.filter(time__year=2022)
         user_image_list2 = []
         comment_list = []
@@ -41,7 +43,8 @@ def index(request):
                 user = User.objects.get(username=work.user)
                 image = Profile.objects.filter(user=user)
                 comment = Comment.objects.filter(work=work.id)
-                user_image_list2.append(image[0])
+                if image.count() == 1:
+                    user_image_list2.append(image[0])
                 comment_list.append(comment)
     except Exception as err:
         return HttpResponse(err)
