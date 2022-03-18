@@ -30,7 +30,11 @@ def index(request):
         else:
             image = Profile.objects.get(user=user)
             user_image_list1.append(image)
-    works = Works.objects.filter(time__year=2022)
+    try:
+        works = Works.objects.filter(time__year=2022)
+    except Exception as err:
+        exception_type = type(err).__name__
+        print(exception_type)
     user_image_list2 = []
     comment_list = []
     for work in works:
@@ -59,6 +63,7 @@ def index(request):
                 work=user_work)
         if request.is_ajax():
             return HttpResponse("OK")
+        return HttpResponse("OK")
     context = {'works': works,
                'user_image': user_image_list2,
                'users': users,
