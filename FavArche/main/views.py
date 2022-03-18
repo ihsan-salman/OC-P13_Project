@@ -45,7 +45,6 @@ def index(request):
                 comment_list.append(comment)
     except Exception as err:
         return HttpResponse(err)
-
     if request.method == 'POST':
         work_id = request.POST.get('work_id')
         comment = request.POST.get('comment')
@@ -112,13 +111,16 @@ def category(request):
 @login_required(login_url='/login/')
 def personal_account(request):
     ''' return the template of user's personal informations '''
-    user = User.objects.get(username=request.user.username)
-    user_profile_img = Profile.objects.get(user=user)
-    if request.method == 'POST':
-        user_profile_img.image = request.FILES['user_img']
-        user_profile_img.save()
-    context = {'img': user_profile_img}
-    return render(request, 'favarche/account/my_account.html', context)
+    try:
+        user = User.objects.get(username=request.user.username)
+        user_profile_img = Profile.objects.get(user=user)
+        if request.method == 'POST':
+            user_profile_img.image = request.FILES['user_img']
+            user_profile_img.save()
+        context = {'img': user_profile_img}
+        return render(request, 'favarche/account/my_account.html', context)
+    except Exception as e:
+        return HttpResponse(e)
 
 
 @login_required(login_url='/login/')
