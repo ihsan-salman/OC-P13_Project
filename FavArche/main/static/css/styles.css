@@ -22,9 +22,9 @@
         width: 0px;
 	}
     #logo_img{
-        width: 50%;
         float: left;
         margin-top: 12px;
+        height: 35px;
     }
 	#menu_bar{
 		height: 40px;
@@ -283,9 +283,9 @@
 		margin-top: 30px;
 		padding-bottom: 15px;
 		margin-bottom: 30px;
-		width: 40%;
+		width: 60%;
 		text-align: center;
-		margin-left: 30%;
+		margin-left: 20%;
 	}
 	#h3_title{
 		padding-top: 15px;
@@ -958,8 +958,8 @@
         width: 30%
     }
     #logo_img{
-        width: 100%;
-        margin-top: 20px;
+        height: 35px;
+        margin-top: 12px;
     }
     #menu_redirection{
         margin-left: 40%;
@@ -1051,6 +1051,14 @@
     #explore_link_color{
         font-size: 11px;
     }
+    #connection_page_main_div{
+        width: 80%;
+        margin-left: 10%;
+    }
+    #creation_page_div{
+        margin-left: 10%;
+        width: 80%;
+    }
 }
 
 @media screen and (max-width: 350px){
@@ -1059,6 +1067,10 @@
     }
     #menu_redirection_page{
         margin-left: 10px;
+    }
+    #logo_img{
+        margin-top: 20px;
+        height: 25px;
     }
 
 }
