@@ -36,6 +36,19 @@
 				</div>
 			</div>
 			<div id="middle_div">
+                <div id="search_div_index">
+                    <ul id="popular_categories_list">
+                    {% for category in popular_categories %}
+                        <li>
+                            <a href="{% url 'search_by_category' category %}">{{ category }}</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                    <form action="{% url 'search_by_work' %}" method="post" id="search_work_form">
+                        {% csrf_token %}
+                        <input type="text" name="search_work" id="search_work" placeholder="Rechercher une oeuvre">
+                    </form>
+                </div>
 				{% if works|length == 0 %}
 				<div id="work_div_index">
 					<h1 id="zero_work">Il n'existe aucune oeuvre pour le moment</h1>
@@ -145,6 +158,17 @@
 	    return cookieValue;
 	}
 
+    $(function() {
+        $('#search_work_form').each(function() {
+            $(this).find('input').keypress(function(e) {
+                // Enter pressed?
+                if(e.which == 13) {
+                    this.form.submit();
+                }
+            });
+        });
+    });
+
 	function send_comment_data(work_id){
 
 			var comment = document.getElementById("comment" + work_id);
@@ -154,7 +178,7 @@
                 "comment": comment.value
             };
 
-             $.ajax({
+            $.ajax({
                 url: "{% url 'home' %}",
                 type: "POST",
                 data: work_data,

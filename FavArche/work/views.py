@@ -198,6 +198,21 @@ def edit_category(request, category_name):
     context = {'form': form,}
     return render(request, 'works/edit_category.html', context)
 
+def search_by_category(request, category_name):
+    ''' return works page by selected category '''
+    category = Category.objects.get(name=category_name)
+    works = Works.objects.filter(category=category)
+    context = {'category_name': category_name,
+               'works': works}
+    return render(request, 'works/search_category.html', context)
+
+def search_by_work(request):
+    ''' return work page by researched name '''
+    if request.method == 'POST':
+        work_name = request.POST.get('search_work')
+        context = {'work_name': work_name}
+        return render(request, 'works/search_work.html', context)
+
 def get_wiki(request):
     ''' return wikipedia data '''
     if request.method == 'POST':

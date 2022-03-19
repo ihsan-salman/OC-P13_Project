@@ -48,11 +48,12 @@ class IndexPageTestCase(TestCase):
                                           'comment': 'blabla'})
         self.assertEqual(response.status_code, 200)
 
-    def test_work_data_post(self):
-        ''' test if the post method returns 200 with user isn' connected'''
+    def test_work_data_post_with_login(self):
+        ''' test if the post method returns 200 with user logged in'''
+        self.client.post(reverse('login'), self.credentials, follow=True)
         response = self.client.post(reverse('home'), 
                                     data={'work_id': self.test_work.id,
-                                          'comment': 'blabla'})
+                                          'comment': ''})
         self.assertEqual(response.status_code, 200)
 
 

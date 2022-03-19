@@ -16,35 +16,20 @@ from work.models import Works, Category, Favorite
 from .models import Profile
 from social.models import Comment
 from social.forms import CommentForm
+from .helper import get_popular_category, get_user_social_image
+from .helper import get_user_work_image, get_user_work_comments
 
 
 def index(request):
     ''' Return index page result '''
     try:
         all_favorite = Favorite.objects.all()
+        popular_category = get_popular_category()
         users = User.objects.all()
-        user_image_list1 = []
-        if users.count() != 0:
-            for user in users:
-                if request.user.is_authenticated:
-                    if user.username != request.user.username:
-                        image = Profile.objects.get(user=user)
-                        print(image.user)
-                        user_image_list1.append(image)
-                else:
-                    image = Profile.objects.get(user=user)
-                    user_image_list1.append(image)
+        user_image_list1 = get_user_social_image(request)
         works = Works.objects.filter(time__year=2022)
-        user_image_list2 = []
-        comment_list = []
-        if works.count() != 0:
-            for work in works:
-                user = User.objects.get(username=work.user)
-                image = Profile.objects.filter(user=user)
-                comment = Comment.objects.filter(work=work.id)
-                if image.count() == 1:
-                    user_image_list2.append(image)
-                comment_list.append(comment)
+        user_image_list2 = get_user_work_image()
+        comment_list = get_user_work_comments()
     except Exception as err:
         return HttpResponse(err)
     if request.method == 'POST':
@@ -66,7 +51,8 @@ def index(request):
                'users': users,
                'social_user_img': user_image_list1,
                'comment_list': comment_list,
-               'favorites': all_favorite}
+               'favorites': all_favorite,
+               'popular_categories': popular_category}
     return render(request, 'favarche/index.html', context)
 
 

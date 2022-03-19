@@ -12,12 +12,20 @@ from . import views
 
 urlpatterns = [
     path('personnel/', views.personal_works, name='personal_works'),
-    path('ajout/', views.add_works, name='add_works'),
-    path('edition_oeuvre/<str:work_name>/', views.edit_works, name='edit_work'),
+    path('ajout_oeuvre/', views.add_works, name='add_works'),
+    path('edition_oeuvre/<str:work_name>/',
+         views.edit_works,
+         name='edit_work'),
     path('favoris/', views.favorite_works, name='fav_works'),
-    path('categorie/', views.add_category, name='add_category'),
-    path('edition_categorie/<str:category_name>/', views.edit_category, name='edit_category'),
+    path('ajout_categorie/', views.add_category, name='add_category'),
+    path('edition_categorie/<str:category_name>/',
+         views.edit_category,
+         name='edit_category'),
     path('detail/<str:work_name>/', views.work_details, name='work_details'),
+    path('recherche_par_catégorie/<str:category_name>/',
+         views.search_by_category,
+         name='search_by_category'),
+    path('recherche_par_oeuvre/', views.search_by_work, name='search_by_work' ),
     path('', views.get_wiki, name='wiki_data'),
 
 ]

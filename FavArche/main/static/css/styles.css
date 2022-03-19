@@ -112,15 +112,34 @@
 		max-height: 680px;
 		overflow: hidden;
 		overflow-y: auto;
-		margin-top: -15px;
+		margin-top: 1px;
 		scrollbar-width: none;
 	}
-	#work_div_index{
+	#search_div_index{
 		background: white;
-		border-radius: 3px;
-		margin-bottom: -10px;
-		padding-bottom: 50px;
+        border-radius: 3px;
+        text-align: center;
+        padding-bottom: 10px;
 	}
+    #popular_categories_list{
+        display: inline-block;
+    }
+    #popular_categories_list li{
+        float: left;
+        list-style: none;
+        padding-right: 25px;
+    }
+    #popular_categories_list li a{
+        color: black;
+        font-weight: bolder;
+        font-style: italic;
+    }
+    #work_div_index{
+        background: white;
+        border-radius: 3px;
+        margin-bottom: -10px;
+        padding-bottom: 50px;
+    }
 	#work_div_index button{
 		float: left;
 		background: white;
