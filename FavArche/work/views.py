@@ -60,9 +60,8 @@ def add_works(request):
             form_description = WorksDescriptionForm(request.POST)
             category = request.POST.get("category")
             category = Category.objects.get(name=category)
-            if request.FILES['work_img'] != '':
-                work_image = request.POST.get('work_img')
-            else:
+            work_image = request.FILES.get("work_img")
+            if work_image is None:
                 work_image = 'default_work.png'
             work = Works.objects.filter(name=request.POST.get(
                 "work_name").title(),
@@ -145,14 +144,22 @@ def work_details(request, work_name):
         return render(request, 'error_page/404.html', status=404)
     wiki_result = wiki_page(work_name)
     if len(wiki_result) == 2:
-        context = {'works': work_detail,
-                   'wiki_url': wiki_result[1]}
+        if work.description == wiki_result[0]:
+            context = {'work': work,
+                       'description': 'ok',
+                       'summary': wiki_result[0],
+                       'wiki_url': wiki_result[1]}
+        else:
+            context = {'work': work,
+                       'wiki_url': wiki_result[1]}
     else:
         messages.error(request, wiki_result[0])
         context = {'work': work}
     if request.method == 'POST':
-        work.image = request.FILES['work_img']
-        work.save()
+        work_image = request.FILES.get('work_img')
+        if work_image is not None:
+            work.image = work_image
+            work.save()
     return render(request, 'works/work_details.html', context)
 
 

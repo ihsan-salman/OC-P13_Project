@@ -15,7 +15,13 @@
                     <input type="submit"/>
                 </form>
 				<p>Catégorie: {{work.category}}</p>
-                <p id="work_summary">{{ work.description|safe }} ... (la suite dans le lien Wikipédia &#128517;)</p>
+                <p id="work_summary">
+                {% if description %}
+                    <p>{{ summary }}... (la suite dans le lien Wikipédia &#128517;)</p>
+                {% else %}
+                    {{ work.description|safe }}
+                {% endif %}
+                </p>
 
 				{% if messages %}
 				    {% for message in messages %}
