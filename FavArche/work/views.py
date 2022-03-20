@@ -74,7 +74,7 @@ def add_works(request):
             if form_image.is_valid():
                 if not work.exists():
                     work = Works.objects.create(
-                        name=request.POST.get("work_name").title(),
+                        name=request.POST.get("work_name"),
                         user=user_work,
                         image=form_image.instance.image,
                         description=description,
@@ -216,7 +216,14 @@ def search_by_work(request):
     ''' return work page by researched name '''
     if request.method == 'POST':
         work_name = request.POST.get('search_work')
-        context = {'work_name': work_name}
+        works = Works.objects.filter(name__contains=work_name)
+        users = User.objects.all()
+        user_image_list = get_user_work_image(works, users)
+        user_comment_list = get_user_work_comments(works, users)
+        context = {'work_name': work_name,
+                   'works': works,
+                   'users_img': user_image_list,
+                   'users_comment': user_comment_list}
         return render(request, 'works/search_work.html', context)
 
 def get_wiki(request):

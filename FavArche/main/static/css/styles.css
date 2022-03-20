@@ -1052,7 +1052,7 @@
         padding-left: 10px;
     }
     #user_profile_img{
-        width: 60%;
+        width: 40%;
     }
     .contact-box{
         display: inline-block;
@@ -1186,6 +1186,9 @@
         margin-right: 35%;
         font-size: 8px;
     }
+    #user_profile_img{
+
+    }
 
 }
 
@@ -1227,5 +1230,8 @@
     }
     #cat_search_div #comment_date{
         margin-right: 25%;
+    }
+    #user_profile_img{
+        width: 60%;   
     }
 }

@@ -6,7 +6,200 @@
     
     <div id="main-div">
         <div id="page_main_div">
-            <h3>Voici les résultats pour {{work_name}}</h3>
+            <div id="cat_page">
+                {% if works|length == 0 %}
+                    <div class="align_center" id="cat_search_div">
+                        <h3>Voici les résultats pour {{work_name}}</h3>
+                        <p>Il n'existe aucun résultat pour cette recherche..</p>
+                    </div>
+                {% else %}
+                    <div id="cat_search_div">
+                        <h3>Voici les résultats pour {{work_name}}</h3>
+                        <hr>
+                    </div>
+                    {% for work in works; image in users_img; comments in users_comment %}
+                        <div id="cat_search_div">
+                            <a href="{% url 'other_accounts' work.user.username %}" id="link_color">
+                                <img  id="user_img" src="{{image.image.url}}">
+                                <p id="user_name">{{ work.user }}</p>
+                            </a>
+                            <p id="work_name">{{ work.name }}</p>
+                            <a href="{% url 'work_details' work.name %}">
+                                <img id="work_img" src="/media/{{ work.image }}">
+                            </a>
+                            {% if request.user.is_authenticated %}
+                                    {% if request.user not in work.liked.all %}
+                                        <button id="send_like"onclick="send_like({{work.id}}, {{work.liked.all.count}})"><i class="fa fa-thumbs-up fa-2x"></i></button>
+                                    {% else %}
+                                        <button id="send_like" onclick="send_like({{work.id}}, {{work.liked.all.count}})"><i class="fa fa-thumbs-down fa-2x"></i></button>
+                                    {% endif %}
+                                    <p id="like_number">{{work.liked.all.count}} like</p>
+
+                                    {% if request.user not in work.fav.all %}
+                                        <button id="send_fav" onclick="send_fav({{work.id}})"><i class="far fa-bookmark fa-2x"></i></button>
+                                    {% else %}
+                                        <button id="send_fav" onclick="send_fav({{work.id}})"><i class="fas fa-bookmark fa-2x"></i></button>
+                                    {% endif %}
+                                {% endif %}
+                                <div>
+                                    {% for comment in comments %}
+                                        <div class="display_inline">
+                                            <p id="comment_user">{{ comment.user }}</p>
+                                            <p id="comment_date">{{ comment.date }}</p>
+                                            <br>
+                                        </div>
+                                        <div id="comment_div">
+                                            <p id="comment_content">{{ comment.content }}<p>
+                                            {% if comment.user == request.user %}
+                                            <button id="dlt_btn{{comment.id}}" onclick="send_comment_id({{comment.id}})"><i class="fa fa-trash"></i></button>
+                                            {% endif %}
+                                            <br>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if messages %}
+                                    {% for message in messages %}
+                                         <p class="align_center  {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% endif %}">
+                                            {{ message }}
+                                        </p>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if request.user.is_authenticated %}
+                                    <div id="comment_form">
+                                        <textarea placeholder="Commentez-ici" id="comment{{work.id}}" class="comment_textarea"></textarea>
+                                        <button id="btn_comment{{work.id}}" type="submit" class="button-28" onclick="send_comment_data({{work.id}})">Validez</button>
+                                    </div>
+                                {% else %}
+                                    <p class="align_center">Vous devez vous connecter pour écrire un commentaire</p>
+                                {% endif %}
+                        </div>
+                        {% ifequal forloop.counter|divisibleby:"1" True %}
+                            <br>
+                        {% endifequal %}
+                    {% endfor %}
+            {% endif %}   
+            </div>
         </div>
     </div>
+
+<script type="text/javascript">
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function send_comment_data(work_id){
+
+            var comment = document.getElementById("comment" + work_id);
+            
+            var work_data = {
+                "work_id": work_id,
+                "comment": comment.value
+            };
+
+            $.ajax({
+                url: "{% url 'home' %}",
+                type: "POST",
+                data: work_data,
+                headers: {'X-CSRFToken': getCookie('csrftoken')},
+                success: function(data){
+                    if (data == "OK"){
+                        document. location.reload();
+                        document.getElementById("comment" + work_id).value = "";
+                    } else{
+                        console.log("");
+                    }}
+                
+            })
+
+        }
+
+    function send_comment_id(comment_id){
+            
+        var comment_data = {
+            "comment_id": comment_id,
+        };
+
+         $.ajax({
+            url: "{% url 'delete_comment' %}",
+            type: "POST",
+            data: comment_data,
+            headers: {'X-CSRFToken': getCookie('csrftoken')},
+            success: function(data){
+                if (data == "OK"){
+                    document. location.reload();
+                } else{
+                    console.log("");
+                }}
+            
+        })
+
+    }
+
+    function send_like(work_id, work_like_number){
+
+        var button_value = document.getElementById("send_like").innerHTML;
+
+        if(button_value == '<i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>'){
+            document.getElementById("send_like").innerHTML = '<i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>';
+        }else{
+            document.getElementById("send_like").innerHTML = '<i class="fa fa-thumbs-up fa-2x" aria-hidden="true">';
+        };
+            
+        var data = {
+            "work_id": work_id,
+        };
+
+         $.ajax({
+            url: "{% url 'Like' %}",
+            type: "POST",
+            data: data,
+            headers: {'X-CSRFToken': getCookie('csrftoken')},
+            success: function(data){
+                document.getElementById("like_number").innerHTML = data + ' like'
+            }
+        });
+    }
+
+    function send_fav(work_id){
+
+        var button_value = document.getElementById("send_fav").innerHTML;
+
+        if(button_value == '<i class="far fa-bookmark fa-2x" aria-hidden="true"></i>'){
+            document.getElementById("send_fav").innerHTML = '<i class="fas fa-bookmark fa-2x" aria-hidden="true"></i>';
+            var data = {
+                "to_do": "create",
+                "work_id": work_id,
+            };
+        }else{
+            document.getElementById("send_fav").innerHTML = '<i class="far fa-bookmark fa-2x" aria-hidden="true">';
+            var data = {
+                "work_id": work_id,
+                "to_do": "delete",
+            };
+        };
+
+        $.ajax({
+            url: "{% url 'fav_works' %}",
+            type: "POST",
+            data: data,
+            headers: {'X-CSRFToken': getCookie('csrftoken')},
+        });
+
+    }
+
+</script>
+
 {% endblock %}

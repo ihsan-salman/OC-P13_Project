@@ -35,7 +35,7 @@ def create_account(request):
                 # If a contact is not registered, create a new one.
                 user = User.objects.create(
                     username=name,
-                    email=email,
+                    email=email.lower(),
                     first_name=first_name,
                     last_name=last_name,
                     password=password
