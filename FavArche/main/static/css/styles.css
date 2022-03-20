@@ -907,7 +907,7 @@
     #display_message{
         margin-left: auto;
         width: 60%;
-        max-height: 500px;
+        max-height: 680px;
         margin-right: auto;
         overflow: hidden;
         overflow-y: scroll;
@@ -964,6 +964,59 @@
     }
     #user_profile_img{
         width: 15%;
+    }
+    #cat_search_div{
+        text-align: center;
+        width: 50%;
+        background-color: white;
+        border-radius: 3px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 10px;
+        max-height: 600px;
+        overflow: hidden;
+        overflow-y: auto;
+        margin-top: 1px;
+        scrollbar-width: none;
+    }
+    #cat_search_div #send_like{
+        background-color: white;
+        color: black;
+        margin-right: 60%;
+    }
+    #cat_search_div #send_fav{
+        background-color: white;
+        color: black;
+    }
+    #cat_search_div #user_img{
+        margin-top: 30px;
+        margin-left: 10%;
+    }
+    #cat_search_div #user_name{
+        margin-right: 65%;
+        padding-top: 40px;
+    }
+    #work_name{
+        text-align: left;
+        margin-left: 25%;
+    }
+    #cat_search_div #like_number{
+        margin-right: 50%;
+        margin-top: -20px;
+    }
+    #cat_search_div #comment_form{
+        margin-right: 30%;
+    }
+    #cat_search_div .comment_textarea{
+        width: 80%;
+        height: 30px;
+    }
+    #cat_search_div #comment_user{
+        margin-left: 15%;
+        font-weight: bolder;
+    }
+    #cat_search_div #comment_date{
+        margin-right: 60%;
     }
 
 }

@@ -10,9 +10,8 @@ from .models import Profile
 from social.models import Comment
 
 
-def get_user_social_image(request):
+def get_user_social_image(request, users):
     ''' return all users image for social section in main page '''
-    users = User.objects.all()
     user_image_list = []
     if users.count() != 0:
         for user in users:
@@ -25,11 +24,9 @@ def get_user_social_image(request):
                 user_image_list.append(image)
     return user_image_list
 
-def get_user_work_image():
+def get_user_work_image(works, users):
     ''' return all users images for works section in main page '''
     user_image_list = []
-    users = User.objects.all()
-    works = Works.objects.filter(time__year=2022)
     if works.count() != 0:
         for work in works:
             user = User.objects.get(username=work.user)
@@ -37,11 +34,9 @@ def get_user_work_image():
             user_image_list.append(image)
     return user_image_list
 
-def get_user_work_comments():
+def get_user_work_comments(works, users):
     ''' return all users comments for works section in main page '''
     comment_list = []
-    users = User.objects.all()
-    works = Works.objects.filter(time__year=2022)
     if works.count() != 0:
         for work in works:
             user = User.objects.get(username=work.user)

@@ -90,7 +90,7 @@
 										<div id="comment_div">
 											<p id="comment_content">{{ comment.content }}<p>
 											{% if comment.user == request.user %}
-											<button id="dlt_btn{{comment.id}}" onclick="send_comment_id({{comment.id}})"><i class="fa fa-trash fa-2x"></i></button>
+											<button id="dlt_btn{{comment.id}}" onclick="send_comment_id({{comment.id}})"><i class="fa fa-trash"></i></button>
 											{% endif %}
 											<br>
 										</div>

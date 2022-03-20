@@ -20,6 +20,7 @@ from .forms import WorksDescriptionForm
 from .models import Works, Category, Favorite
 
 from work.helper import wiki_page
+from main.helper import get_user_work_image, get_user_work_comments
 
 
 @login_required(login_url='/login/')
@@ -202,8 +203,13 @@ def search_by_category(request, category_name):
     ''' return works page by selected category '''
     category = Category.objects.get(name=category_name)
     works = Works.objects.filter(category=category)
+    users = User.objects.all()
+    user_image_list = get_user_work_image(works, users)
+    user_comment_list = get_user_work_comments(works, users)
     context = {'category_name': category_name,
-               'works': works}
+               'works': works,
+               'users_img': user_image_list,
+               'users_comment': user_comment_list}
     return render(request, 'works/search_category.html', context)
 
 def search_by_work(request):

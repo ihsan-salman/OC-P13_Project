@@ -26,10 +26,10 @@ def index(request):
         all_favorite = Favorite.objects.all()
         popular_category = get_popular_category()
         users = User.objects.all()
-        user_image_list1 = get_user_social_image(request)
+        user_image_list1 = get_user_social_image(request, users)
         works = Works.objects.filter(time__year=2022)
-        user_image_list2 = get_user_work_image()
-        comment_list = get_user_work_comments()
+        user_image_list2 = get_user_work_image(works, users)
+        comment_list = get_user_work_comments(works, users)
     except Exception as err:
         return HttpResponse(err)
     if request.method == 'POST':
