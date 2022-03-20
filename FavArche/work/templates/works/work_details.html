@@ -6,38 +6,41 @@
 	<div id="main-div">
 		<div id="page_main_div">
 			<div id="page_white_div">
-				{% for work in works %}
-					<h3>{{work.name}}</h3>
-					<img src="/media/{{work.image}}" height="300">
-					<p>Catégorie: {{work.category}}</p>
-                    <p id="work_summary">{{ work.description|safe }} ... (la suite dans le lien Wikipédia &#128517;)</p>
+				<h3>{{work.name}}</h3>
+				<img src="/media/{{work.image}}" height="300">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="img">Choisissez une image:</label>
+                    <input type="file" id="img" name="work_img" accept="image/*" hidden/>
+                    <input type="submit"/>
+                </form>
+				<p>Catégorie: {{work.category}}</p>
+                <p id="work_summary">{{ work.description|safe }} ... (la suite dans le lien Wikipédia &#128517;)</p>
 
-					{% if messages %}
-					    {% for message in messages %}
-					    	 <p class="align_center  {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% endif %}">
-					    		{{ message }}
-					    	</p>
-					    {% endfor %}
-					{% endif %}
+				{% if messages %}
+				    {% for message in messages %}
+				    	 <p class="align_center  {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% endif %}">
+				    		{{ message }}
+				    	</p>
+				    {% endfor %}
+				{% endif %}
 
-					{% if wiki_url %}
-						<a href="{{ wiki_url }}" target="_blank" class="tooltip-bottom" data-tooltip="Wikipédia votre Ami !">
-							<i class="fa fa-wikipedia-w fa-2x" id="wiki_logo"></i>
-						</a>
-						<br>
-					{% endif %}
+				{% if wiki_url %}
+					<a href="{{ wiki_url }}" target="_blank" class="tooltip-bottom" data-tooltip="Wikipédia votre Ami !">
+						<i class="fa fa-wikipedia-w fa-2x" id="wiki_logo"></i>
+					</a>
+					<br>
+				{% endif %}
 
-					{% if user.id == work.user_id %}
-						<a href="{% url 'edit_work' work.name %}">
-							<button class="button-28 tooltip-bottom" id="edit_link_btn" data-tooltip="Editez votre Oeuvre" role="button">
-							<i class="fas fa-highlighter fa-2x"></i>
-						</button>
-						</a>
-					{% else %}
-						<p>Vous ne pouvez éditer les informations de cette oeuvre, seul l'utilisateur autorisé peut!</p>
-					{% endif %}
-				{% endfor %}
-
+				{% if user.id == work.user_id %}
+					<a href="{% url 'edit_work' work.name %}">
+						<button class="button-28 tooltip-bottom" id="edit_link_btn" data-tooltip="Editez votre Oeuvre" role="button">
+						<i class="fas fa-highlighter fa-2x"></i>
+					</button>
+					</a>
+				{% else %}
+					<p>Vous ne pouvez éditer les informations de cette oeuvre, seul l'utilisateur autorisé peut!</p>
+				{% endif %}
 			</div>
 		</div>
 	</div>

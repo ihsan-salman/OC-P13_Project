@@ -17,14 +17,6 @@ class ContactForm(forms.Form):
     subject = forms.CharField(required=True)
     message = forms.CharField(widget=forms.Textarea, required=True)
 
-
-class ImageForm(forms.ModelForm):
-    ''' Form for the image field in Works model '''
-    class Meta:
-        model = Works
-        fields = ["image"]
-
-
 class CategoryForm(forms.ModelForm):
     ''' Category form with cdkeditor Text field '''
     class Meta:

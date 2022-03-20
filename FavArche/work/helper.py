@@ -13,9 +13,9 @@ def wiki_page(work_name):
     if work_wiki_page.exists() == True:
         wikipedia_url = work_wiki_page.fullurl
         wikipedia_summary = work_wiki_page.summary[0:500]
-        return [wikipedia_url, wikipedia_summary]
+        return [wikipedia_summary, wikipedia_url]
     else:
         message = """
                     Le nom de votre oeuvre ne permet pas de trouver une url
-                    compatible avec les données de Wikipedia..."""
+                    compatible avec les données de Wikipedia.."""
     return [message]

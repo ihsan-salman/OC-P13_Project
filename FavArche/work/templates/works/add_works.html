@@ -47,7 +47,8 @@
                             {{ form_description.media }}
                             {{ form_description.description }}
                             <p id="wiki_summary"></p>
-			                {{ form_image.as_p }}
+                            <label for="img">Choisissez une image:</label>
+                            <input type="file" id="img" name="work_img" accept="image/*" hidden/>
 			                <button class="contact_btn" type="submit">Envoyer</button>
 			            </form>
 			        </div>
@@ -84,6 +85,7 @@ document.getElementById('wiki_summary').style.display = 'none';
 function choose_own(){
     if(document.getElementById('own').checked){
         document.querySelector('[data-field-id=id_description]').style.display = 'block';
+        document.getElementById('wiki_summary').style.display = 'none';
     } else {
         document.querySelector('[data-field-id=id_description]').style.display = 'none';
     };
@@ -91,15 +93,15 @@ function choose_own(){
 
 function choose_wiki(){
     if(document.getElementById('wiki').checked){
+        document.querySelector('[data-field-id=id_description]').style.display = 'none';
         $.ajax({
             url: "{% url 'wiki_data' %}",
             type: "POST",
             data: {'work_name': document.querySelector('[name="work_name"]').value},
             headers: {'X-CSRFToken': getCookie('csrftoken')},
             success: function(data){
-                document.getElementById('wiki_summary').innerHTML = data + '...';
+                document.getElementById('wiki_summary').innerHTML = data;
                 document.getElementById('wiki_summary').style.display = 'block';
-
             }
         })
 

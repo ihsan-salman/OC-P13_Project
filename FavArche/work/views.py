@@ -15,7 +15,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.core.mail import send_mail, BadHeaderError
 
-from .forms import ContactForm, ImageForm, CategoryForm, EditCategoryForm
+from .forms import ContactForm, CategoryForm, EditCategoryForm
 from .forms import WorksDescriptionForm
 from .models import Works, Category, Favorite
 
@@ -57,10 +57,13 @@ def add_works(request):
         context = {'div': category_message, 'hidden': hidden}
     else:
         if request.method == 'POST':
-            form_image = ImageForm(request.POST, request.FILES)
             form_description = WorksDescriptionForm(request.POST)
             category = request.POST.get("category")
             category = Category.objects.get(name=category)
+            if request.FILES['work_img'] != '':
+                work_image = request.POST.get('work_img')
+            else:
+                work_image = 'default_work.png'
             work = Works.objects.filter(name=request.POST.get(
                 "work_name").title(),
                                         category_id=category.id)
@@ -71,34 +74,29 @@ def add_works(request):
                     description = wiki_page(request.POST.get('work_name'))[0]
                 else:
                     description = wiki_page(request.POST.get('work_name'))[1]
-            if form_image.is_valid():
-                if not work.exists():
-                    work = Works.objects.create(
-                        name=request.POST.get("work_name"),
-                        user=user_work,
-                        image=form_image.instance.image,
-                        description=description,
-                        category_id=category.id
-                        )
-                    return redirect('/Oeuvre/personnel/')
-                else :
-                    form_image = ImageForm(request.POST, request.FILES)
-                    form_description = WorksDescriptionForm(request.POST)
-                    context = {'form_image': form_image,
-                               'form_description': form_description}
-                    messages.error(request, """
-                    Vous semblez avoir rentrée des données 
-                    déjà comprise dans la base données.""")
-                    return render(request,
-                                  'works/add_works.html',
-                                  context)
+            if not work.exists():
+                work = Works.objects.create(
+                    name=request.POST.get("work_name"),
+                    user=user_work,
+                    image=work_image,
+                    description=description,
+                    category_id=category.id
+                    )
+                return redirect('/Oeuvre/personnel/')
+            else :
+                form_description = WorksDescriptionForm(request.POST)
+                context = {'form_description': form_description}
+                messages.error(request, """
+                Vous semblez avoir rentrée des données 
+                déjà comprise dans la base données.""")
+                return render(request,
+                              'works/add_works.html',
+                              context)
         else:
-            form_image = ImageForm()
             form_description = WorksDescriptionForm()
         categories = Category.objects.all()
         hidden = "hidden"
-        context = {'form_image': form_image,
-                   'form_description': form_description,
+        context = {'form_description': form_description,
                    'class_hidden': hidden,
                    'categories': categories}
     return render(request, 'works/add_works.html', context)
@@ -141,17 +139,20 @@ def favorite_works(request):
 
 def work_details(request, work_name):
     ''' return detail page of each work '''
-    if request.method == 'GET':
-        work_detail = Works.objects.filter(name=work_name)
-        if not work_detail.exists():
-            return render(request, 'error_page/404.html', status=404)
-        wiki_result = wiki_page(work_name)
-        if len(wiki_result) == 2:
-            context = {'works': work_detail,
-                       'wiki_url': wiki_result[0]}
-        else:
-            messages.error(request, wiki_result[0])
-            context = {'works': work_detail}
+    try:
+        work = Works.objects.get(name=work_name)
+    except Works.DoesNotExist:
+        return render(request, 'error_page/404.html', status=404)
+    wiki_result = wiki_page(work_name)
+    if len(wiki_result) == 2:
+        context = {'works': work_detail,
+                   'wiki_url': wiki_result[1]}
+    else:
+        messages.error(request, wiki_result[0])
+        context = {'work': work}
+    if request.method == 'POST':
+        work.image = request.FILES['work_img']
+        work.save()
     return render(request, 'works/work_details.html', context)
 
 
@@ -232,4 +233,5 @@ def get_wiki(request):
         work_name = request.POST.get('work_name')
     wiki_result = wiki_page(work_name)
     if request.is_ajax():
-        return HttpResponse(wiki_result[1])
+        return HttpResponse(wiki_result[0] + 
+            'Nous vous invitons à compléter vous-mêmes le résumé')

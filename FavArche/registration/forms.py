@@ -12,6 +12,8 @@ from django.contrib.auth.forms import AuthenticationForm, UsernameField
 class RegisterForm(UserCreationForm):
     '''Register form class'''
     email = forms.EmailField()
+    first_name = forms.CharField(label='Prénom', required=True)
+    last_name = forms.CharField(label='Nom de famille', required=True)
 
     class Meta:
         '''Making line between the form and User model'''

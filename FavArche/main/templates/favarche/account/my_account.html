@@ -9,7 +9,7 @@
 				<h3 id="h3_title">Mes données personnelles</h3>
 				<div>
 					<img src="{{ img.image.url }}" id="user_profile_img">
-                    <form method="POST" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <label for="img">Select image:</label>
                         <input type="file" id="img" name="user_img" accept="image/*" hidden/>

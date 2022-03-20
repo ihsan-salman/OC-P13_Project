@@ -24,7 +24,7 @@ class Works(models.Model):
     '''Works model init with fiels'''
     name = models.CharField(max_length=200,
                             default='DEFAULT VALUE')
-    image = models.ImageField(upload_to='work_image/', unique=True, null=True)
+    image = models.ImageField(upload_to='work_image/', blank=True, null=False, default='default_work.png')
     category = models.ForeignKey(Category,
                                  on_delete=models.PROTECT,
                                  null=True)

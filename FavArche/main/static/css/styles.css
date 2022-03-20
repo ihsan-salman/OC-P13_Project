@@ -1026,6 +1026,9 @@
     #cat_search_div #comment_date{
         margin-right: 55%;
     }
+    #zero_cat{
+        width: 90%;
+    }
 
 }
 
