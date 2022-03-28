@@ -2,14 +2,9 @@
    -*- coding: Utf-8 -'''
 
 
-import os
-import json
-from django.core import serializers
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail, BadHeaderError
 
 from main.models import Profile
 from work.models import Works
@@ -62,9 +57,11 @@ def chat(request, username):
     if request.method == 'GET':
         other_user = User.objects.get(username=username)
         if other_user.id != request.user.id:
-            chatroom = ChatRoom.objects.filter(users=(other_user.id, request.user.id))
+            chatroom = ChatRoom.objects.filter(
+                    users=(other_user.id, request.user.id))
             if chatroom.exists():
-                return redirect(reverse('room', kwargs={'id': chatroom.first().id}))
+                return redirect(reverse(
+                    'room', kwargs={'id': chatroom.first().id}))
             else:
                 new_room = ChatRoom.objects.create()
                 user = User.objects.get(username=request.user.username)
@@ -82,6 +79,7 @@ def room(request, id):
                'message_number': message_count}
     return render(request, 'social/room.html', context)
 
+
 def send(request):
     message = request.POST.get('message')
     username = request.POST.get('username')
@@ -93,6 +91,7 @@ def send(request):
                                                  room=room)
         new_message.save()
         return HttpResponse('Message sent successfully')
+
 
 def getMessages(request, id):
     room = ChatRoom.objects.get(id=id)

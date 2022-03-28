@@ -112,15 +112,34 @@
 		max-height: 680px;
 		overflow: hidden;
 		overflow-y: auto;
-		margin-top: -15px;
+		margin-top: 1px;
 		scrollbar-width: none;
 	}
-	#work_div_index{
+	#search_div_index{
 		background: white;
-		border-radius: 3px;
-		margin-bottom: -10px;
-		padding-bottom: 50px;
+        border-radius: 3px;
+        text-align: center;
+        padding-bottom: 10px;
 	}
+    #popular_categories_list{
+        display: inline-block;
+    }
+    #popular_categories_list li{
+        float: left;
+        list-style: none;
+        padding-right: 25px;
+    }
+    #popular_categories_list li a{
+        color: black;
+        font-weight: bolder;
+        font-style: italic;
+    }
+    #work_div_index{
+        background: white;
+        border-radius: 3px;
+        margin-bottom: -10px;
+        padding-bottom: 50px;
+    }
 	#work_div_index button{
 		float: left;
 		background: white;
@@ -888,7 +907,7 @@
     #display_message{
         margin-left: auto;
         width: 60%;
-        max-height: 500px;
+        max-height: 680px;
         margin-right: auto;
         overflow: hidden;
         overflow-y: scroll;
@@ -946,10 +965,71 @@
     #user_profile_img{
         width: 15%;
     }
+    #cat_page{
+        max-height: 600px;
+        overflow: hidden;
+        overflow-y: auto;
+        margin-top: 1px;
+        scrollbar-width: none;
+    }
+    #cat_search_div{
+        margin-top: -18px;
+        text-align: center;
+        width: 50%;
+        background-color: white;
+        border-radius: 3px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+    #cat_search_div #work_name{
+        margin-left: 15%;
+        font-weight: bolder;
+    }
+    #cat_search_div #send_like{
+        background-color: white;
+        color: black;
+        margin-right: 60%;
+    }
+    #cat_search_div #send_fav{
+        background-color: white;
+        color: black;
+    }
+    #cat_search_div #user_img{
+        margin-top: 30px;
+        margin-left: 10%;
+    }
+    #cat_search_div #user_name{
+        margin-right: 65%;
+        padding-top: 40px;
+    }
+    #work_name{
+        text-align: left;
+        margin-left: 25%;
+    }
+    #cat_search_div #like_number{
+        margin-right: 40%;
+        margin-top: -20px;
+    }
+    #cat_search_div #comment_form{
+        margin-right: 30%;
+    }
+    #cat_search_div .comment_textarea{
+        width: 80%;
+        height: 30px;
+    }
+    #cat_search_div #comment_user{
+        margin-left: 15%;
+        font-weight: bolder;
+    }
+    #cat_search_div #comment_date{
+        margin-right: 55%;
+    }
+    #zero_cat{
+        width: 90%;
+    }
 
-}
-
-@media screen and (max-width: 768px){
 }
 
 @media screen and (max-width: 768px){
@@ -975,7 +1055,7 @@
         padding-left: 10px;
     }
     #user_profile_img{
-        width: 60%;
+        width: 40%;
     }
     .contact-box{
         display: inline-block;
@@ -1059,6 +1139,60 @@
         margin-left: 10%;
         width: 80%;
     }
+    #send_fav{
+        margin-top: -30px;
+        margin-left: 75%;
+    }
+    #comment_form button{
+        font-size: 12px;
+        height: 20px;
+        width: 40%;
+        margin-left: 30%;
+    }
+    .comment_textarea{
+        margin-left: 15%;
+    }
+    #popular_categories_list li{
+        font-size: 12px;
+    }
+    #search_div_index input{
+        width: 70%;
+    }
+    #social_user_div p {
+        margin-left: 10%;
+    }
+    #user_img{
+        padding-left: 10px;
+    }
+    #cat_search_div{
+        width: 80%;
+    }
+    #cat_search_div #user_img{
+        margin-top: -10px;
+    }
+    #cat_search_div #user_name{
+        margin-top: -15px;
+        margin-left: 5%;
+        padding-left: 70px;
+        font-size: 12px;
+    }
+    #cat_search_div #work_name{
+        font-size: 12px;
+    }
+    #cat_search_div #like_number{
+        font-size: 12px;
+    }
+    #cat_search_div #send_fav{
+        width: 30px;
+    }
+    #cat_search_div #comment_date{
+        margin-right: 35%;
+        font-size: 8px;
+    }
+    #user_profile_img{
+
+    }
+
 }
 
 @media screen and (max-width: 350px){
@@ -1072,5 +1206,35 @@
         margin-top: 20px;
         height: 25px;
     }
-
+    #like_number{
+        padding-left: 20px;
+        margin-top: 10px
+    }
+    #send_like, #send_fav{
+        width: 30px;
+    }
+    #work_div_index #comment_date{
+        font-size: 8px;
+    }
+    #comment_form button{
+        font-size: 10px;
+        width: 50%;
+        height: 20px;
+    }
+    .comment_textarea{
+        margin-left: 10%;
+        font-size: 10px;
+    }
+    #popular_categories_list li{
+        font-size: 10px;
+    }
+    #search_div_index input{
+        font-size: 10px;
+    }
+    #cat_search_div #comment_date{
+        margin-right: 25%;
+    }
+    #user_profile_img{
+        width: 60%;   
+    }
 }

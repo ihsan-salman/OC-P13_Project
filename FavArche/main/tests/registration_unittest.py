@@ -2,23 +2,19 @@
    -*- coding: Utf-8 -'''
 
 
-from unittest import mock
-
 from django.urls import reverse
 from django.test import TestCase
-from django.http import HttpResponse, HttpRequest, HttpResponseServerError
+from django.http import HttpResponseServerError
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 
-from urllib.parse import urlencode
-
-from registration import views
 from registration.forms import CustomAuthenticationForm, RegisterForm
 
 
 """ Django Unittest including medthods, views and database """
 """ Using Testcase library from Django Test """
+
 
 class LoginPageTestCase(TestCase):
     '''Login page test class'''
@@ -40,8 +36,8 @@ class LoginPageTestCase(TestCase):
         # send login data
         response = self.client.post(
             reverse('login'),
-                    self.credentials,
-                    follow=True)
+            self.credentials,
+            follow=True)
         # should be logged in now
         self.assertTrue(response.context['user'].is_authenticated)
 
@@ -104,11 +100,10 @@ class ChangePasswordPageTestCase(TestCase):
         self.assertTrue(form.is_valid())
 
 
-
 class Page404TestCase(TestCase):
     ''' 404 page test class '''
     def test__page_returns_404(self):
-        ''' test if the Http request returns 404 code statue 
+        ''' test if the Http request returns 404 code statue
             and the template used '''
         response = self.client.get('/udhduehd/')
         self.assertEqual(response.status_code, 404)
@@ -118,4 +113,4 @@ class Page500TestCase(TestCase):
     ''' 500 page test case '''
     def test_page_returns_500(self):
         response = HttpResponseServerError()
-        self.assertEqual(response.status_code,500)
+        self.assertEqual(response.status_code, 500)

@@ -3,10 +3,6 @@
 
 
 from django.urls import path
-from django.conf import settings
-from django.conf.urls import url
-from django.contrib.auth.views import LogoutView
-from django.contrib.auth import views as auth_views
 
 from . import views
 
@@ -25,7 +21,7 @@ urlpatterns = [
     path('recherche_par_catégorie/<str:category_name>/',
          views.search_by_category,
          name='search_by_category'),
-    path('recherche_par_oeuvre/', views.search_by_work, name='search_by_work' ),
+    path('recherche_par_oeuvre/', views.search_by_work, name='search_by_work'),
     path('', views.get_wiki, name='wiki_data'),
 
 ]

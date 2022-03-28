@@ -2,20 +2,17 @@
    -*- coding: Utf-8 -'''
 
 
-import os
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
 
-from .forms import EditProfileForm
 from work.models import Works, Category, Favorite
-from .models import Profile
 from social.models import Comment
-from social.forms import CommentForm
+from .forms import EditProfileForm
+from .models import Profile
 from .helper import get_popular_category, get_user_social_image
 from .helper import get_user_work_image, get_user_work_comments
 
@@ -67,12 +64,12 @@ def contact(request):
                 send_mail(subject,
                           email_message,
                           email,
-                          [os.environ['EMAIL_HOST_USER']])
+                          ['ihsan.saitama@gmail.com'])
                 return redirect('/')
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
         else:
-             return render(request, 'error_page/404.html', status=404)
+            return render(request, 'error_page/404.html', status=404)
     return render(request, 'favarche/informative/contact.html')
 
 
@@ -99,16 +96,13 @@ def category(request):
 @login_required(login_url='/login/')
 def personal_account(request):
     ''' return the template of user's personal informations '''
-    try:
-        user = User.objects.get(username=request.user.username)
-        user_profile_img = Profile.objects.get(user_id=user.id)
-        if request.method == 'POST':
-            user_profile_img.image = request.FILES['user_img']
-            user_profile_img.save()
-        context = {'img': user_profile_img}
-        return render(request, 'favarche/account/my_account.html', context)
-    except Exception as e:
-        return HttpResponse(e)
+    user = User.objects.get(username=request.user.username)
+    user_profile_img = Profile.objects.get(user_id=user.id)
+    if request.method == 'POST':
+        user_profile_img.image = request.FILES['user_img']
+        user_profile_img.save()
+    context = {'img': user_profile_img}
+    return render(request, 'favarche/account/my_account.html', context)
 
 
 @login_required(login_url='/login/')

@@ -2,20 +2,13 @@
    -*- coding: Utf-8 -'''
 
 
-import os
 from django.shortcuts import render, redirect
-from django.template import loader
 from django.http import HttpResponse
-from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from django.core.mail import send_mail, BadHeaderError
 
-from .forms import ContactForm, CategoryForm, EditCategoryForm
+from .forms import CategoryForm, EditCategoryForm
 from .forms import WorksDescriptionForm
 from .models import Works, Category, Favorite
 
@@ -45,12 +38,12 @@ def personal_works(request):
 def add_works(request):
     ''' return personal works page '''
     if Category.objects.count() == 0:
-        category_message = """<p>Il n'y a aucune catégorie disponible. 
-                                 Il est donc impossible d'enregistrer 
+        category_message = """<p>Il n'y a aucune catégorie disponible.
+                                 Il est donc impossible d'enregistrer
                                  une oeuvre pour le moment</p>
                               <p>
-                                 Soyez le premier à en créer une 
-                                 <a href='/Oeuvre/categorie'>ici</a>.
+                                 Soyez le premier à en créer une
+                                 <a href='/Oeuvre/ajout_categorie'>ici</a>.
                               </p>
         """
         hidden = "hidden"
@@ -72,7 +65,7 @@ def add_works(request):
                 if len(wiki_page(request.POST.get('work_name'))) == 1:
                     description = wiki_page(request.POST.get('work_name'))[0]
                 else:
-                    description = wiki_page(request.POST.get('work_name'))[1]
+                    description = wiki_page(request.POST.get('work_name'))[0]
             if not work.exists():
                 work = Works.objects.create(
                     name=request.POST.get("work_name"),
@@ -82,11 +75,11 @@ def add_works(request):
                     category_id=category.id
                     )
                 return redirect('/Oeuvre/personnel/')
-            else :
+            else:
                 form_description = WorksDescriptionForm(request.POST)
                 context = {'form_description': form_description}
                 messages.error(request, """
-                Vous semblez avoir rentrée des données 
+                Vous semblez avoir rentrée des données
                 déjà comprise dans la base données.""")
                 return render(request,
                               'works/add_works.html',
@@ -108,11 +101,11 @@ def add_category(request):
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/Oeuvre/ajout/')
+            return redirect('/Oeuvre/ajout_oeuvre/')
             messages.warning(request, 'Cette catégorie existe déja...')
     else:
         form = CategoryForm()
-    context = {'form': form,}
+    context = {'form': form}
     return render(request, 'works/add_category.html', context)
 
 
@@ -124,7 +117,8 @@ def favorite_works(request):
         work_id = request.POST.get('work_id')
         to_do = request.POST.get('to_do')
         work = Works.objects.get(id=work_id)
-        fav_work = Favorite.objects.filter(favorite_works_id=work_id, user=user)
+        fav_work = Favorite.objects.filter(
+                favorite_works_id=work_id, user=user)
         if to_do == 'create' and not fav_work.exists():
             fav_work = Favorite.objects.create(favorite_works_id=work_id,
                                                user=user)
@@ -135,6 +129,7 @@ def favorite_works(request):
     user_fav_works = Favorite.objects.filter(user=user)
     context = {'favorites': user_fav_works}
     return render(request, 'works/favorite_works.html', context)
+
 
 def work_details(request, work_name):
     ''' return detail page of each work '''
@@ -204,8 +199,9 @@ def edit_category(request, category_name):
             return redirect('/categories/')
     else:
         form = EditCategoryForm(instance=category_instance)
-    context = {'form': form,}
+    context = {'form': form}
     return render(request, 'works/edit_category.html', context)
+
 
 def search_by_category(request, category_name):
     ''' return works page by selected category '''
@@ -219,6 +215,7 @@ def search_by_category(request, category_name):
                'users_img': user_image_list,
                'users_comment': user_comment_list}
     return render(request, 'works/search_category.html', context)
+
 
 def search_by_work(request):
     ''' return work page by researched name '''
@@ -234,11 +231,12 @@ def search_by_work(request):
                    'users_comment': user_comment_list}
         return render(request, 'works/search_work.html', context)
 
+
 def get_wiki(request):
     ''' return wikipedia data '''
     if request.method == 'POST':
         work_name = request.POST.get('work_name')
     wiki_result = wiki_page(work_name)
     if request.is_ajax():
-        return HttpResponse(wiki_result[0] + 
+        return HttpResponse(wiki_result[0] +
             'Nous vous invitons à compléter vous-mêmes le résumé')

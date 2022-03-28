@@ -1,9 +1,6 @@
 '''!/usr/bin/python3
    -*- coding: Utf-8 -'''
 
-"""
-Django settings for FavArche project.
-"""
 
 import os
 import debug_toolbar
@@ -21,12 +18,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'c@n%u@91tum=@j392g20b8znh7dqfo-v%81))gxbbmu$=dy_*)')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('ENV') == 'PRODUCTION':
-    DEBUG = False
-else:
-    DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'favarche.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', '192.241.138.251', 'favarche.fr']
 
 
 # Application definition
@@ -63,7 +57,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'FavArche.urls'
@@ -96,18 +89,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'favarche',
-        'USER': 'postgres',
-        'PASSWORD': 'far57450',
-        'HOST': '127.0.0.1',
+        'USER': 'ihsan',
+        'PASSWORD': 'salman57',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
 
 if os.environ.get('ENV') == 'PRODUCTION':
-    # ...
-    # Simplified static file serving.
-    # https://warehouse.python.org/project/whitenoise/
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(db_from_env)
@@ -175,8 +164,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'ihsan.saitama@gmail.com'
+EMAIL_HOST_PASSWORD = 'igutqwwbzsmoudip'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -185,8 +174,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 INTERNAL_IPS = ['127.0.0.1']
 
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_HSTS_PRELOAD = True

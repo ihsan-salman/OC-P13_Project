@@ -6,8 +6,8 @@ import time
 from django.test import LiveServerTestCase
 from selenium import webdriver
 
-""" Django Functional Test with Selenium library """
-"""" automatising user's interaction with the website """
+''' Django Functional Test with Selenium library
+    automatising user's interaction with the website '''
 
 
 class TestProject(LiveServerTestCase):
@@ -30,7 +30,7 @@ class TestProject(LiveServerTestCase):
         self.browser.quit()
 
     def test_my_account_page(self):
-        ''' test if the user can log in and get account page, and change her 
+        ''' test if the user can log in and get account page, and change her
             information correctly '''
         self.browser.get(self.INDEX_PAGE_URL)
         # Hide toolbar
@@ -57,7 +57,7 @@ class TestProject(LiveServerTestCase):
             "innerHTML")
         self.last_name_value = self.last_name_value.get_attribute(
             "innerHTML")
-        self.assertEqual([self.first_name_value, self.last_name_value,],
+        self.assertEqual([self.first_name_value, self.last_name_value],
                          ['ihsan', 'salman'])
         self.browser.quit()
 
@@ -74,7 +74,7 @@ class TestProject(LiveServerTestCase):
         self.browser.quit()
 
     def test_add_work(self):
-        '''  '''
+        ''' test add work method '''
         self.browser.get(self.INDEX_PAGE_URL)
         self.browser.find_element_by_partial_link_text("Masquer").click()
 
@@ -112,7 +112,7 @@ class TestProject(LiveServerTestCase):
         self.browser.quit()
 
     def test_social_work_functionality(self):
-        ''' test if all social functionality 
+        ''' test if all social functionality
             about works funtion correctly '''
         self.browser.get(self.INDEX_PAGE_URL)
         self.browser.find_element_by_partial_link_text("Masquer").click()
@@ -135,7 +135,7 @@ class TestProject(LiveServerTestCase):
             "comment_content").get_attribute("innerHTML")
         self.like_number = self.browser.find_element_by_id(
             "like_number").get_attribute("innerHTML")
-        self.assertEqual((self.like_number, self.comment_value), 
+        self.assertEqual((self.like_number, self.comment_value),
                          ('1 like', 'hello'))
 
         self.browser.find_element_by_css_selector(".fa-book").click()

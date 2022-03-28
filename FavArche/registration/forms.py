@@ -5,7 +5,6 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
-from django.contrib.auth.backends import ModelBackend, UserModel
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
 
 
@@ -18,7 +17,8 @@ class RegisterForm(UserCreationForm):
     class Meta:
         '''Making line between the form and User model'''
         model = User
-        fields = ["username", "email", "first_name", "last_name","password1", "password2"]
+        fields = ["username", "email", "first_name", "last_name",
+                  "password1", "password2"]
 
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -30,8 +30,10 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 
 class EditProfileForm(UserChangeForm):
+    ''' Edit profile form class '''
     password = None
 
     class Meta:
+        ''' meta class '''
         model = User
         fields = ["username", "email", "first_name", "last_name"]

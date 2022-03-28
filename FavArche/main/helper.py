@@ -6,8 +6,8 @@ from operator import itemgetter
 from django.contrib.auth.models import User
 
 from work.models import Category, Works
-from .models import Profile
 from social.models import Comment
+from .models import Profile
 
 
 def get_user_social_image(request, users):
@@ -24,6 +24,7 @@ def get_user_social_image(request, users):
                 user_image_list.append(image)
     return user_image_list
 
+
 def get_user_work_image(works, users):
     ''' return all users images for works section in main page '''
     user_image_list = []
@@ -33,6 +34,7 @@ def get_user_work_image(works, users):
             image = Profile.objects.get(user=user)
             user_image_list.append(image)
     return user_image_list
+
 
 def get_user_work_comments(works, users):
     ''' return all users comments for works section in main page '''
@@ -62,8 +64,3 @@ def get_popular_category():
     for category in works_list_with_count:
         popular_categories.append(category[0])
     return popular_categories
-    
-
-
-
-

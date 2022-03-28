@@ -1,8 +1,7 @@
 '''!/usr/bin/python3
    -*- coding: Utf-8 -'''
 
-"""FavArche URL Configuration
-"""
+
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path
@@ -34,7 +33,9 @@ urlpatterns = [
     url(r'^changer_mes_donnees/',
         views.edit_account,
         name='edit_account'),
-    url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
+    url(r'^media/(?P<path>.*)$',
+        serve,
+        {'document_root': settings.MEDIA_ROOT}),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
