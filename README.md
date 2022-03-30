@@ -1,11 +1,11 @@
 # OC-P13_Project-FavArche  
 
-Need to archive your favorite works ?  
+Need to archive your favorite work ?  
 FavArche is the solution at your problem !
 
-#  Installation and requierement 
+#  Installation and requierements 
 
-first of all, download [Python](https://www.python.org/) by going in the official website and choose the version you want ([Python download](https://www.python.org/downloads/)).
+first of all, download [Python](https://www.python.org/) by going in the official website and choose the version 3.9 ([Python download](https://www.python.org/downloads/)).
 
 then, install [Pip](https://pypi.org/project/pip/) by entering in the terminal the following command line:
 ```bash
@@ -28,7 +28,7 @@ source <name of your environment>/bin/activate # for unix/mac
 
 finally, use the requirement document by entering the following command in the terminal:
 ```bash
-pip install -r requirements.txt      # for unix
+pip3 install -r requirements.txt      # for unix
 pip install -r requirements.txt       # for windows/mac
 ```
 
@@ -36,7 +36,7 @@ pip install -r requirements.txt       # for windows/mac
 
 To start the program, go to this website:
 ```bash
-complete_here_plz
+http://192.241.138.251/
 ```
 
 Or you can launch the website with Django command:
