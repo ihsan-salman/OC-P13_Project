@@ -10,7 +10,6 @@ first of all, download [Python](https://www.python.org/) by going in the officia
 then, install [Pip](https://pypi.org/project/pip/) by entering in the terminal the following command line:
 ```bash
 python3 -m pip --version  #for unix
-python get-pip.py         #for windows
 ```
 after that, you have the choice to download the zip of the code or clone with the following command Line:
 ```bash
@@ -18,7 +17,8 @@ git clone https://github.com/ihsan-salman/OC-P13_Project.git
 ```
 Create an virtual environment with the following command line:
 ```bash
-python3 -m venv <name of your environment>
+python3 -m venv <name of your environment> # for Unix
+python -m venv <environment name> # for windows
 ```
 then activate it with the following command line:
 ```bash
@@ -44,7 +44,7 @@ pip3 install -r requirements.txt      # for unix
 pip install -r requirements.txt       # for windows
 ```
 
-# How to use the program
+# How to try the program
 
 To start the program, go to this website:
 ```bash
@@ -55,7 +55,9 @@ Or you can launch the website with Django command:
 ```bash
 cd FavArche        # place in the good file
 
-manage.py runserver          # launch the local server
+# launch the local server
+python3 manage.py runserver # for Unix
+python manage.py runserver # for windows
 
 http://127.0.0.1:8000/       # local url
 ```
