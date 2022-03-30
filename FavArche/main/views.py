@@ -64,7 +64,7 @@ def contact(request):
                 send_mail(subject,
                           email_message,
                           email,
-                          ['ihsan.saitama@gmail.com'])
+                          [os.environ.get('EMAIL_HOST_USER')])
                 return redirect('/')
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
