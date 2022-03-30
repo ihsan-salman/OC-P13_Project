@@ -8,12 +8,14 @@
 			<div id="page_white_div">
 				<h3>{{work.name}}</h3>
 				<img src="/media/{{work.image}}" height="300">
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <label for="img">Choisissez une image:</label>
-                    <input type="file" id="img" name="work_img" accept="image/*" hidden/>
-                    <input type="submit"/>
-                </form>
+				{% if user.id == work.user_id %}
+                		<form method="POST" enctype="multipart/form-data">
+                    			{% csrf_token %}
+                    			<label for="img">Choisissez une image:</label>
+                    			<input type="file" id="img" name="work_img" accept="image/*" hidden/>
+                    			<input type="submit"/>
+               			</form>
+				{% endif %}
 				<p>Catégorie: {{work.category}}</p>
                 <p id="work_summary">
                 {% if description %}

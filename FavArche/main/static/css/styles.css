@@ -178,9 +178,10 @@
 		border-radius: 3px
 	}
 	#work_img{
-		width: 80%;
+		max-width: 80%;
 		border-radius: 6px;
 		margin-left: 10%;
+		margin-right: auto;
 	}
 	#comment_user{
 		font-size: 15px;
@@ -966,7 +967,7 @@
         width: 15%;
     }
     #cat_page{
-        max-height: 600px;
+        max-height: 670px;
         overflow: hidden;
         overflow-y: auto;
         margin-top: 1px;
@@ -1193,6 +1194,16 @@
 
     }
 
+}
+
+@media screen and (min-width: 570px){
+	#middle_div #send_like{
+		margin-right: 60%;
+		margin-top: 20px;
+	}
+	#middle_div #like_number{
+		margin-right: 80%;
+	}
 }
 
 @media screen and (max-width: 350px){
